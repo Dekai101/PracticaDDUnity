@@ -26,7 +26,7 @@ namespace LightestDungeonCreator
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void CreateCharacter_Click(object sender, RoutedEventArgs e)
