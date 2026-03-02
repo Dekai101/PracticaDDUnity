@@ -430,14 +430,7 @@ SELECT id, 0 FROM Entity
 WHERE name IN ('Goblin Berserker', 'Stone Golem', 'Vampire Lord', 'Dark Assassin');
 
 -- =====================================================
--- 8️⃣ LOOT TABLES
--- =====================================================
--- Las LootTables ya fueron creadas automáticamente por el trigger trg_enemy_create_loot_table.
--- Si NO se usan triggers, descomentar el bloque siguiente:
--- INSERT INTO LootTable (enemy_id) SELECT entity_id FROM Enemy;
-
--- =====================================================
--- 9️⃣ ASIGNAR SKILLS A PERSONAJES
+-- 8️⃣ ASIGNAR SKILLS A PERSONAJES
 -- =====================================================
 
 -- Hero Knight: Iron Body, Stun Smash, Battle Cry, Berserker Rage
