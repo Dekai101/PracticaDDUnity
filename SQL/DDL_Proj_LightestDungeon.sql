@@ -1,3 +1,29 @@
+-- =====================================================
+-- DROP TRIGGERS
+-- =====================================================
+DROP TRIGGER IF EXISTS trg_entity_check_stats;
+DROP TRIGGER IF EXISTS trg_entity_update_stats;
+DROP TRIGGER IF EXISTS trg_enemy_create_loot_table;
+DROP TRIGGER IF EXISTS trg_effect_validate;
+DROP TRIGGER IF EXISTS trg_item_consumable_check;
+
+-- =====================================================
+-- DROP TABLES (en orden inverso por foreign keys)
+-- =====================================================
+DROP TABLE IF EXISTS `SkillEffect`;
+DROP TABLE IF EXISTS `ItemEffect`;
+DROP TABLE IF EXISTS `LootEntry`;
+DROP TABLE IF EXISTS `LootTable`;
+DROP TABLE IF EXISTS `EntitySkill`;
+DROP TABLE IF EXISTS `Effect`;
+DROP TABLE IF EXISTS `Player`;
+DROP TABLE IF EXISTS `Enemy`;
+DROP TABLE IF EXISTS `Entity`;
+DROP TABLE IF EXISTS `Skill`;
+DROP TABLE IF EXISTS `Item`;
+DROP TABLE IF EXISTS `Statistic`;
+DROP TABLE IF EXISTS `Status`;
+
 CREATE TABLE `Entity` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
