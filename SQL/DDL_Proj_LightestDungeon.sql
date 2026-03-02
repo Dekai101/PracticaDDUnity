@@ -60,6 +60,8 @@ CREATE TABLE `Item` (
 CREATE TABLE `Effect` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `stat_id` int,
+  `min_flat_power` int,
+  `max_flat_power` int,
   `stat_multiplier` float,
   `status_id` int,
   `effect_level` int,
@@ -131,3 +133,86 @@ ALTER TABLE `SkillEffect` ADD FOREIGN KEY (`effect_id`) REFERENCES `Effect` (`id
 ALTER TABLE `Effect` ADD FOREIGN KEY (`stat_id`) REFERENCES `Statistic` (`id`);
 
 ALTER TABLE `Effect` ADD FOREIGN KEY (`status_id`) REFERENCES `Status` (`id`);
+
+-- =====================================================
+-- TRIGGERS
+-- =====================================================
+
+DELIMITER $$
+
+-- TRIGGER 1: Sincroniza hp_max al crear una Entity.
+-- Garantiza que hp_max >= hp y energy_max >= energy en todo momento.
+-- Evita inconsistencias en el momento de inserción de datos.
+CREATE TRIGGER trg_entity_check_stats
+BEFORE INSERT ON Entity
+FOR EACH ROW
+BEGIN
+    IF NEW.hp > NEW.hp_max THEN
+        SET NEW.hp_max = NEW.hp;
+    END IF;
+    IF NEW.energy > NEW.energy_max THEN
+        SET NEW.energy_max = NEW.energy;
+    END IF;
+END$$
+
+-- TRIGGER 2: Igual que el anterior pero en UPDATE.
+-- Si se modifica la entidad, hp y energy nunca superan sus máximos.
+CREATE TRIGGER trg_entity_update_stats
+BEFORE UPDATE ON Entity
+FOR EACH ROW
+BEGIN
+    IF NEW.hp > NEW.hp_max THEN
+        SET NEW.hp = NEW.hp_max;
+    END IF;
+    IF NEW.energy > NEW.energy_max THEN
+        SET NEW.energy = NEW.energy_max;
+    END IF;
+    IF NEW.hp < 0 THEN
+        SET NEW.hp = 0;
+    END IF;
+    IF NEW.energy < 0 THEN
+        SET NEW.energy = 0;
+    END IF;
+END$$
+
+-- TRIGGER 3: Al insertar un Enemy, crea automáticamente su LootTable.
+-- Evita olvidar crear la LootTable manualmente cada vez que se añade un enemigo.
+CREATE TRIGGER trg_enemy_create_loot_table
+AFTER INSERT ON Enemy
+FOR EACH ROW
+BEGIN
+    INSERT INTO LootTable (enemy_id) VALUES (NEW.entity_id);
+END$$
+
+-- TRIGGER 4: Valida que un Effect no tenga stat_id y status_id a la vez nulos.
+-- Al menos uno debe estar definido para que el efecto tenga sentido funcional.
+CREATE TRIGGER trg_effect_validate
+BEFORE INSERT ON Effect
+FOR EACH ROW
+BEGIN
+    IF NEW.stat_id IS NULL AND NEW.status_id IS NULL THEN
+        -- Permitimos el caso del Antidote (level 0 limpia estado) sin lanzar error
+        -- pero sí bloqueamos efectos completamente vacíos con probability != 1.0
+        IF NEW.probability != 1.0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Effect debe tener stat_id o status_id definido.';
+        END IF;
+    END IF;
+    IF NEW.probability < 0.0 OR NEW.probability > 1.0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Effect.probability debe estar entre 0.0 y 1.0.';
+    END IF;
+END$$
+
+-- TRIGGER 5: Fuerza max_uses >= 1 en consumibles al insertar un Item.
+-- Evita consumibles sin usos definidos que nunca podrían usarse.
+CREATE TRIGGER trg_item_consumable_check
+BEFORE INSERT ON Item
+FOR EACH ROW
+BEGIN
+    IF NEW.consumable = true AND (NEW.max_uses IS NULL OR NEW.max_uses < 1) THEN
+        SET NEW.max_uses = 1;
+    END IF;
+END$$
+
+DELIMITER ;
