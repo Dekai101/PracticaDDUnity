@@ -1842,23 +1842,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\catal\\.nuget\\packages\\": {},
+    "C:\\Users\\metae\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\LightestDungeonCreator.csproj",
+      "projectUniqueName": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\LightestDungeonCreator.csproj",
       "projectName": "LightestDungeonCreator",
-      "projectPath": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\LightestDungeonCreator.csproj",
-      "packagesPath": "C:\\Users\\catal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\obj\\",
+      "projectPath": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\LightestDungeonCreator.csproj",
+      "packagesPath": "C:\\Users\\metae\\.nuget\\packages\\",
+      "outputPath": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\catal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\metae\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1867,6 +1867,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
