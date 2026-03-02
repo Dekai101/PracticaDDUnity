@@ -101,3 +101,7 @@ C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDu
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\LightestDungeonCreator.csproj.AssemblyReference.cache
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\Lightest.46BACFD7.Up2Date
+C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\Styles\DarkTheme.baml
+C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SplashScreen.g.cs
+C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SplashScreen.baml
+C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\LightestDungeonCreator.sourcelink.json
