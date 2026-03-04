@@ -12,78 +12,7 @@
         AllowsTransparency="True"
         Background="Transparent">
 
-    <Window.Resources>
-        <!-- Colors -->
-        <SolidColorBrush x:Key="BackgroundBrush"      Color="#0E0A08"/>
-        <SolidColorBrush x:Key="PanelBrush"           Color="#1A1209"/>
-        <SolidColorBrush x:Key="BorderBrush"          Color="#5C3A1E"/>
-        <SolidColorBrush x:Key="GoldBrush"            Color="#C8922A"/>
-        <SolidColorBrush x:Key="GoldDimBrush"         Color="#8A6015"/>
-        <SolidColorBrush x:Key="CrimsonBrush"         Color="#8B1A1A"/>
-        <SolidColorBrush x:Key="MutedBrush"           Color="#7A6A5A"/>
-        <SolidColorBrush x:Key="TextBrush"            Color="#D4C5A9"/>
-
-        <!-- Card border style -->
-        <Style x:Key="CardBorderStyle" TargetType="Border">
-            <Setter Property="Background"       Value="#1A1209"/>
-            <Setter Property="BorderBrush"      Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness"  Value="1"/>
-            <Setter Property="CornerRadius"     Value="4"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="#000000" BlurRadius="24" ShadowDepth="6" Opacity="0.7"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- Main action button base -->
-        <Style x:Key="ActionButtonStyle" TargetType="Button">
-            <Setter Property="Background"   Value="#1F1208"/>
-            <Setter Property="BorderBrush"  Value="{StaticResource GoldDimBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground"   Value="{StaticResource TextBrush}"/>
-            <Setter Property="Cursor"       Value="Hand"/>
-            <Setter Property="FontFamily"   Value="Georgia"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Root"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="3"
-                                Padding="0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- Exit button -->
-        <Style x:Key="ExitButtonStyle" TargetType="Button">
-            <Setter Property="Background"      Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground"      Value="{StaticResource MutedBrush}"/>
-            <Setter Property="Cursor"          Value="Hand"/>
-            <Setter Property="FontSize"        Value="16"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock x:Name="Txt"
-                                   Text="{TemplateBinding Content}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontSize="{TemplateBinding FontSize}"/>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Txt" Property="Foreground" Value="#CC3333"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
+    
 
     <!-- Outer container with outer glow -->
     <Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D2210">
