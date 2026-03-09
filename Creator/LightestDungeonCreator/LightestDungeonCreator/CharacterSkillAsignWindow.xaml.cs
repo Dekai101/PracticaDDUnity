@@ -1,0 +1,334 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using LightestDungeonCreator.Models;
+
+namespace LightestDungeonCreator
+{
+    // ─── Character list VM ────────────────────────────────────────────────────
+
+    public class CharacterListVM
+    {
+        public int EntityId { get; set; }
+        public string Name { get; set; } = "";
+        public int Level { get; set; }
+        public string ImageThumb { get; set; } = "";
+        public string LevelDisplay => $"Nivell {Level}";
+        public BitmapImage? ThumbSource { get; set; }
+    }
+
+    // ─── Window ───────────────────────────────────────────────────────────────
+
+    public partial class CharacterSkillAssignWindow : Window
+    {
+        private readonly ObservableCollection<SkillVM> _assignedSkills = new();
+        private List<SkillVM> _allSkills = new();
+        private int? _selectedEntityId;
+        private List<CharacterListVM> _allChars = new();
+
+        public CharacterSkillAssignWindow()
+        {
+            InitializeComponent();
+            AssignedSkillsList.ItemsSource = _assignedSkills;
+            _assignedSkills.CollectionChanged += (_, _) => UpdatePlaceholder();
+            LoadCharactersFromDb();
+            LoadAllSkillsFromDb();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed) DragMove();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new SplashScreen().Show();
+            this.Close();
+        }
+
+        // ── Load characters ───────────────────────────────────────────────────
+
+        private void LoadCharactersFromDb()
+        {
+            try
+            {
+                using var db = new AppDbContext();
+                _allChars = db.Players
+                    .Select(p => new CharacterListVM
+                    {
+                        EntityId = p.EntityId,
+                        Name = p.Entity.Name,
+                        Level = p.Entity.Level,
+                        ImageThumb = p.Entity.ImageThumb
+                    })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                // Load thumbnails
+                foreach (var c in _allChars)
+                    c.ThumbSource = LoadBitmap(c.ImageThumb);
+
+                CharacterList.ItemsSource = _allChars;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error carregant personatges:\n{ex.Message}",
+                                "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void LoadAllSkillsFromDb()
+        {
+            try
+            {
+                using var db = new AppDbContext();
+                _allSkills = db.Skills
+                    .Select(s => new SkillVM
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Description = s.Description,
+                        EnergyCost = s.EnergyCost,
+                        Accuracy = s.Accuracy,
+                        Hits = s.Hits,
+                        TargetType = s.TargetType,
+                        IsAoe = s.IsAoe,
+                        IsPassive = s.IsPassive,
+                        Effects = s.Effects.ToList()
+                    })
+                    .ToList();
+
+                ApplyFilters();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error carregant habilitats:\n{ex.Message}",
+                                "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // ── Character selection ───────────────────────────────────────────────
+
+        private void CharacterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CharacterList.SelectedItem is not CharacterListVM selected) return;
+            LoadCharacterDetail(selected.EntityId);
+        }
+
+        private void LoadCharacterDetail(int entityId)
+        {
+            try
+            {
+                using var db = new AppDbContext();
+                var entity = db.Entities
+                    .Where(en => en.Id == entityId)
+                    .Select(en => new
+                    {
+                        en.Id,
+                        en.Name,
+                        en.Level,
+                        en.Description,
+                        en.Hp,
+                        en.HpMax,
+                        en.Energy,
+                        en.EnergyMax,
+                        en.Attack,
+                        en.Defense,
+                        en.Speed,
+                        en.CritChance,
+                        en.CritDamage,
+                        en.AccuracyMultiplier,
+                        en.ImageThumb,
+                        en.ImageFull,
+                        Skills = en.Skills.Select(s => new SkillVM
+                        {
+                            Id = s.Id,
+                            Name = s.Name,
+                            Description = s.Description,
+                            EnergyCost = s.EnergyCost,
+                            Accuracy = s.Accuracy,
+                            Hits = s.Hits,
+                            TargetType = s.TargetType,
+                            IsAoe = s.IsAoe,
+                            IsPassive = s.IsPassive,
+                            Effects = s.Effects.ToList()
+                        }).ToList()
+                    })
+                    .FirstOrDefault();
+
+                if (entity == null) return;
+
+                _selectedEntityId = entityId;
+
+                // Fill card
+                DetailName.Text = entity.Name;
+                DetailLevel.Text = $"Nivell {entity.Level}";
+                DetailDesc.Text = entity.Description ?? "";
+                DetailThumb.Source = LoadBitmap(entity.ImageThumb);
+                DetailFull.Source = LoadBitmap(entity.ImageFull);
+
+                // Fill stats
+                StatHp.Text = $"{entity.Hp}/{entity.HpMax}";
+                StatEnergy.Text = $"{entity.Energy}/{entity.EnergyMax}";
+                StatAtk.Text = entity.Attack.ToString();
+                StatDef.Text = entity.Defense.ToString();
+                StatSpd.Text = entity.Speed.ToString();
+                StatCrit.Text = $"{entity.CritChance * 100:0.#}%";
+                StatCritDmg.Text = $"{entity.CritDamage * 100:0.#}%";
+                StatAcc.Text = $"{entity.AccuracyMultiplier:0.##}×";
+
+                // Fill assigned skills
+                _assignedSkills.Clear();
+                foreach (var sk in entity.Skills)
+                    _assignedSkills.Add(sk);
+
+                // Show detail panel
+                NoSelectionPanel.Visibility = Visibility.Collapsed;
+                CharDetailPanel.Visibility = Visibility.Visible;
+                SaveBtn.IsEnabled = true;
+                FooterHint.Text = $"Editant habilitats de: {entity.Name}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error carregant detall:\n{ex.Message}",
+                                "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // ── Skill assignment ──────────────────────────────────────────────────
+
+        private void AddSelectedSkill_Click(object sender, RoutedEventArgs e)
+        {
+            if (AvailableSkillsList.SelectedItem is not SkillVM selected) return;
+            if (_assignedSkills.Any(s => s.Id == selected.Id))
+            {
+                MessageBox.Show("Aquesta habilitat ja està assignada.", "Info",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            _assignedSkills.Add(selected);
+        }
+
+        private void RemoveSkill_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is SkillVM vm)
+                _assignedSkills.Remove(vm);
+        }
+
+        private void UpdatePlaceholder()
+        {
+            NoSkillsPlaceholder.Visibility =
+                _assignedSkills.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        // ── Filters ───────────────────────────────────────────────────────────
+
+        private void CharSearch_Changed(object sender, TextChangedEventArgs e)
+        {
+            var q = CharSearchInput.Text.Trim().ToLower();
+            CharacterList.ItemsSource = string.IsNullOrEmpty(q)
+                ? _allChars
+                : _allChars.Where(c => c.Name.ToLower().Contains(q)).ToList();
+        }
+
+        private void Filter_Changed(object sender, TextChangedEventArgs e) => ApplyFilters();
+
+        private void Filter_CheckChanged(object sender, RoutedEventArgs e) => ApplyFilters();
+
+        private void FilterSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (EnergyCostFilterVal != null)
+                EnergyCostFilterVal.Text = (int)EnergyCostFilter.Value == 100
+                    ? "Any" : ((int)EnergyCostFilter.Value).ToString();
+            if (AccuracyFilterVal != null)
+                AccuracyFilterVal.Text = $"{(int)AccuracyFilter.Value}%";
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
+            if (AvailableSkillsList == null || _allSkills == null) return;
+
+            var name = FilterNameInput?.Text?.Trim().ToLower() ?? "";
+            int maxCost = (int)(EnergyCostFilter?.Value ?? 100);
+            float minAcc = (float)(AccuracyFilter?.Value ?? 0) / 100f;
+
+            bool fSingle = FilterSingle?.IsChecked == true;
+            bool fAoe = FilterAoe?.IsChecked == true;
+            bool fPassive = FilterPassive?.IsChecked == true;
+            bool anyType = fSingle || fAoe || fPassive;
+
+            var result = _allSkills.Where(s =>
+            {
+                if (!string.IsNullOrEmpty(name) && !s.Name.ToLower().Contains(name)) return false;
+                if (maxCost < 100 && s.EnergyCost > maxCost) return false;
+                if (s.Accuracy < minAcc) return false;
+                if (anyType)
+                {
+                    bool matchS = fSingle && !s.IsAoe && !s.IsPassive;
+                    bool matchA = fAoe && s.IsAoe;
+                    bool matchP = fPassive && s.IsPassive;
+                    if (!matchS && !matchA && !matchP) return false;
+                }
+                return true;
+            }).ToList();
+
+            AvailableSkillsList.ItemsSource = result;
+        }
+
+        // ── Save ─────────────────────────────────────────────────────────────
+
+        private void SaveAssignment_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedEntityId == null) return;
+
+            try
+            {
+                using var db = new AppDbContext();
+                var entity = db.Entities
+                    .Where(en => en.Id == _selectedEntityId)
+                    .FirstOrDefault();
+
+                if (entity == null) return;
+
+                // Clear existing
+                entity.Skills.Clear();
+
+                // Re-assign
+                var ids = _assignedSkills.Select(s => s.Id).ToList();
+                var tracked = db.Skills.Where(s => ids.Contains(s.Id)).ToList();
+                foreach (var sk in tracked) entity.Skills.Add(sk);
+
+                db.SaveChanges();
+
+                MessageBox.Show($"Habilitats de '{entity.Name}' guardades.\n{tracked.Count} habilitat(s).",
+                                "✦ Guardat", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al guardar:\n{ex.Message}",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private static BitmapImage? LoadBitmap(string? path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return null;
+            try
+            {
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(path, UriKind.Absolute);
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                return bmp;
+            }
+            catch { return null; }
+        }
+    }
+}

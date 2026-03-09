@@ -1,0 +1,676 @@
+﻿<Window x:Class="LightestDungeonCreator.EnemyCreatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Enemy Creator"
+        Height="900" Width="820"
+        MinHeight="600" MinWidth="700"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+
+        <Style x:Key="DarkInput" TargetType="TextBox">
+            <Setter Property="Background"      Value="#120C06"/>
+            <Setter Property="Foreground"      Value="#D4C5A9"/>
+            <Setter Property="BorderBrush"     Value="#5C3A1E"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="6,5"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="CaretBrush"      Value="#C8922A"/>
+        </Style>
+
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,0,0,4"/>
+        </Style>
+
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#C8922A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="12"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+        </Style>
+
+        <Style x:Key="SectionPanel" TargetType="Border">
+            <Setter Property="Background"      Value="#110D07"/>
+            <Setter Property="BorderBrush"     Value="#5C3A1E"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="4"/>
+            <Setter Property="Padding"         Value="14,12"/>
+            <Setter Property="Margin"          Value="0,10,0,0"/>
+        </Style>
+
+        <Style x:Key="SmallMuted" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#5C3A1E"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+        </Style>
+
+        <Style x:Key="NumInput" TargetType="TextBox" BasedOn="{StaticResource DarkInput}">
+            <Setter Property="Width"         Value="68"/>
+            <Setter Property="Height"        Value="30"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="GoldSlider" TargetType="Slider">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" Grid.Row="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Background="#8B1A1A" Height="4" CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Background="#2A1A08" Height="4" CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Width="14" Height="20" CornerRadius="2"
+                                                        Background="#8B1A1A" BorderBrush="#5C1010" BorderThickness="1">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#8B1A1A" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="StatValue" TargetType="TextBlock">
+            <Setter Property="Foreground"    Value="#8B1A1A"/>
+            <Setter Property="FontFamily"    Value="Georgia"/>
+            <Setter Property="FontSize"      Value="13"/>
+            <Setter Property="FontWeight"    Value="Bold"/>
+            <Setter Property="Width"         Value="40"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="StatLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#D4C5A9"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="12"/>
+            <Setter Property="Width"       Value="110"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="RemoveBtnStyle" TargetType="Button">
+            <Setter Property="Background"      Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground"      Value="#5C3A1E"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Width"           Value="22"/>
+            <Setter Property="Height"          Value="22"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock x:Name="T" Text="✕" Foreground="{TemplateBinding Foreground}"
+                                   FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="T" Property="Foreground" Value="#CC3333"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AddSkillBtnStyle" TargetType="Button">
+            <Setter Property="Background"      Value="#1F1208"/>
+            <Setter Property="BorderBrush"     Value="#8A6015"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground"      Value="#C8922A"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Height"          Value="28"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="11"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="R" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1" CornerRadius="3" Padding="10,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="R" Property="Background" Value="#3A2210"/>
+                                <Setter TargetName="R" Property="BorderBrush" Value="#C8922A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FilterCheck" TargetType="CheckBox">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="11"/>
+            <Setter Property="Margin"      Value="0,3,10,3"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#C8922A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="FilterLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#8A6015"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,8,0,4"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D1010">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#0E0808" Offset="0"/>
+                <GradientStop Color="#120808" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" BlurRadius="40" ShadowDepth="0" Opacity="0.9"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="52"/>
+            </Grid.RowDefinitions>
+
+            <!-- ═══ TITLE BAR ═══ -->
+            <Border Grid.Row="0" Background="#0A0404" CornerRadius="6,6,0,0">
+                <Grid Margin="12,0">
+                    <Button Content="←" Style="{StaticResource ExitButtonStyle}"
+                            FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Click="BackButton_Click"/>
+                    <TextBlock Text="☠  ENEMY CREATOR  ☠"
+                               Foreground="#8B1A1A"
+                               FontFamily="Georgia" FontSize="11"
+                               VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#8B1A1A" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <Button Content="☰" Style="{StaticResource ExitButtonStyle}"
+                            FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Click="ListEnemies_Click" ToolTip="Veure enemic guardats"/>
+                </Grid>
+            </Border>
+
+            <!-- ═══ CONTENT ═══ -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="22,14,22,14">
+
+                    <!-- ─── NAME + IMAGES ─── -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="220"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="NAME *" Style="{StaticResource FieldLabel}"/>
+                            <TextBox x:Name="NameInput" Style="{StaticResource DarkInput}"
+                                     Height="32" MaxLength="50" Text="New Enemy"/>
+                            <TextBlock Text="DESCRIPTION" Style="{StaticResource FieldLabel}"
+                                       Margin="0,10,0,4"/>
+                            <TextBox x:Name="DescInput" Style="{StaticResource DarkInput}"
+                                     Height="130" AcceptsReturn="True" TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto" MaxLength="500"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="IMAGE THUMB *" Style="{StaticResource FieldLabel}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="6"/>
+                                    <ColumnDefinition Width="36"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="ThumbPathInput" Grid.Column="0"
+                                         Style="{StaticResource DarkInput}"
+                                         Height="30" FontSize="9" IsReadOnly="True"
+                                         Text="sin selección..." Foreground="#5C3A1E"/>
+                                <Button Grid.Column="2" Content="…"
+                                        Style="{StaticResource AddSkillBtnStyle}"
+                                        Padding="0" Click="BrowseThumb_Click"/>
+                            </Grid>
+
+                            <TextBlock Text="IMAGE FULL *" Style="{StaticResource FieldLabel}"
+                                       Margin="0,8,0,4"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="6"/>
+                                    <ColumnDefinition Width="36"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="FullPathInput" Grid.Column="0"
+                                         Style="{StaticResource DarkInput}"
+                                         Height="30" FontSize="9" IsReadOnly="True"
+                                         Text="sin selección..." Foreground="#5C3A1E"/>
+                                <Button Grid.Column="2" Content="…"
+                                        Style="{StaticResource AddSkillBtnStyle}"
+                                        Padding="0" Click="BrowseFull_Click"/>
+                            </Grid>
+
+                            <TextBlock Text="PREVIEW:" Style="{StaticResource FieldLabel}"
+                                       Margin="0,10,0,4"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="85"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <Border Height="72" BorderBrush="#5C1010" BorderThickness="1"
+                                            Background="#0A0404" CornerRadius="3">
+                                        <Image x:Name="ThumbPreview" Stretch="Uniform" Margin="2"/>
+                                    </Border>
+                                    <TextBlock Text="THUMB" Style="{StaticResource SmallMuted}"
+                                               HorizontalAlignment="Center" Margin="0,3,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <Border Height="72" BorderBrush="#3D1010" BorderThickness="1"
+                                            Background="#0A0404" CornerRadius="3">
+                                        <Image x:Name="FullPreview" Stretch="Uniform" Margin="2"/>
+                                    </Border>
+                                    <TextBlock Text="FULL" Style="{StaticResource SmallMuted}"
+                                               HorizontalAlignment="Center" Margin="0,3,0,0"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Level -->
+                            <TextBlock Text="LEVEL" Style="{StaticResource FieldLabel}" Margin="0,10,0,4"/>
+                            <TextBox x:Name="LevelInput" Style="{StaticResource DarkInput}"
+                                     Height="30" Text="1" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ─── STATS ─── -->
+                    <Border Style="{StaticResource SectionPanel}">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                                <TextBlock Grid.Column="1" Text="  ☠  STATS  ☠  "
+                                           Foreground="#8B1A1A" FontFamily="Georgia"
+                                           FontSize="12" FontWeight="Bold"
+                                           VerticalAlignment="Center" Margin="0"/>
+                                <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                            </Grid>
+
+                            <!-- HP -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* HP" Style="{StaticResource StatLabel}"/>
+                                <Slider x:Name="HpSlider" Grid.Column="1"
+                                        Minimum="1" Maximum="1000" Value="200"
+                                        Style="{StaticResource GoldSlider}"
+                                        ValueChanged="HpSlider_ValueChanged"/>
+                                <TextBlock x:Name="HpValue" Grid.Column="2"
+                                           Text="200" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <!-- Energy -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* ENERGY" Style="{StaticResource StatLabel}"/>
+                                <Slider x:Name="EnergySlider" Grid.Column="1"
+                                        Minimum="1" Maximum="300" Value="100"
+                                        Style="{StaticResource GoldSlider}"
+                                        ValueChanged="EnergySlider_ValueChanged"/>
+                                <TextBlock x:Name="EnergyValue" Grid.Column="2"
+                                           Text="100" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <!-- Attack -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* ATTACK" Style="{StaticResource StatLabel}"/>
+                                <Slider x:Name="AttackSlider" Grid.Column="1"
+                                        Minimum="1" Maximum="300" Value="80"
+                                        Style="{StaticResource GoldSlider}"
+                                        ValueChanged="AttackSlider_ValueChanged"/>
+                                <TextBlock x:Name="AttackValue" Grid.Column="2"
+                                           Text="80" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <Rectangle Height="1" Fill="#2A0808" Margin="0,0,0,14"/>
+
+                            <!-- Numeric stats -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                    <TextBlock Text="* DEFENSE" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                                    <TextBox x:Name="DefenseInput" Style="{StaticResource NumInput}" Text="20" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                                    <TextBlock Text="* SPEED" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                                    <TextBox x:Name="SpeedInput" Style="{StaticResource NumInput}" Text="8" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="4" HorizontalAlignment="Center">
+                                    <TextBlock Text="CRIT CHANCE %" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                                    <TextBox x:Name="CritChanceInput" Style="{StaticResource NumInput}" Text="5" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="6" HorizontalAlignment="Center">
+                                    <TextBlock Text="CRIT DAMAGE %" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
+                                    <TextBox x:Name="CritDamageInput" Style="{StaticResource NumInput}" Text="150" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <TextBlock Text="ACCURACY MULT:"
+                                           Style="{StaticResource FieldLabel}"
+                                           Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBox x:Name="AccuracyMultInput"
+                                         Style="{StaticResource NumInput}"
+                                         Width="80" Text="1.00"/>
+                                <TextBlock Text="(1.0 = normal)"
+                                           Style="{StaticResource SmallMuted}"
+                                           Margin="8,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ─── ASSIGNED SKILLS ─── -->
+                    <Border Style="{StaticResource SectionPanel}">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                                <TextBlock Grid.Column="1" Text="  ☠  HABILITATS  ☠  "
+                                           Foreground="#8B1A1A" FontFamily="Georgia"
+                                           FontSize="12" FontWeight="Bold"
+                                           VerticalAlignment="Center" Margin="0"/>
+                                <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                            </Grid>
+
+                            <ItemsControl x:Name="AssignedSkillsList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#0D0404" BorderBrush="#3D1010"
+                                                BorderThickness="1" CornerRadius="4"
+                                                Margin="0,0,0,6" Padding="10,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="22"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   Foreground="#C8922A" FontFamily="Georgia"
+                                                                   FontSize="12" FontWeight="Bold" Margin="0,0,10,0"/>
+                                                        <Border Background="#1A0404" BorderBrush="#5C1010"
+                                                                BorderThickness="1" CornerRadius="2" Padding="4,1" Margin="0,0,4,0">
+                                                            <TextBlock Text="{Binding TargetType}" Foreground="#7A6A5A"
+                                                                       FontFamily="Georgia" FontSize="9"/>
+                                                        </Border>
+                                                        <Border Background="#1A0404" BorderBrush="#5C1010"
+                                                                BorderThickness="1" CornerRadius="2" Padding="4,1"
+                                                                Visibility="{Binding AoeBadgeVisibility}">
+                                                            <TextBlock Text="AOE" Foreground="#8B1A1A"
+                                                                       FontFamily="Georgia" FontSize="9"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Cost: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding EnergyCostDisplay}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia"
+                                                                   FontSize="10" Margin="0,0,12,0"/>
+                                                        <TextBlock Text="Acc: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding AccuracyDisplay}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia"
+                                                                   FontSize="10" Margin="0,0,12,0"/>
+                                                        <TextBlock Text="Hits: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding Hits}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                    </StackPanel>
+                                                    <TextBlock Text="{Binding EffectsSummary}"
+                                                               Foreground="#5C1010" FontFamily="Georgia" FontSize="10"
+                                                               TextWrapping="Wrap" Margin="0,3,0,0"
+                                                               Visibility="{Binding EffectsVisibility}"/>
+                                                </StackPanel>
+                                                <Button Grid.Column="1" Style="{StaticResource RemoveBtnStyle}"
+                                                        Tag="{Binding}" VerticalAlignment="Top"
+                                                        Click="RemoveSkill_Click"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Border x:Name="NoSkillsPlaceholder"
+                                    BorderBrush="#1E0808" BorderThickness="1"
+                                    CornerRadius="3" Padding="14,16">
+                                <TextBlock Text="Cap habilitat assignada."
+                                           Foreground="#2D1010" FontFamily="Georgia" FontSize="11"
+                                           FontStyle="Italic" TextAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ─── SKILLS TO CHOOSE ─── -->
+                    <Border Style="{StaticResource SectionPanel}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="14"/>
+                                <ColumnDefinition Width="175"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
+                                               Fill="#8B1A1A" Opacity="0.4"/>
+                                    <TextBlock Grid.Column="1" Text="  ☠  AFEGIR HABILITATS  ☠  "
+                                               Foreground="#8B1A1A" FontFamily="Georgia"
+                                               FontSize="12" FontWeight="Bold"
+                                               VerticalAlignment="Center" Margin="0"/>
+                                    <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
+                                               Fill="#8B1A1A" Opacity="0.4"/>
+                                </Grid>
+
+                                <Button Content="⊕  Afegir seleccionada"
+                                        Style="{StaticResource AddSkillBtnStyle}"
+                                        Width="180" HorizontalAlignment="Left"
+                                        Margin="0,0,0,10"
+                                        Click="AddSelectedSkill_Click"/>
+
+                                <ListBox x:Name="AvailableSkillsList"
+                                         Background="Transparent"
+                                         BorderBrush="#2A0808" BorderThickness="1"
+                                         MaxHeight="280"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Background"  Value="Transparent"/>
+                                            <Setter Property="Padding"     Value="0"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#1F0808"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#160808"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#1E0808" BorderThickness="0,0,0,1" Padding="10,8">
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                                        <TextBlock Text="{Binding Name}" Foreground="#C8922A"
+                                                                   FontFamily="Georgia" FontSize="12"
+                                                                   FontWeight="Bold" Margin="0,0,8,0"/>
+                                                        <TextBlock Text="{Binding TargetType}" Foreground="#5C1010"
+                                                                   FontFamily="Georgia" FontSize="10" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="  AOE" Foreground="#8B1A1A"
+                                                                   FontFamily="Georgia" FontSize="10"
+                                                                   Visibility="{Binding AoeBadgeVisibility}"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Cost: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding EnergyCostDisplay}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia"
+                                                                   FontSize="10" Margin="0,0,10,0"/>
+                                                        <TextBlock Text="Acc: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding AccuracyDisplay}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                    </StackPanel>
+                                                    <TextBlock Text="{Binding EffectsSummary}" Foreground="#5C1010"
+                                                               FontFamily="Georgia" FontSize="10"
+                                                               TextWrapping="Wrap"
+                                                               Visibility="{Binding EffectsVisibility}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+
+                            <!-- Filters -->
+                            <Border Grid.Column="2" Background="#0D0404"
+                                    BorderBrush="#2A0808" BorderThickness="1"
+                                    CornerRadius="4" Padding="12,10">
+                                <StackPanel>
+                                    <TextBlock Text="FILTRES:" Foreground="#C8922A"
+                                               FontFamily="Georgia" FontSize="11"
+                                               FontWeight="Bold" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Cerca per nom:" Style="{StaticResource FilterLabel}" Margin="0,0,0,4"/>
+                                    <TextBox x:Name="FilterNameInput" Style="{StaticResource DarkInput}"
+                                             Height="28" FontSize="11" TextChanged="Filter_Changed"/>
+                                    <TextBlock Text="Energia màx:" Style="{StaticResource FilterLabel}"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                        <TextBlock x:Name="EnergyCostFilterVal" Text="Any"
+                                                   Foreground="#C8922A" FontFamily="Georgia" FontSize="11"
+                                                   Width="30" VerticalAlignment="Center"/>
+                                        <Slider x:Name="EnergyCostFilter" Minimum="0" Maximum="100" Value="100"
+                                                Width="100" Style="{StaticResource GoldSlider}"
+                                                ValueChanged="FilterSlider_Changed"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Tipus:" Style="{StaticResource FilterLabel}"/>
+                                    <WrapPanel>
+                                        <CheckBox x:Name="FilterAoe" Content="AoE"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                        <CheckBox x:Name="FilterPassive" Content="Passive"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- ═══ FOOTER ═══ -->
+            <Border Grid.Row="2" Background="#0A0404" CornerRadius="0,0,6,6"
+                    BorderBrush="#3D1010" BorderThickness="0,1,0,0">
+                <Grid Margin="22,0">
+                    <TextBlock Text="* campos obligatorios"
+                               Foreground="{StaticResource MutedBrush}"
+                               FontFamily="Georgia" FontSize="10"
+                               VerticalAlignment="Center" Opacity="0.4"/>
+                    <Button Content="  ☠  CREAR ENEMIC  ☠  "
+                            Style="{StaticResource ActionButtonStyle}"
+                            HorizontalAlignment="Right" Width="200" Height="36"
+                            Click="SaveEnemy_Click">
+                        <Button.Foreground>
+                            <SolidColorBrush Color="#8B1A1A"/>
+                        </Button.Foreground>
+                        <Button.FontSize>13</Button.FontSize>
+                        <Button.FontFamily>Georgia</Button.FontFamily>
+                        <Button.Effect>
+                            <DropShadowEffect Color="#8B1A1A" BlurRadius="10" ShadowDepth="0" Opacity="0.4"/>
+                        </Button.Effect>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
