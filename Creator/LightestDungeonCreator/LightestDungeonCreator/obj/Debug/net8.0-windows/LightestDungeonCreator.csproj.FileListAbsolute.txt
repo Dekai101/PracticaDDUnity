@@ -106,6 +106,7 @@ C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDu
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SplashScreen.baml
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\LightestDungeonCreator.sourcelink.json
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\App.baml
+<<<<<<< HEAD
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\bin\Debug\net8.0-windows\LightestDungeonCreator.exe
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\bin\Debug\net8.0-windows\LightestDungeonCreator.deps.json
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\bin\Debug\net8.0-windows\LightestDungeonCreator.runtimeconfig.json
@@ -216,3 +217,7 @@ D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\Ligh
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\ref\LightestDungeonCreator.dll
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorPersonatge.baml
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorPersonatge.g.cs
+=======
+C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.baml
+C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.g.cs
+>>>>>>> 3addba0aff0fc7965d2de464bd07d4c0f092976f
