@@ -1,8 +1,38 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\",
+  "WorkspaceRootPath": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\",
   "Documents": [
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\splashscreen.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\splashscreen.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\splashscreen.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\splashscreen.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\styles\\darktheme.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\styles\\darktheme.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\model\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+=======
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|c:\\users\\catal\\desktop\\lightestdungeon\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\splashscreen.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\splashscreen.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+=======
+>>>>>>> dcb376505853a1de009818d218def059686665d7
       "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|c:\\users\\catal\\desktop\\lightestdungeon\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\splashscreen.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\splashscreen.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -31,10 +61,11 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|c:\\users\\catal\\desktop\\lightestdungeon\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\model\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+>>>>>>> a8ddcc5cadb023a813dccb0718f9e7d21d5917aa
       "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\model\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|c:\\users\\catal\\desktop\\lightestdungeon\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|d:\\archius dam\\projecte dam2\\practicaddunity\\creator\\lightestdungeoncreator\\lightestdungeoncreator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{922CA27E-BE3A-48B4-904E-12EDD617E25A}|LightestDungeonCreator\\LightestDungeonCreator.csproj|solutionrelative:lightestdungeoncreator\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -45,8 +76,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
+          "SelectedChildIndex": 4,
+=======
           "SelectedChildIndex": 5,
+>>>>>>> dcb376505853a1de009818d218def059686665d7
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -77,10 +116,10 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\App.xaml",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\App.xaml",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\App.xaml",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\App.xaml*",
-              "RelativeToolTip": "LightestDungeonCreator\\App.xaml*",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\App.xaml",
+              "RelativeToolTip": "LightestDungeonCreator\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-27T18:03:32.111Z",
               "EditorCaption": ""
@@ -89,9 +128,9 @@
               "$type": "Document",
               "DocumentIndex": 7,
               "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Model\\AppDbContext.cs",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Model\\AppDbContext.cs",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\Model\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Model\\AppDbContext.cs",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Model\\AppDbContext.cs",
               "RelativeToolTip": "LightestDungeonCreator\\Model\\AppDbContext.cs",
               "ViewState": "AgIAABQAAAAAAAAAAIA4wCcAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -101,9 +140,9 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "SplashScreen.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml.cs",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml.cs",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\SplashScreen.xaml.cs",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml.cs",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml.cs",
               "RelativeToolTip": "LightestDungeonCreator\\SplashScreen.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -114,9 +153,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "SplashScreen.xaml",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\SplashScreen.xaml",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SplashScreen.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\SplashScreen.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-27T17:55:18.892Z",
@@ -126,9 +165,9 @@
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "DarkTheme.xaml",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Styles\\DarkTheme.xaml",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Styles\\DarkTheme.xaml",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\Styles\\DarkTheme.xaml",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Styles\\DarkTheme.xaml",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\Styles\\DarkTheme.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\Styles\\DarkTheme.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-27T17:51:24.842Z"
@@ -137,9 +176,9 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-27T16:26:54.439Z",
@@ -149,9 +188,9 @@
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "LightestDungeonCreator\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\catal\\Desktop\\LightestDungeon\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml.cs",
               "RelativeToolTip": "LightestDungeonCreator\\MainWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

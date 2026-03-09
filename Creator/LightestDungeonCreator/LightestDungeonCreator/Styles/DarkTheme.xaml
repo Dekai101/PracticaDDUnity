@@ -51,39 +51,12 @@
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
     </Style>
 
-    <!-- TextBox Style -->
-    <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Padding" Value="12,8"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="CaretBrush" Value="{StaticResource GoldBrush}"/>
-    </Style>
-
     <!-- Label Style -->
     <Style x:Key="DarkLabelStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Margin" Value="0,0,0,6"/>
-    </Style>
-
-    <!-- ComboBox Style -->
-    <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Padding" Value="12,8"/>
-        <Setter Property="FontSize" Value="14"/>
-    </Style>
-
-    <!-- Slider Style -->
-    <Style x:Key="DarkSliderStyle" TargetType="Slider">
-        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="Height" Value="30"/>
     </Style>
 
     <!-- Card Style -->
@@ -96,4 +69,89 @@
         <Setter Property="Margin" Value="8"/>
     </Style>
 
+    <!-- Section header label -->
+    <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+        <Setter Property="Foreground"   Value="{StaticResource GoldDimBrush}"/>
+        <Setter Property="FontFamily"   Value="Georgia"/>
+        <Setter Property="FontSize"     Value="11"/>
+        <Setter Property="FontWeight"   Value="Bold"/>
+        <Setter Property="Margin"       Value="0,0,0,8"/>
+        <Setter Property="LetterSpacing" Value="2"/>
+    </Style>
+
+    <!-- Field label (above each input) -->
+    <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+        <Setter Property="Foreground"  Value="{StaticResource MutedBrush}"/>
+        <Setter Property="FontFamily"  Value="Georgia"/>
+        <Setter Property="FontSize"    Value="10"/>
+        <Setter Property="FontWeight"  Value="Bold"/>
+        <Setter Property="Margin"      Value="0,0,0,5"/>
+    </Style>
+
+    <!-- Secondary action button (Cancel, etc.) -->
+    <Style x:Key="SecondaryActionButtonStyle" TargetType="Button">
+        <Setter Property="Background"      Value="#1A1209"/>
+        <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground"      Value="{StaticResource MutedBrush}"/>
+        <Setter Property="Cursor"          Value="Hand"/>
+        <Setter Property="FontFamily"      Value="Georgia"/>
+        <Setter Property="FontSize"        Value="12"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="#2A1E0A"/>
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{StaticResource GoldDimBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Small "..." browse button -->
+    <Style x:Key="SecondarySmallButtonStyle" TargetType="Button"
+           BasedOn="{StaticResource SecondaryActionButtonStyle}">
+        <Setter Property="FontSize"    Value="14"/>
+        <Setter Property="Foreground"  Value="{StaticResource GoldDimBrush}"/>
+    </Style>
+
+    <!-- Dark TextBox -->
+    <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background"       Value="#120C06"/>
+        <Setter Property="Foreground"       Value="{StaticResource TextBrush}"/>
+        <Setter Property="BorderBrush"      Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness"  Value="1"/>
+        <Setter Property="Padding"          Value="8,6"/>
+        <Setter Property="FontFamily"       Value="Georgia"/>
+        <Setter Property="FontSize"         Value="13"/>
+        <Setter Property="CaretBrush"       Value="{StaticResource GoldBrush}"/>
+        <Setter Property="SelectionBrush"   Value="{StaticResource GoldDimBrush}"/>
+    </Style>
+
+    <!-- Dark ComboBox -->
+    <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="Background"      Value="#120C06"/>
+        <Setter Property="Foreground"      Value="{StaticResource TextBrush}"/>
+        <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding"         Value="8,6"/>
+        <Setter Property="FontFamily"      Value="Georgia"/>
+        <Setter Property="FontSize"        Value="13"/>
+    </Style>
+
+    <!-- Dark Slider (override/extend if needed) -->
+    <Style x:Key="DarkSliderStyle" TargetType="Slider">
+        <Setter Property="Foreground" Value="{StaticResource GoldDimBrush}"/>
+        <Setter Property="Height"     Value="28"/>
+    </Style>
 </ResourceDictionary>
