@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using LightestDungeonCreator.Models;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,9 @@ namespace LightestDungeonCreator
         public MainWindow()
         {
             InitializeComponent();
+
+            Player p = new Player();
+            p.Name = "Test";
         }
     }
 }

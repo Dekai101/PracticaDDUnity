@@ -203,7 +203,6 @@
                                         VerticalAlignment="Center">
                                 <TextBlock Text="ÀREA D'EFECTE (AoE)" Style="{StaticResource FieldLabelStyle}"/>
                                 <CheckBox x:Name="ChkIsAoe"
-                                          Foreground="{StaticResource TextBrush}"
                                           FontFamily="Georgia" FontSize="13"
                                           Content="Afecta múltiples objectius"
                                           Margin="0,6,0,0"

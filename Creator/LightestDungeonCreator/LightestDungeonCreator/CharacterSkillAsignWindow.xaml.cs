@@ -8,28 +8,13 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using LightestDungeonCreator.Models;
 
-namespace LightestDungeonCreator
-{
-    // ─── Character list VM ────────────────────────────────────────────────────
-
-    public class CharacterListVM
-    {
-        public int EntityId { get; set; }
-        public string Name { get; set; } = "";
-        public int Level { get; set; }
-        public string ImageThumb { get; set; } = "";
-        public string LevelDisplay => $"Nivell {Level}";
-        public BitmapImage? ThumbSource { get; set; }
-    }
-
-    // ─── Window ───────────────────────────────────────────────────────────────
-
+namespace LightestDungeonCreator {
     public partial class CharacterSkillAssignWindow : Window
     {
-        private readonly ObservableCollection<SkillVM> _assignedSkills = new();
-        private List<SkillVM> _allSkills = new();
+        private readonly ObservableCollection<Skill> _assignedSkills = new();
+        private List<Skill> _allSkills = new();
         private int? _selectedEntityId;
-        private List<CharacterListVM> _allChars = new();
+        private List<Player> _allChars = new();
 
         public CharacterSkillAssignWindow()
         {
@@ -58,20 +43,7 @@ namespace LightestDungeonCreator
             try
             {
                 using var db = new AppDbContext();
-                _allChars = db.Players
-                    .Select(p => new CharacterListVM
-                    {
-                        EntityId = p.EntityId,
-                        Name = p.Entity.Name,
-                        Level = p.Entity.Level,
-                        ImageThumb = p.Entity.ImageThumb
-                    })
-                    .OrderBy(c => c.Name)
-                    .ToList();
-
-                // Load thumbnails
-                foreach (var c in _allChars)
-                    c.ThumbSource = LoadBitmap(c.ImageThumb);
+                _allChars = db.Players.OrderBy(c => c.Entity.Name).ToList();
 
                 CharacterList.ItemsSource = _allChars;
             }
@@ -87,26 +59,11 @@ namespace LightestDungeonCreator
             try
             {
                 using var db = new AppDbContext();
-                _allSkills = db.Skills
-                    .Select(s => new SkillVM
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Description = s.Description,
-                        EnergyCost = s.EnergyCost,
-                        Accuracy = s.Accuracy,
-                        Hits = s.Hits,
-                        TargetType = s.TargetType,
-                        IsAoe = s.IsAoe,
-                        IsPassive = s.IsPassive,
-                        Effects = s.Effects.ToList()
-                    })
-                    .ToList();
+                _allSkills = db.Skills.OrderBy(s => s.Name).ToList();
 
                 ApplyFilters();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex){
                 MessageBox.Show($"Error carregant habilitats:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -116,7 +73,7 @@ namespace LightestDungeonCreator
 
         private void CharacterList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CharacterList.SelectedItem is not CharacterListVM selected) return;
+            if (CharacterList.SelectedItem is not Player selected) return;
             LoadCharacterDetail(selected.EntityId);
         }
 
@@ -125,41 +82,7 @@ namespace LightestDungeonCreator
             try
             {
                 using var db = new AppDbContext();
-                var entity = db.Entities
-                    .Where(en => en.Id == entityId)
-                    .Select(en => new
-                    {
-                        en.Id,
-                        en.Name,
-                        en.Level,
-                        en.Description,
-                        en.Hp,
-                        en.HpMax,
-                        en.Energy,
-                        en.EnergyMax,
-                        en.Attack,
-                        en.Defense,
-                        en.Speed,
-                        en.CritChance,
-                        en.CritDamage,
-                        en.AccuracyMultiplier,
-                        en.ImageThumb,
-                        en.ImageFull,
-                        Skills = en.Skills.Select(s => new SkillVM
-                        {
-                            Id = s.Id,
-                            Name = s.Name,
-                            Description = s.Description,
-                            EnergyCost = s.EnergyCost,
-                            Accuracy = s.Accuracy,
-                            Hits = s.Hits,
-                            TargetType = s.TargetType,
-                            IsAoe = s.IsAoe,
-                            IsPassive = s.IsPassive,
-                            Effects = s.Effects.ToList()
-                        }).ToList()
-                    })
-                    .FirstOrDefault();
+                var entity = db.Entities.Find(entityId);
 
                 if (entity == null) return;
 
@@ -204,7 +127,7 @@ namespace LightestDungeonCreator
 
         private void AddSelectedSkill_Click(object sender, RoutedEventArgs e)
         {
-            if (AvailableSkillsList.SelectedItem is not SkillVM selected) return;
+            if (AvailableSkillsList.SelectedItem is not Skill selected) return;
             if (_assignedSkills.Any(s => s.Id == selected.Id))
             {
                 MessageBox.Show("Aquesta habilitat ja està assignada.", "Info",
@@ -216,7 +139,7 @@ namespace LightestDungeonCreator
 
         private void RemoveSkill_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is SkillVM vm)
+            if (sender is Button btn && btn.Tag is Skill vm)
                 _assignedSkills.Remove(vm);
         }
 
@@ -231,9 +154,7 @@ namespace LightestDungeonCreator
         private void CharSearch_Changed(object sender, TextChangedEventArgs e)
         {
             var q = CharSearchInput.Text.Trim().ToLower();
-            CharacterList.ItemsSource = string.IsNullOrEmpty(q)
-                ? _allChars
-                : _allChars.Where(c => c.Name.ToLower().Contains(q)).ToList();
+            CharacterList.ItemsSource = string.IsNullOrEmpty(q)?_allChars : _allChars.Where(c => c.Entity.Name.ToLower().Contains(q)).ToList();
         }
 
         private void Filter_Changed(object sender, TextChangedEventArgs e) => ApplyFilters();

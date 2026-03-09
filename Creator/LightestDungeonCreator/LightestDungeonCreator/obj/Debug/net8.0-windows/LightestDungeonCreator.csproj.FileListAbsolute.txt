@@ -221,3 +221,11 @@ D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\Ligh
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.baml
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.g.cs
 >>>>>>> 3addba0aff0fc7965d2de464bd07d4c0f092976f
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\CharacterSkillAsignWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\EnemyCreatorWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\CharacterSkillAsignWindow.g.cs
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\EnemyCreatorWindow.g.cs
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.g.cs
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorHabilitat.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorHabilitat.g.cs
