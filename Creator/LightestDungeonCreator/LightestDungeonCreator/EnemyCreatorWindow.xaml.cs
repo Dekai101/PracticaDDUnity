@@ -15,9 +15,9 @@ namespace LightestDungeonCreator
     public partial class EnemyCreatorWindow : Window
     {
         // ── Collections ──────────────────────────────────────────────
-        private ObservableCollection<SkillViewModel> _assignedSkills = new();
-        private ObservableCollection<SkillViewModel> _availableSkills = new();
-        private List<SkillViewModel> _allSkills = new();
+        private ObservableCollection<Skill> _assignedSkills = new();
+        private ObservableCollection<Skill> _availableSkills = new();
+        private List<Skill> _allSkills = new();
 
         public EnemyCreatorWindow()
         {
@@ -94,7 +94,7 @@ namespace LightestDungeonCreator
         // ── Skills: assigned list ─────────────────────────────────────
         private void RemoveSkill_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is SkillViewModel skill)
+            if (sender is Button btn && btn.Tag is Skill skill)
             {
                 _assignedSkills.Remove(skill);
                 UpdateNoSkillsPlaceholder();
@@ -104,7 +104,7 @@ namespace LightestDungeonCreator
         // ── Skills: available list ────────────────────────────────────
         private void AddSelectedSkill_Click(object sender, RoutedEventArgs e)
         {
-            if (AvailableSkillsList.SelectedItem is not SkillViewModel skill) return;
+            if (AvailableSkillsList.SelectedItem is not Skill skill) return;
             if (_assignedSkills.Any(s => s.Name == skill.Name)) return; // no duplicates
             _assignedSkills.Add(skill);
             UpdateNoSkillsPlaceholder();
@@ -223,7 +223,7 @@ namespace LightestDungeonCreator
         private void LoadAvailableSkills()
         {
             // TODO: load from your real data source (JSON / DB / etc.)
-            _allSkills = new List<SkillViewModel>
+            _allSkills = new List<Skill>
             {
                 new() { Name = "Slash",       TargetType = "Single", EnergyCost = 10, Accuracy = 90, Hits = 1, IsAoe = false },
                 new() { Name = "Fireball",    TargetType = "All",    EnergyCost = 30, Accuracy = 85, Hits = 1, IsAoe = true  },
@@ -234,25 +234,5 @@ namespace LightestDungeonCreator
             foreach (var s in _allSkills)
                 _availableSkills.Add(s);
         }
-    }
-
-    // ── Data models ───────────────────────────────────────────────────
-    public class SkillViewModel
-    {
-        public string Name { get; set; } = "";
-        public string TargetType { get; set; } = "";
-        public int EnergyCost { get; set; }
-        public int Accuracy { get; set; }
-        public int Hits { get; set; }
-        public bool IsAoe { get; set; }
-        public bool IsPassive { get; set; }
-
-        // Binding helpers
-        public string EnergyCostDisplay => $"{EnergyCost} EP";
-        public string AccuracyDisplay => $"{Accuracy}%";
-        public string EffectsSummary => "";           // fill with real effect data
-        public Visibility AoeBadgeVisibility => IsAoe ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility EffectsVisibility => string.IsNullOrEmpty(EffectsSummary)
-                                                  ? Visibility.Collapsed : Visibility.Visible;
     }
 }
