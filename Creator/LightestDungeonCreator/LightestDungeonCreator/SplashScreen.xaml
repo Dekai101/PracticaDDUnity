@@ -124,7 +124,7 @@
                                            Foreground="{StaticResource GoldBrush}"/>
                             </Border>
 
-                            <TextBlock Text="CREAR PERSONATGE"
+                            <TextBlock Text="EDITAR SKILLS PERSONATGE"
                                        Foreground="{StaticResource GoldBrush}"
                                        FontFamily="Georgia"
                                        FontSize="15"

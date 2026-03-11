@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\App.xaml
-3813754980
+6556432219
 
-291501771418
+211838150709
 212-1234380038
-MainWindow.xaml;SplashScreen.xaml;Styles\DarkTheme.xaml;
+CharacterSkillAsignWindow.xaml;EnemyCreatorWindow.xaml;MainWindow.xaml;SkillCreatorWindow.xaml;SplashScreen.xaml;Styles\DarkTheme.xaml;
 
-False
+True
 

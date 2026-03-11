@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace LightestDungeonCreator
 {
-    /// <summary>
-    /// Lógica de interacción para SplashScreen.xaml
-    /// </summary>
     public partial class SplashScreen : Window
     {
         public SplashScreen()
@@ -31,12 +28,14 @@ namespace LightestDungeonCreator
 
         private void CreateCharacter_Click(object sender, RoutedEventArgs e)
         {
-
+            new CharacterSkillAssignWindow().Show();
+            this.Close();
         }
 
         private void CreateSkill_Click(object sender, RoutedEventArgs e)
         {
-
+            new SkillCreatorWindow().Show();
+            this.Close();
         }
     }
 }

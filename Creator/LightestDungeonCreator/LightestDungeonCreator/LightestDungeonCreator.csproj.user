@@ -2,6 +2,15 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="CharacterSkillAsignWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="EnemyCreatorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SkillCreatorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SplashScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
