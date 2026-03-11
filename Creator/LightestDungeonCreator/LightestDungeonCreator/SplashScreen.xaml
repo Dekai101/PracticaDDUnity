@@ -6,13 +6,11 @@
         xmlns:local="clr-namespace:LightestDungeonCreator"
         mc:Ignorable="d"
         Title="SplashScreen"
-        Height="620" Width="780"
+        Height="520" Width="780"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent">
-
-    
 
     <!-- Outer container with outer glow -->
     <Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D2210">
@@ -41,7 +39,7 @@
                     Background="#0A0704"
                     CornerRadius="6,6,0,0">
                 <Grid Margin="12,0">
-                    <TextBlock Text="✦  DARKEST DUNGEON  —  REGISTRE"
+                    <TextBlock Text="✦  LIGHTEST DUNGEON  —  CREATOR"
                                Foreground="{StaticResource GoldDimBrush}"
                                FontFamily="Georgia"
                                FontSize="11"
@@ -81,33 +79,29 @@
                            FontSize="36"
                            FontWeight="Bold"
                            HorizontalAlignment="Center"
-                           Margin="0,0,0,8">
+                           Margin="0,0,0,40">
                     <TextBlock.Effect>
                         <DropShadowEffect Color="#C8922A" BlurRadius="12" ShadowDepth="0" Opacity="0.4"/>
                     </TextBlock.Effect>
                 </TextBlock>
 
-                <TextBlock Text="Benvingut a les tenebres. Tria el teu camí."
-                           Foreground="{StaticResource MutedBrush}"
-                           FontFamily="Georgia"
-                           FontSize="13"
-                           FontStyle="Italic"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,40"/>
 
-                <!-- Two main buttons -->
+                <!-- BUTTONS -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="24"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- ── Crear Personatge ── -->
+                    <!-- ── Editar Skills Personatge ── -->
                     <Button Grid.Column="0"
+                            x:Name="EditCharacterSkillsBtn"
                             Style="{StaticResource ActionButtonStyle}"
                             Height="180"
-                            Click="CreateCharacter_Click">
+                            Click="EditCharacterSkillsBtn_Click">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <!-- Icon area -->
                             <Border Background="#140C04"
@@ -124,7 +118,7 @@
                                            Foreground="{StaticResource GoldBrush}"/>
                             </Border>
 
-                            <TextBlock Text="EDITAR SKILLS PERSONATGE"
+                            <TextBlock Text="ASSIGN SKILLS"
                                        Foreground="{StaticResource GoldBrush}"
                                        FontFamily="Georgia"
                                        FontSize="15"
@@ -132,14 +126,6 @@
                                        HorizontalAlignment="Center"
                                        Margin="0,0,0,8"/>
 
-                            <TextBlock Text="Forja un nou guerrer&#x0a;per a la foscor"
-                                       Foreground="{StaticResource MutedBrush}"
-                                       FontFamily="Georgia"
-                                       FontSize="11"
-                                       FontStyle="Italic"
-                                       TextAlignment="Center"
-                                       HorizontalAlignment="Center"
-                                       TextWrapping="Wrap"/>
                         </StackPanel>
                     </Button>
 
@@ -158,13 +144,13 @@
                                     HorizontalAlignment="Center"
                                     Margin="0,0,0,16">
                                 <TextBlock Text="✦"
-                                           FontSize="30"
+                                           FontSize="50"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="{StaticResource GoldBrush}"/>
                             </Border>
 
-                            <TextBlock Text="CREAR HABILITAT"
+                            <TextBlock Text="CREATE ABILITY"
                                        Foreground="{StaticResource GoldBrush}"
                                        FontFamily="Georgia"
                                        FontSize="15"
@@ -172,16 +158,42 @@
                                        HorizontalAlignment="Center"
                                        Margin="0,0,0,8"/>
 
-                            <TextBlock Text="Dissenya poders i&#x0a;arts de combat"
-                                       Foreground="{StaticResource MutedBrush}"
-                                       FontFamily="Georgia"
-                                       FontSize="11"
-                                       FontStyle="Italic"
-                                       TextAlignment="Center"
-                                       HorizontalAlignment="Center"
-                                       TextWrapping="Wrap"/>
                         </StackPanel>
                     </Button>
+
+                    <!-- ── Crear Enemic ── -->
+                    <Button Grid.Column="4"
+                         Style="{StaticResource ActionButtonStyle}"
+                         x:Name="CreateEnemyBtn"
+                         Height="180"
+                         Click="CreateEnemyBtn_Click">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <!-- Icon area -->
+                            <Border Background="#140C04"
+                                 BorderBrush="{StaticResource GoldDimBrush}"
+                                 BorderThickness="1"
+                                 CornerRadius="50"
+                                 Width="72" Height="72"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,16">
+                                <TextBlock Text="☠"
+                                    FontSize="30"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource GoldBrush}"/>
+                            </Border>
+
+                            <TextBlock Text="CREATE ENEMY"
+                                Foreground="{StaticResource GoldBrush}"
+                                FontFamily="Georgia"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,8"/>
+
+                        </StackPanel>
+                    </Button>
+
                 </Grid>
 
                 <!-- Decorative bottom rule -->
@@ -208,7 +220,7 @@
                     CornerRadius="0,0,6,6"
                     BorderBrush="{StaticResource BorderBrush}"
                     BorderThickness="0,1,0,0">
-                <TextBlock Text="© Darkest Dungeon Registry  —  Tots els drets reservats"
+                <TextBlock Text="This application is used to create database entries for the Lightest Dungeon Project"
                            Foreground="{StaticResource MutedBrush}"
                            FontFamily="Georgia"
                            FontSize="10"

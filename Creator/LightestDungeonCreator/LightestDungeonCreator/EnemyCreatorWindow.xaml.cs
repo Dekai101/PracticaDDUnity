@@ -22,10 +22,18 @@ namespace LightestDungeonCreator
         public EnemyCreatorWindow()
         {
             InitializeComponent();
+            HpSlider.ValueChanged += HpSlider_ValueChanged;
+            EnergySlider.ValueChanged += EnergySlider_ValueChanged;
+            AttackSlider.ValueChanged += AttackSlider_ValueChanged;
             LoadAvailableSkills();
             AssignedSkillsList.ItemsSource = _assignedSkills;
             AvailableSkillsList.ItemsSource = _availableSkills;
             UpdateNoSkillsPlaceholder();
+        }
+
+        private void EnergySlider_ValueChanged1(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            throw new NotImplementedException();
         }
 
         // ── Window drag ───────────────────────────────────────────────
@@ -34,7 +42,10 @@ namespace LightestDungeonCreator
 
         // ── Title-bar buttons ─────────────────────────────────────────
         private void BackButton_Click(object sender, RoutedEventArgs e)
-            => Close();
+        {
+            new SplashScreen().Show();
+            Close();
+        }
 
         private void ListEnemies_Click(object sender, RoutedEventArgs e)
         {
@@ -83,13 +94,22 @@ namespace LightestDungeonCreator
 
         // ── Stat sliders ──────────────────────────────────────────────
         private void HpSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-            => HpValue.Text = ((int)e.NewValue).ToString();
+        {
+            if (HpValue == null) return;
+            HpValue.Text = ((int)e.NewValue).ToString();
+        }
 
         private void EnergySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-            => EnergyValue.Text = ((int)e.NewValue).ToString();
+        {
+            if (EnergyValue == null) return;
+            EnergyValue.Text = ((int)e.NewValue).ToString();
+        }
 
         private void AttackSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-            => AttackValue.Text = ((int)e.NewValue).ToString();
+        {
+            if (AttackValue == null) return;
+            AttackValue.Text = ((int)e.NewValue).ToString();
+        }
 
         // ── Skills: assigned list ─────────────────────────────────────
         private void RemoveSkill_Click(object sender, RoutedEventArgs e)
