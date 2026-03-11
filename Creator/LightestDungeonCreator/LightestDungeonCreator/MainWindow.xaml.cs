@@ -20,9 +20,6 @@ namespace LightestDungeonCreator
         public MainWindow()
         {
             InitializeComponent();
-
-            Player p = new Player();
-            p.Name = "Test";
         }
     }
 }

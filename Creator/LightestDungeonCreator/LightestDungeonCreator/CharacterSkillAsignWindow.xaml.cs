@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using LightestDungeonCreator.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LightestDungeonCreator {
     public partial class CharacterSkillAssignWindow : Window
@@ -43,7 +44,11 @@ namespace LightestDungeonCreator {
             try
             {
                 using var db = new AppDbContext();
-                _allChars = db.Players.OrderBy(c => c.Entity.Name).ToList();
+                _allChars = db.Players
+                    .Include(p => p.Entity)                          // cargar la entidad
+                    .Where(p => p.Entity != null && p.Entity.Name != null)
+                    .OrderBy(p => p.Entity.Name)
+                    .ToList();
 
                 CharacterList.ItemsSource = _allChars;
             }
@@ -153,8 +158,19 @@ namespace LightestDungeonCreator {
 
         private void CharSearch_Changed(object sender, TextChangedEventArgs e)
         {
-            var q = CharSearchInput.Text.Trim().ToLower();
-            CharacterList.ItemsSource = string.IsNullOrEmpty(q)?_allChars : _allChars.Where(c => c.Entity.Name.ToLower().Contains(q)).ToList();
+            if (CharacterList == null || _allChars == null) return;
+
+            var q = CharSearchInput?.Text?.Trim();
+            if (string.IsNullOrEmpty(q))
+            {
+                CharacterList.ItemsSource = _allChars;
+                return;
+            }
+
+            CharacterList.ItemsSource = _allChars
+                .Where(c => !string.IsNullOrEmpty(c?.Entity?.Name) &&
+                            c.Entity.Name.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
         }
 
         private void Filter_Changed(object sender, TextChangedEventArgs e) => ApplyFilters();

@@ -37,5 +37,17 @@ namespace LightestDungeonCreator
             new SkillCreatorWindow().Show();
             this.Close();
         }
+
+        private void EditCharacterSkillsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            new CharacterSkillAssignWindow().Show();
+            this.Close();
+        }
+
+        private void CreateEnemyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            new EnemyCreatorWindow().Show();
+            this.Close();
+        }
     }
 }
