@@ -1,39 +1,47 @@
-﻿using System;
+﻿using LightestDungeonCreator.Models;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using LightestDungeonCreator.Models;
-using Microsoft.Win32;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LightestDungeonCreator
 {
     public partial class EnemyCreatorWindow : Window
     {
+        // AppDbContext
+        AppDbContext db;
+
         // ── Collections ──────────────────────────────────────────────
-        private ObservableCollection<Skill> _assignedSkills = new();
-        private ObservableCollection<Skill> _availableSkills = new();
-        private List<Skill> _allSkills = new();
+        private ObservableCollection<Skill> _assignedSkills;
+        private ObservableCollection<Skill> _availableSkills;
+        private List<Skill> _allSkills;
 
         public EnemyCreatorWindow()
         {
+            //Initialize DbContext and collections
+            db = new AppDbContext();
+            _assignedSkills = new ObservableCollection<Skill>();
+            _availableSkills = new ObservableCollection<Skill>();
+            _allSkills = new List<Skill>();
+
+            //Initialize UI and events
             InitializeComponent();
             HpSlider.ValueChanged += HpSlider_ValueChanged;
             EnergySlider.ValueChanged += EnergySlider_ValueChanged;
             AttackSlider.ValueChanged += AttackSlider_ValueChanged;
             LoadAvailableSkills();
+            ApplyFilters();
             AssignedSkillsList.ItemsSource = _assignedSkills;
             AvailableSkillsList.ItemsSource = _availableSkills;
             UpdateNoSkillsPlaceholder();
-        }
-
-        private void EnergySlider_ValueChanged1(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            throw new NotImplementedException();
         }
 
         // ── Window drag ───────────────────────────────────────────────
@@ -75,8 +83,8 @@ namespace LightestDungeonCreator
         {
             var dlg = new OpenFileDialog
             {
-                Title = "Selecciona imatge",
-                Filter = "Imatges|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|Tots els arxius|*.*"
+                Title = "Select image",
+                Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|Any file|*.*"
             };
             return dlg.ShowDialog() == true ? dlg.FileName : null;
         }
@@ -111,6 +119,30 @@ namespace LightestDungeonCreator
             AttackValue.Text = ((int)e.NewValue).ToString();
         }
 
+        private void DefenseSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (DefenseValue == null) return;
+            DefenseValue.Text = ((int)e.NewValue).ToString();
+        }
+
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (SpeedValue == null) return;
+            SpeedValue.Text = ((int)e.NewValue).ToString();
+        }
+
+        private void CritChanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (CritChanceValue == null) return;
+            CritChanceValue.Text = ((int)e.NewValue).ToString() + "%";
+        }
+
+        private void CritDamageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (CritDamageValue == null) return;
+            CritDamageValue.Text = ((int)e.NewValue).ToString() + "%";
+        }
+
         // ── Skills: assigned list ─────────────────────────────────────
         private void RemoveSkill_Click(object sender, RoutedEventArgs e)
         {
@@ -125,20 +157,47 @@ namespace LightestDungeonCreator
         private void AddSelectedSkill_Click(object sender, RoutedEventArgs e)
         {
             if (AvailableSkillsList.SelectedItem is not Skill skill) return;
-            if (_assignedSkills.Any(s => s.Name == skill.Name)) return; // no duplicates
+            if (_assignedSkills.Any(s => s.Name == skill.Name))
+            {
+                MessageBox.Show("You already have this skill assigned", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if(_assignedSkills.Count >= 4 && !_assignedSkills.Any(s=>s.IsPassive) && !skill.IsPassive)
+            {
+                MessageBox.Show("You cannot add more than 4 normal skills", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if(_assignedSkills.Count > 4)
+            {
+                MessageBox.Show("Max skill count reached, 4 normal skills and 1 passive skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (skill.IsPassive && _assignedSkills.Any(s => s.IsPassive))
+            {
+                MessageBox.Show("You cannot add more than 1 passive skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             _assignedSkills.Add(skill);
             UpdateNoSkillsPlaceholder();
         }
 
         // ── Filters ───────────────────────────────────────────────────
-        private void Filter_Changed(object sender, TextChangedEventArgs e)
+        private void FilterName_Changed(object sender, TextChangedEventArgs e)
             => ApplyFilters();
 
-        private void FilterSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void FilterEnergySlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (EnergyCostFilterVal == null) return;
             int val = (int)e.NewValue;
             EnergyCostFilterVal.Text = val >= 100 ? "Any" : val.ToString();
+            ApplyFilters();
+        }
+
+        private void FilterAccuracySlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (AccuracyFilterVal == null) return;
+            int val = (int)e.NewValue;
+            AccuracyFilterVal.Text = val >= 100 ? "Any" : val.ToString() + "%";
             ApplyFilters();
         }
 
@@ -151,8 +210,11 @@ namespace LightestDungeonCreator
 
             string nameFilter = FilterNameInput?.Text?.ToLower() ?? "";
             int maxEnergy = (int)(EnergyCostFilter?.Value ?? 100);
+            int maxAccuracy = (int)(AccuracyFilter?.Value ?? 100);
             bool onlyAoe = FilterAoe?.IsChecked == true;
+            bool onlySingle = FilterSingleTarget?.IsChecked == true;
             bool onlyPassive = FilterPassive?.IsChecked == true;
+            bool onlySelf = FilterSelf?.IsChecked == true;
 
             var filtered = _allSkills.Where(s =>
             {
@@ -160,8 +222,13 @@ namespace LightestDungeonCreator
                     return false;
                 if (maxEnergy < 100 && s.EnergyCost > maxEnergy)
                     return false;
+                if (maxAccuracy < 100 && s.Accuracy > maxAccuracy)
+                    return false;
                 if (onlyAoe && !s.IsAoe) return false;
+                if (onlySingle && s.TargetType != "Single") return false;
                 if (onlyPassive && !s.IsPassive) return false;
+                if (onlySelf && s.TargetType != "Self") return false;
+
                 return true;
             });
 
@@ -176,41 +243,45 @@ namespace LightestDungeonCreator
             // Validation
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
-                MessageBox.Show("El nom és obligatori.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Name required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             if (ThumbPathInput.Text == "sin selección...")
             {
-                MessageBox.Show("Cal seleccionar la imatge miniatura.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Thumb Image required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             if (FullPathInput.Text == "sin selección...")
             {
-                MessageBox.Show("Cal seleccionar la imatge completa.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Full Image required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (!int.TryParse(DefenseInput.Text, out int defense))
+            if(!int.TryParse(LevelInput.Text, out _))
             {
-                MessageBox.Show("Defensa ha de ser un número enter.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Level has to be number", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (!int.TryParse(SpeedInput.Text, out int speed))
+            if(_assignedSkills.Count == 0)
             {
-                MessageBox.Show("Velocitat ha de ser un número enter.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("It is required to have 1 skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
-            }
-            if (!double.TryParse(AccuracyMultInput.Text, out double accMult))
+            } else if (_assignedSkills.Count == 1 && _assignedSkills.First().IsPassive)
             {
-                MessageBox.Show("Accuracy Mult ha de ser un número decimal.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("It is required to have 1 normal skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            int.TryParse(CritChanceInput.Text, out int critChance);
-            int.TryParse(CritDamageInput.Text, out int critDamage);
             int.TryParse(LevelInput.Text, out int level);
+
+            if(level < 1 || level > 100)
+            {
+                MessageBox.Show("Level has to be a number between 1 and 100");
+                return;
+            }
 
             var enemy = new Enemy
             {
+                PassiveId = _assignedSkills.FirstOrDefault(s => s.IsPassive)?.Id ?? 0,
                 Entity = new Entity
                 {
                     Name = NameInput.Text.Trim(),
@@ -221,17 +292,22 @@ namespace LightestDungeonCreator
                     Hp = (int)HpSlider.Value,
                     Energy = (int)EnergySlider.Value,
                     Attack = (int)AttackSlider.Value,
-                    Defense = defense,
-                    Speed = speed,
-                    CritChance = critChance,
-                    CritDamage = critDamage,
-                    //AccuracyMult = accMult,
-                    //Skills = _assignedSkills
+                    Defense = (int)DefenseSlider.Value,
+                    Speed = (int)SpeedSlider.Value,
+                    CritChance = (int)CritChanceSlider.Value,
+                    CritDamage = (int)CritDamageSlider.Value,
+                    AccuracyMultiplier = 1,
+                    Skills = _assignedSkills
                 },
             };
-
-            MessageBox.Show($"Enemic «{enemy.Entity.Name}» creat correctament!",
-                            "Èxit", MessageBoxButton.OK, MessageBoxImage.Information);
+            
+            db.Entities.Add(enemy.Entity);
+            db.SaveChanges();
+            db.Enemies.Add(enemy);
+            db.SaveChanges();
+            MessageBox.Show($"Enemy «{enemy.Entity.Name}» successfully created!",
+                            "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            new SplashScreen().Show();
             Close();
         }
 
@@ -242,17 +318,7 @@ namespace LightestDungeonCreator
 
         private void LoadAvailableSkills()
         {
-            // TODO: load from your real data source (JSON / DB / etc.)
-            _allSkills = new List<Skill>
-            {
-                new() { Name = "Slash",       TargetType = "Single", EnergyCost = 10, Accuracy = 90, Hits = 1, IsAoe = false },
-                new() { Name = "Fireball",    TargetType = "All",    EnergyCost = 30, Accuracy = 85, Hits = 1, IsAoe = true  },
-                new() { Name = "Poison Bite", TargetType = "Single", EnergyCost = 15, Accuracy = 80, Hits = 1, IsAoe = false },
-                new() { Name = "War Cry",     TargetType = "Self",   EnergyCost = 20, Accuracy = 100,Hits = 0, IsPassive = true },
-            };
-
-            foreach (var s in _allSkills)
-                _availableSkills.Add(s);
+            _allSkills = db.Skills.ToList();
         }
     }
 }

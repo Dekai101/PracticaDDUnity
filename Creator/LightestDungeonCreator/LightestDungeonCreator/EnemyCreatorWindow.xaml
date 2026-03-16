@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Enemy Creator"
-        Height="900" Width="820"
+        Height="850" Width="820"
         MinHeight="600" MinWidth="700"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -357,11 +357,11 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="* HP" Style="{StaticResource StatLabel}"/>
                                 <Slider x:Name="HpSlider" Grid.Column="1"
-                                        Minimum="1" Maximum="1000" Value="200"
+                                        Minimum="1" Maximum="1000" Value="1"
                                         Style="{StaticResource GoldSlider}"
                                         ValueChanged="HpSlider_ValueChanged"/>
                                 <TextBlock x:Name="HpValue" Grid.Column="2"
-                                           Text="200" Style="{StaticResource StatValue}"/>
+                                           Text="1" Style="{StaticResource StatValue}"/>
                             </Grid>
 
                             <!-- Energy -->
@@ -373,11 +373,11 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="* ENERGY" Style="{StaticResource StatLabel}"/>
                                 <Slider x:Name="EnergySlider" Grid.Column="1"
-                                        Minimum="1" Maximum="300" Value="100"
+                                        Minimum="1" Maximum="300" Value="1"
                                         Style="{StaticResource GoldSlider}"
                                         ValueChanged="EnergySlider_ValueChanged"/>
                                 <TextBlock x:Name="EnergyValue" Grid.Column="2"
-                                           Text="100" Style="{StaticResource StatValue}"/>
+                                           Text="1" Style="{StaticResource StatValue}"/>
                             </Grid>
 
                             <!-- Attack -->
@@ -389,55 +389,75 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="* ATTACK" Style="{StaticResource StatLabel}"/>
                                 <Slider x:Name="AttackSlider" Grid.Column="1"
-                                        Minimum="1" Maximum="300" Value="80"
+                                        Minimum="1" Maximum="300" Value="1"
                                         Style="{StaticResource GoldSlider}"
                                         ValueChanged="AttackSlider_ValueChanged"/>
                                 <TextBlock x:Name="AttackValue" Grid.Column="2"
-                                           Text="80" Style="{StaticResource StatValue}"/>
+                                           Text="1" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <!-- Defense -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* DEFENSE" Style="{StaticResource StatLabel}"/>
+                                <Slider x:Name="DefenseSlider" Grid.Column="1"
+                                    Minimum="1" Maximum="300" Value="1"
+                                    Style="{StaticResource GoldSlider}"
+                                    ValueChanged="DefenseSlider_ValueChanged"/>
+                                <TextBlock x:Name="DefenseValue" Grid.Column="2" Text="1" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <!-- Speed -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* SPEED" Style="{StaticResource StatLabel}"/>
+                                <Slider x:Name="SpeedSlider" Grid.Column="1"
+                                    Minimum="1" Maximum="300" Value="1"
+                                    Style="{StaticResource GoldSlider}"
+                                    ValueChanged="SpeedSlider_ValueChanged"/>
+                                <TextBlock x:Name="SpeedValue" Grid.Column="2" Text="1" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <!-- Crit Chance -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* CRIT CHANCE" Style="{StaticResource StatLabel}"/>
+                                <Slider x:Name="CritChanceSlider" Grid.Column="1"
+                                    Minimum="1" Maximum="100" Value="1"
+                                    Style="{StaticResource GoldSlider}"
+                                    ValueChanged="CritChanceSlider_ValueChanged"/>
+                                <TextBlock x:Name="CritChanceValue" Grid.Column="2" Text="1%" Style="{StaticResource StatValue}"/>
+                            </Grid>
+
+                            <!-- Crit Damage -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="419*"/>
+                                    <ColumnDefinition Width="134*"/>
+                                    <ColumnDefinition Width="44"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="* CRIT DAMAGE" Style="{StaticResource StatLabel}" Margin="10,0,10,0"/>
+                                <Slider x:Name="CritDamageSlider" Grid.Column="1"
+                                    Minimum="1" Maximum="200" Value="1"
+                                    Style="{StaticResource GoldSlider}"
+                                    ValueChanged="CritDamageSlider_ValueChanged" Grid.ColumnSpan="2"/>
+                                <TextBlock x:Name="CritDamageValue" Grid.Column="3" Text="1%" Style="{StaticResource StatValue}" Margin="2,0,2,0"/>
                             </Grid>
 
                             <Rectangle Height="1" Fill="#2A0808" Margin="0,0,0,14"/>
-
-                            <!-- Numeric stats -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                                    <TextBlock Text="* DEFENSE" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
-                                    <TextBox x:Name="DefenseInput" Style="{StaticResource NumInput}" Text="20" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                                    <TextBlock Text="* SPEED" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
-                                    <TextBox x:Name="SpeedInput" Style="{StaticResource NumInput}" Text="8" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="4" HorizontalAlignment="Center">
-                                    <TextBlock Text="CRIT CHANCE %" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
-                                    <TextBox x:Name="CritChanceInput" Style="{StaticResource NumInput}" Text="5" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="6" HorizontalAlignment="Center">
-                                    <TextBlock Text="CRIT DAMAGE %" Style="{StaticResource FieldLabel}" HorizontalAlignment="Center"/>
-                                    <TextBox x:Name="CritDamageInput" Style="{StaticResource NumInput}" Text="150" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                <TextBlock Text="ACCURACY MULT:"
-                                           Style="{StaticResource FieldLabel}"
-                                           Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <TextBox x:Name="AccuracyMultInput"
-                                         Style="{StaticResource NumInput}"
-                                         Width="80" Text="1.00"/>
-                                <TextBlock Text="(1.0 = normal)"
-                                           Style="{StaticResource SmallMuted}"
-                                           Margin="8,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
                         </StackPanel>
                     </Border>
 
@@ -452,7 +472,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
                                            Fill="#8B1A1A" Opacity="0.4"/>
-                                <TextBlock Grid.Column="1" Text="  ☠  HABILITATS  ☠  "
+                                <TextBlock Grid.Column="1" Text="  ☠  SKILLS  ☠  "
                                            Foreground="#8B1A1A" FontFamily="Georgia"
                                            FontSize="12" FontWeight="Bold"
                                            VerticalAlignment="Center" Margin="0"/>
@@ -482,19 +502,42 @@
                                                                        FontFamily="Georgia" FontSize="9"/>
                                                         </Border>
                                                         <Border Background="#1A0404" BorderBrush="#5C1010"
-                                                                BorderThickness="1" CornerRadius="2" Padding="4,1"
-                                                                Visibility="{Binding AoeBadgeVisibility}">
+                                                            BorderThickness="1" CornerRadius="2" Padding="4,1" Margin="0,0,4,0">
                                                             <TextBlock Text="AOE" Foreground="#8B1A1A"
-                                                                       FontFamily="Georgia" FontSize="9"/>
+                                                                FontFamily="Georgia" FontSize="9"/>
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsAoe}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                        </Border>
+                                                        <Border Background="#1A0404" BorderBrush="#5C1010" BorderThickness="1" CornerRadius="2" Padding="4,1">
+                                                            <TextBlock Text="PASSIVE" Foreground="#7A6A5A"
+                                                                   FontFamily="Georgia" FontSize="9" Margin="0,0,4,0"></TextBlock>
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsPassive}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
                                                         </Border>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="Cost: " Style="{StaticResource SmallMuted}"/>
-                                                        <TextBlock Text="{Binding EnergyCostDisplay}"
+                                                        <TextBlock Text="{Binding EnergyCost}"
                                                                    Foreground="#D4C5A9" FontFamily="Georgia"
                                                                    FontSize="10" Margin="0,0,12,0"/>
                                                         <TextBlock Text="Acc: " Style="{StaticResource SmallMuted}"/>
-                                                        <TextBlock Text="{Binding AccuracyDisplay}"
+                                                        <TextBlock Text="{Binding Accuracy, StringFormat={}{0:P0}}"
                                                                    Foreground="#D4C5A9" FontFamily="Georgia"
                                                                    FontSize="10" Margin="0,0,12,0"/>
                                                         <TextBlock Text="Hits: " Style="{StaticResource SmallMuted}"/>
@@ -543,7 +586,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
                                                Fill="#8B1A1A" Opacity="0.4"/>
-                                    <TextBlock Grid.Column="1" Text="  ☠  AFEGIR HABILITATS  ☠  "
+                                    <TextBlock Grid.Column="1" Text="  ☠  SKILLS TO CHOOSE  ☠  "
                                                Foreground="#8B1A1A" FontFamily="Georgia"
                                                FontSize="12" FontWeight="Bold"
                                                VerticalAlignment="Center" Margin="0"/>
@@ -579,7 +622,7 @@
                                     </ListBox.ItemContainerStyle>
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Border BorderBrush="#1E0808" BorderThickness="0,0,0,1" Padding="10,8">
+                                            <Border BorderBrush="#1E0808" BorderThickness="0,0,0,1" Padding="10,8" ToolTip="{Binding Description}">
                                                 <StackPanel>
                                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
                                                         <TextBlock Text="{Binding Name}" Foreground="#C8922A"
@@ -587,20 +630,45 @@
                                                                    FontWeight="Bold" Margin="0,0,8,0"/>
                                                         <TextBlock Text="{Binding TargetType}" Foreground="#5C1010"
                                                                    FontFamily="Georgia" FontSize="10" VerticalAlignment="Center"/>
-                                                        <TextBlock Text="  AOE" Foreground="#8B1A1A"
-                                                                   FontFamily="Georgia" FontSize="10"
-                                                                   Visibility="{Binding AoeBadgeVisibility}"/>
+                                                        <TextBlock Text="   AOE" Foreground="#8B1A1A" VerticalAlignment="Center"
+                                                                FontFamily="Georgia" FontSize="10">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsAoe}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                        <TextBlock Text="   PASSIVE" Foreground="#5C1010"
+                                                                   FontFamily="Georgia" FontSize="10" VerticalAlignment="Center">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource SmallMuted}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsPassive}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="Cost: " Style="{StaticResource SmallMuted}"/>
-                                                        <TextBlock Text="{Binding EnergyCostDisplay}"
+                                                        <TextBlock Text="{Binding EnergyCost}"
                                                                    Foreground="#D4C5A9" FontFamily="Georgia"
                                                                    FontSize="10" Margin="0,0,10,0"/>
                                                         <TextBlock Text="Acc: " Style="{StaticResource SmallMuted}"/>
-                                                        <TextBlock Text="{Binding AccuracyDisplay}"
+                                                        <TextBlock Text="{Binding Accuracy, StringFormat={}{0:P0}}"
                                                                    Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                        <TextBlock Text="Hits: " Style="{StaticResource SmallMuted}" Margin="10,0,0,0"/>
+                                                        <TextBlock Text="{Binding Hits}" Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
                                                     </StackPanel>
-                                                    <TextBlock Text="{Binding EffectsSummary}" Foreground="#5C1010"
+                                                    <TextBlock Text="{Binding Effects}" Foreground="#5C1010"
                                                                FontFamily="Georgia" FontSize="10"
                                                                TextWrapping="Wrap"
                                                                Visibility="{Binding EffectsVisibility}"/>
@@ -616,27 +684,42 @@
                                     BorderBrush="#2A0808" BorderThickness="1"
                                     CornerRadius="4" Padding="12,10">
                                 <StackPanel>
-                                    <TextBlock Text="FILTRES:" Foreground="#C8922A"
+                                    <TextBlock Text="FILTERS:" Foreground="#C8922A"
                                                FontFamily="Georgia" FontSize="11"
                                                FontWeight="Bold" Margin="0,0,0,10"/>
-                                    <TextBlock Text="Cerca per nom:" Style="{StaticResource FilterLabel}" Margin="0,0,0,4"/>
+                                    <TextBlock Text="Search by name:" Style="{StaticResource FilterLabel}" Margin="0,0,0,4"/>
                                     <TextBox x:Name="FilterNameInput" Style="{StaticResource DarkInput}"
-                                             Height="28" FontSize="11" TextChanged="Filter_Changed"/>
-                                    <TextBlock Text="Energia màx:" Style="{StaticResource FilterLabel}"/>
+                                             Height="28" FontSize="11" TextChanged="FilterName_Changed"/>
+                                    <TextBlock Text="Energy:" Style="{StaticResource FilterLabel}" Margin="0,10,0,0"/>
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
                                         <TextBlock x:Name="EnergyCostFilterVal" Text="Any"
                                                    Foreground="#C8922A" FontFamily="Georgia" FontSize="11"
                                                    Width="30" VerticalAlignment="Center"/>
                                         <Slider x:Name="EnergyCostFilter" Minimum="0" Maximum="100" Value="100"
                                                 Width="100" Style="{StaticResource GoldSlider}"
-                                                ValueChanged="FilterSlider_Changed"/>
+                                                ValueChanged="FilterEnergySlider_Changed"/>
                                     </StackPanel>
-                                    <TextBlock Text="Tipus:" Style="{StaticResource FilterLabel}"/>
+                                    <TextBlock Text="Accuracy:" Style="{StaticResource FilterLabel}" Margin="0,10,0,0"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                        <TextBlock x:Name="AccuracyFilterVal" Text="Any"
+                                                   Foreground="#C8922A" FontFamily="Georgia" FontSize="11"
+                                                   Width="30" VerticalAlignment="Center"/>
+                                        <Slider x:Name="AccuracyFilter" Minimum="0" Maximum="100" Value="100"
+                                                Width="100" Style="{StaticResource GoldSlider}"
+                                                ValueChanged="FilterAccuracySlider_Changed"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Types:" Style="{StaticResource FilterLabel}"/>
                                     <WrapPanel>
-                                        <CheckBox x:Name="FilterAoe" Content="AoE"
+                                        <CheckBox x:Name="FilterSingleTarget" Content="Single" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
-                                        <CheckBox x:Name="FilterPassive" Content="Passive"
+                                        <CheckBox x:Name="FilterAoe" Content="AoE" VerticalContentAlignment="Center"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                        <CheckBox x:Name="FilterSelf" Content="Self" VerticalContentAlignment="Center"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                        <CheckBox x:Name="FilterPassive" Content="Passive" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                     </WrapPanel>
@@ -656,7 +739,7 @@
                                Foreground="{StaticResource MutedBrush}"
                                FontFamily="Georgia" FontSize="10"
                                VerticalAlignment="Center" Opacity="0.4"/>
-                    <Button Content="  ☠  CREAR ENEMIC  ☠  "
+                    <Button Content="  ☠  CREATE ENEMY  ☠  "
                             Style="{StaticResource ActionButtonStyle}"
                             HorizontalAlignment="Right" Width="200" Height="36"
                             Click="SaveEnemy_Click">
