@@ -260,7 +260,7 @@ namespace LightestDungeonCreator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/LightestDungeonCreator;component/enemycreatorwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/LightestDungeonCreator;V1.0.0.0;component/enemycreatorwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\EnemyCreatorWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
