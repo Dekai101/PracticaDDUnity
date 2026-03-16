@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\metae\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\metae\\.nuget\\packages",
+      "C:\\Users\\catal\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\catal\\.nuget\\packages",
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {

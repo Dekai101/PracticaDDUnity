@@ -10,44 +10,39 @@ using Microsoft.Win32;
 
 namespace LightestDungeonCreator
 {
-    // ─── ViewModels for the effect table rows ─────────────────────────────────
-
-    /// <summary>Represents a STATUS effect row in the UI list.</summary>
+    //Auxiliary classes to represent effects that affect status and statistic modifications, with display-friendly properties and convenience for managing each type of effect separately.
     public class StatusEffectVM
     {
         public bool IsClean { get; set; }
         public int StatusId { get; set; }
         public string DisplayName { get; set; } = "";
         public int Turns { get; set; }
-        public float Chance { get; set; }
-        public string Target { get; set; } = "";
+        public float Chance { get; set; }   // stored as 0-1 (0.7 = 70%)
         public int EffectLevel { get; set; } = 1;
 
-        // Computed display properties
-        public string ChanceDisplay => $"{Chance:0}%";
+        // Display properties
+        public string ChanceDisplay => $"{Chance * 100:0}%";
     }
 
-    /// <summary>Represents a STAT effect row in the UI list.</summary>
     public class StatEffectVM
     {
         public bool IsClean { get; set; }
         public int StatId { get; set; }
         public string DisplayName { get; set; } = "";
         public int Turns { get; set; }
-        public float Chance { get; set; }
-        public string Target { get; set; } = "";
-        public float Modifier { get; set; }   // percent, e.g. -30 = -30%
+        public float Chance { get; set; }       // stored as 0-1 (0.7 = 70%)
+        public float Multiplier { get; set; }   // stored as 0-1 (-0.3 = -30%)
         public int MinFlat { get; set; }
         public int MaxFlat { get; set; }
 
-        // Computed display properties
-        public string ChanceDisplay => $"{Chance:0}%";
+        // Display properties
+        public string ChanceDisplay => $"{Chance * 100:0}%";
         public string ModifierDisplay
         {
             get
             {
-                if (Modifier != 0)
-                    return $"{Modifier:+0;-0}%";
+                if (Multiplier != 0)
+                    return $"{Multiplier * 100:+0;-0}%";
                 if (MinFlat != 0 || MaxFlat != 0)
                     return $"{MinFlat}~{MaxFlat}";
                 return "—";
@@ -55,12 +50,13 @@ namespace LightestDungeonCreator
         }
     }
 
-    // ─── Window ───────────────────────────────────────────────────────────────
+    // -- Window -----------------------------------------------------------------------------------
 
     public partial class SkillCreatorWindow : Window
     {
-        private readonly ObservableCollection<StatusEffectVM> _statusEffects = new();
-        private readonly ObservableCollection<StatEffectVM> _statEffects = new();
+        //We create each effect type collection to store them separately, up to a max of 3 each
+        private readonly ObservableCollection<StatusEffectVM> _statusEffects = new ObservableCollection<StatusEffectVM>();
+        private readonly ObservableCollection<StatEffectVM> _statEffects = new ObservableCollection<StatEffectVM>();
         private string? _imageThumbPath;
 
         public SkillCreatorWindow()
@@ -68,10 +64,11 @@ namespace LightestDungeonCreator
             InitializeComponent();
             StatusEffectsList.ItemsSource = _statusEffects;
             StatEffectsList.ItemsSource = _statEffects;
+            StatusCombo.SelectionChanged += StatusCombo_SelectionChanged;
             LoadCombosFromDb();
         }
 
-        // ── Window drag (since WindowStyle=None) ─────────────────────────────
+        // -- Window drag --
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -79,7 +76,7 @@ namespace LightestDungeonCreator
                 this.DragMove();
         }
 
-        // ── Navigation ───────────────────────────────────────────────────────
+        // -- Navigation ------------------------------------------------------------
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -94,7 +91,7 @@ namespace LightestDungeonCreator
                             "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // ── Data loading ─────────────────────────────────────────────────────
+        // -- Data loading ------------------------------------------------------------
 
         private void LoadCombosFromDb()
         {
@@ -111,7 +108,7 @@ namespace LightestDungeonCreator
             }
         }
 
-        // ── Image picker ─────────────────────────────────────────────────────
+        // -- Image picker ------------------------------------------------------------
 
         private void BrowseImage_Click(object sender, RoutedEventArgs e)
         {
@@ -141,7 +138,21 @@ namespace LightestDungeonCreator
             }
         }
 
-        // ── STATUS effects ───────────────────────────────────────────────────
+        // -- STATUS effects ------------------------------------------------------------
+
+        private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StatusLevelCombo.Items.Clear();
+
+            if (StatusCombo.SelectedItem is not Status selected)
+                return;
+
+            int max = Math.Max(1, selected.MaxLevel);
+            for (int i = 1; i <= max; i++)
+                StatusLevelCombo.Items.Add(i);
+
+            StatusLevelCombo.SelectedIndex = 0;
+        }
 
         private void AddStatusEffect_Click(object sender, RoutedEventArgs e)
         {
@@ -155,9 +166,7 @@ namespace LightestDungeonCreator
             if (!float.TryParse(StatusChanceInput.Text, out float chance)) chance = 100f;
             if (!int.TryParse(StatusTurnsInput.Text, out int turns)) turns = 3;
 
-            var target = (StatusTargetCombo.SelectedItem as ComboBoxItem)
-                             ?.Content?.ToString() ?? "1 Enemy";
-
+            int level = StatusLevelCombo.SelectedItem is int lvl ? lvl : 1;
             bool isCleanse = StatusCleanseRb.IsChecked == true;
 
             _statusEffects.Add(new StatusEffectVM
@@ -166,9 +175,8 @@ namespace LightestDungeonCreator
                 StatusId = selected.Id,
                 DisplayName = (isCleanse ? "⌫ " : "") + selected.Name,
                 Turns = Math.Max(0, turns),
-                Chance = Math.Clamp(chance, 0f, 100f),
-                Target = target,
-                EffectLevel = 1
+                Chance = Math.Clamp(chance, 0f, 100f) / 100f,
+                EffectLevel = isCleanse ? 0 : level
             });
         }
 
@@ -195,8 +203,6 @@ namespace LightestDungeonCreator
             if (!int.TryParse(StatMinFlatInput.Text, out int minFlat)) minFlat = 0;
             if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat)) maxFlat = 0;
 
-            var target = (StatTargetCombo.SelectedItem as ComboBoxItem)
-                                ?.Content?.ToString() ?? "Self";
             bool isCleanse = StatCleanseRb.IsChecked == true;
 
             _statEffects.Add(new StatEffectVM
@@ -205,9 +211,8 @@ namespace LightestDungeonCreator
                 StatId = selected.Id,
                 DisplayName = (isCleanse ? "⌫ " : "") + selected.Name,
                 Turns = Math.Max(0, turns),
-                Chance = Math.Clamp(chance, 0f, 100f),
-                Target = target,
-                Modifier = modifier,
+                Chance = Math.Clamp(chance, 0f, 100f) / 100f,
+                Multiplier = modifier / 100f,
                 MinFlat = minFlat,
                 MaxFlat = maxFlat
             });
@@ -239,7 +244,7 @@ namespace LightestDungeonCreator
             var targetType = (SkillTargetCombo.SelectedItem as ComboBoxItem)
                                  ?.Content?.ToString() ?? "Single";
 
-            // ── Build model ─────────────────────────────────────────────────
+            // -- Build model ------------------------------------------------------------
             var skill = new Skill
             {
                 Name = NameInput.Text.Trim(),
@@ -256,34 +261,34 @@ namespace LightestDungeonCreator
             };
 
             // Status effects → Effect entities
-            // Convention: EffectLevel = 0 means CLEANSE, >= 1 means APPLY
+            // EffectLevel = 0 means CLEANSE, >= 1 means APPLY
             foreach (var se in _statusEffects)
             {
                 skill.Effects.Add(new Effect
                 {
                     StatusId = se.StatusId,
-                    Probability = se.Chance / 100f,
+                    Probability = se.Chance,
                     DurationTurns = se.Turns,
                     EffectLevel = se.IsClean ? 0 : se.EffectLevel
                 });
             }
 
-            // Stat effects → Effect entities
+            // Stat effects -> Effect entities
             foreach (var se in _statEffects)
             {
                 skill.Effects.Add(new Effect
                 {
                     StatId = se.StatId,
-                    Probability = se.Chance / 100f,
+                    Probability = se.Chance,
                     DurationTurns = se.Turns,
-                    StatMultiplier = se.Modifier != 0 ? (float?)(se.Modifier / 100f) : null,
+                    StatMultiplier = se.Multiplier != 0 ? (float?)se.Multiplier : null,
                     MinFlatPower = se.MinFlat != 0 ? (int?)se.MinFlat : null,
                     MaxFlatPower = se.MaxFlat != 0 ? (int?)se.MaxFlat : null,
                     EffectLevel = se.IsClean ? 0 : 1
                 });
             }
 
-            // ── Persist ─────────────────────────────────────────────────────
+            // -- Persist -----------------------------------------------------------
             try
             {
                 using var db = new AppDbContext();
@@ -302,7 +307,7 @@ namespace LightestDungeonCreator
             }
         }
 
-        // ── Reset form ───────────────────────────────────────────────────────
+        // -- Reset form ------------------------------------------------------------
 
         private void ResetForm()
         {
@@ -335,6 +340,34 @@ namespace LightestDungeonCreator
 
             StatusCombo.SelectedIndex = -1;
             StatCombo.SelectedIndex = -1;
+            StatusLevelCombo.Items.Clear();
+        }
+
+        private void ImagePathInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string path = ImagePathInput.Text.Trim();
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                SkillImagePreview.Source = null;
+                _imageThumbPath = null;
+                return;
+            }
+
+            try
+            {
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(path, UriKind.Absolute);
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                SkillImagePreview.Source = bmp;
+                _imageThumbPath = path;
+            }
+            catch
+            {
+                SkillImagePreview.Source = null;
+                _imageThumbPath = null;
+            }
         }
     }
 }

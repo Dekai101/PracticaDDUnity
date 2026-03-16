@@ -45,7 +45,7 @@
             <Setter Property="Margin"      Value="0,0,0,10"/>
         </Style>
 
-        <!-- ⊕ Add button -->
+        <!-- Add button -->
         <Style x:Key="AddBtnStyle" TargetType="Button">
             <Setter Property="Background"      Value="#1F1208"/>
             <Setter Property="BorderBrush"     Value="#8A6015"/>
@@ -161,9 +161,6 @@
 
     </Window.Resources>
 
-    <!-- ═══════════════════════════════════════════════════ -->
-    <!--                  OUTER FRAME                        -->
-    <!-- ═══════════════════════════════════════════════════ -->
     <Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D2210">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -180,12 +177,12 @@
                 <RowDefinition Height="36"/>
                 <!-- Title bar  -->
                 <RowDefinition Height="*"/>
-                <!-- Content    -->
+                <!-- Content -->
                 <RowDefinition Height="52"/>
-                <!-- Footer     -->
+                <!-- Footer -->
             </Grid.RowDefinitions>
 
-            <!-- ═══════════ TITLE BAR ═══════════ -->
+            <!-- ============TITLE BAR =============== -->
             <Border Grid.Row="0" Background="#0A0704" CornerRadius="6,6,0,0">
                 <Grid Margin="12,0">
                     <!-- Back button -->
@@ -214,20 +211,20 @@
                 </Grid>
             </Border>
 
-            <!-- ═══════════ SCROLLABLE CONTENT ═══════════ -->
+            <!-- ================ SCROLLABLE CONTENT ================ -->
             <ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
                 <StackPanel Margin="22,14,22,14">
 
-                    <!-- ─────── NAME ─────── -->
+                    <!-- - NAME - -->
                     <TextBlock Text="* NAME *" Style="{StaticResource FieldLabel}" Margin="0,0,0,3"/>
                     <TextBox x:Name="NameInput"
                              Style="{StaticResource DarkInput}"
                              Height="32"
                              MaxLength="50"/>
 
-                    <!-- ─────── DESCRIPTION + IMAGE ─────── -->
+                    <!-- - DESCRIPTION + IMAGE - -->
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -253,15 +250,8 @@
                             <Border Width="185" Height="106"
                                     BorderBrush="#5C3A1E" BorderThickness="1"
                                     Background="#0A0704" CornerRadius="3"
-                                    Cursor="Hand"
-                                    MouseLeftButtonDown="BrowseImage_Click">
+                                    Cursor="Hand">
                                 <Grid>
-                                    <TextBlock Text="Click para seleccionar"
-                                               Foreground="#2D1E10"
-                                               FontFamily="Georgia" FontSize="10"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               TextAlignment="Center"/>
                                     <Image x:Name="SkillImagePreview"
                                            Stretch="Uniform"
                                            Margin="3"/>
@@ -271,14 +261,81 @@
                                      Style="{StaticResource DarkInput}"
                                      Height="24" FontSize="9"
                                      Margin="0,4,0,0"
-                                     IsReadOnly="True"
-                                     Foreground="#5C3A1E"/>
+                                     Foreground="#5C3A1E"
+                                     TextChanged="ImagePathInput_TextChanged"/>
                         </StackPanel>
                     </Grid>
 
-                    <!-- ═══════════════════════════════════ -->
+                    <!-- =================================== -->
+                    <!--         SKILL PROPERTIES            -->
+                    <!-- =================================== -->
+                    <Border Style="{StaticResource SectionPanel}">
+                        <StackPanel>
+                            <TextBlock Text="SKILL PROPERTIES" Style="{StaticResource SectionHeader}"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="*HITS" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="HitsInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" Text="1"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="*COST (energy)" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="CostInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" Text="0"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="*PRECISION (%)" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="AccuracyInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" Text="100"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="6">
+                                    <TextBlock Text="*TARGET TYPE" Style="{StaticResource FieldLabel}"/>
+                                    <ComboBox x:Name="SkillTargetCombo" Height="30"
+                                      Background="#120C06" Foreground="#D4C5A9"
+                                      BorderBrush="#5C3A1E"
+                                      FontFamily="Georgia" FontSize="11"
+                                      VerticalContentAlignment="Center">
+                                        <ComboBoxItem Content="Single"     IsSelected="True"/>
+                                        <ComboBoxItem Content="AoE"/>
+                                        <ComboBoxItem Content="Self"/>
+                                        <ComboBoxItem Content="RandomEnemy"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Flags -->
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <CheckBox x:Name="IsAoeCheck"
+                      Content="Is AoE"
+                      Style="{StaticResource DarkCheck}"
+                      Margin="0,0,28,0"/>
+                                <CheckBox x:Name="IsPassiveCheck"
+                      Content="Is Passive"
+                      Style="{StaticResource DarkCheck}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- =================================== -->
                     <!--             STATUS SECTION          -->
-                    <!-- ═══════════════════════════════════ -->
+                    <!-- =================================== -->
                     <Border Style="{StaticResource SectionPanel}">
                         <StackPanel>
                             <TextBlock Text="STATUS" Style="{StaticResource SectionHeader}"/>
@@ -286,7 +343,7 @@
                             <!-- Apply / Cleanse -->
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                                 <RadioButton x:Name="StatusApplyRb"
-                                             Content="● Apply"
+                                             Content="Apply"
                                              GroupName="StatusMode"
                                              IsChecked="True"
                                              Style="{StaticResource DarkRadio}"/>
@@ -332,20 +389,15 @@
                                     <ColumnDefinition Width="52"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="Target:"
+                                <TextBlock Grid.Column="0" Text="Status Level:"
                                            Style="{StaticResource FieldLabel}"
                                            Margin="0,0,8,0"/>
-                                <ComboBox x:Name="StatusTargetCombo"
+                                <ComboBox x:Name="StatusLevelCombo"
                                           Grid.Column="1" Height="30"
                                           Background="#120C06" Foreground="#D4C5A9"
                                           BorderBrush="#5C3A1E"
                                           FontFamily="Georgia" FontSize="11"
                                           VerticalContentAlignment="Center">
-                                    <ComboBoxItem Content="1 Enemy" IsSelected="True"/>
-                                    <ComboBoxItem Content="All Enemies"/>
-                                    <ComboBoxItem Content="Self"/>
-                                    <ComboBoxItem Content="1 Ally"/>
-                                    <ComboBoxItem Content="All Allies"/>
                                 </ComboBox>
 
                                 <TextBlock Grid.Column="3" Text="CHANCE %:"
@@ -423,9 +475,9 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- ═══════════════════════════════════ -->
+                    <!-- =================================== -->
                     <!--              STAT SECTION           -->
-                    <!-- ═══════════════════════════════════ -->
+                    <!-- =================================== -->
                     <Border Style="{StaticResource SectionPanel}">
                         <StackPanel>
                             <TextBlock Text="STAT" Style="{StaticResource SectionHeader}"/>
@@ -433,7 +485,7 @@
                             <!-- Apply / Cleanse -->
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                                 <RadioButton x:Name="StatApplyRb"
-                                             Content="● Apply"
+                                             Content="Apply"
                                              GroupName="StatMode"
                                              IsChecked="True"
                                              Style="{StaticResource DarkRadio}"/>
@@ -469,43 +521,24 @@
                             <!-- Target / Chance / Turns -->
                             <Grid Margin="0,0,0,8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="150"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="62"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="52"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="Target:"
-                                           Style="{StaticResource FieldLabel}"
-                                           Margin="0,0,8,0"/>
-                                <ComboBox x:Name="StatTargetCombo"
-                                          Grid.Column="1" Height="30"
-                                          Background="#120C06" Foreground="#D4C5A9"
-                                          BorderBrush="#5C3A1E"
-                                          FontFamily="Georgia" FontSize="11"
-                                          VerticalContentAlignment="Center">
-                                    <ComboBoxItem Content="Self" IsSelected="True"/>
-                                    <ComboBoxItem Content="1 Enemy"/>
-                                    <ComboBoxItem Content="All Enemies"/>
-                                    <ComboBoxItem Content="1 Ally"/>
-                                    <ComboBoxItem Content="All Allies"/>
-                                </ComboBox>
-
-                                <TextBlock Grid.Column="3" Text="CHANCE %:"
+                                <TextBlock Grid.Column="0" Text="*CHANCE %:"
                                            Style="{StaticResource FieldLabel}"
                                            Margin="12,0,8,0"/>
-                                <TextBox x:Name="StatChanceInput" Grid.Column="4"
+                                <TextBox x:Name="StatChanceInput" Grid.Column="1"
                                          Style="{StaticResource DarkInput}"
                                          Height="30" Text="100"/>
 
-                                <TextBlock Grid.Column="6" Text="TURNS:"
+                                <TextBlock Grid.Column="3" Text="*TURNS:"
                                            Style="{StaticResource FieldLabel}"
                                            Margin="12,0,8,0"/>
-                                <TextBox x:Name="StatTurnsInput" Grid.Column="7"
+                                <TextBox x:Name="StatTurnsInput" Grid.Column="4"
                                          Style="{StaticResource DarkInput}"
                                          Height="30" Text="1"/>
                             </Grid>
@@ -607,89 +640,24 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- ═══════════════════════════════════ -->
-                    <!--         SKILL PROPERTIES            -->
-                    <!-- ═══════════════════════════════════ -->
-                    <Border Style="{StaticResource SectionPanel}">
-                        <StackPanel>
-                            <TextBlock Text="SKILL PROPERTIES" Style="{StaticResource SectionHeader}"/>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="16"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="0">
-                                    <TextBlock Text="HITS" Style="{StaticResource FieldLabel}"/>
-                                    <TextBox x:Name="HitsInput"
-                                             Style="{StaticResource DarkInput}"
-                                             Height="30" Text="1"/>
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="2">
-                                    <TextBlock Text="COST (energy)" Style="{StaticResource FieldLabel}"/>
-                                    <TextBox x:Name="CostInput"
-                                             Style="{StaticResource DarkInput}"
-                                             Height="30" Text="0"/>
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="4">
-                                    <TextBlock Text="PRECISION (%)" Style="{StaticResource FieldLabel}"/>
-                                    <TextBox x:Name="AccuracyInput"
-                                             Style="{StaticResource DarkInput}"
-                                             Height="30" Text="100"/>
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="6">
-                                    <TextBlock Text="TARGET TYPE" Style="{StaticResource FieldLabel}"/>
-                                    <ComboBox x:Name="SkillTargetCombo" Height="30"
-                                              Background="#120C06" Foreground="#D4C5A9"
-                                              BorderBrush="#5C3A1E"
-                                              FontFamily="Georgia" FontSize="11"
-                                              VerticalContentAlignment="Center">
-                                        <ComboBoxItem Content="Single"     IsSelected="True"/>
-                                        <ComboBoxItem Content="AoE"/>
-                                        <ComboBoxItem Content="Self"/>
-                                        <ComboBoxItem Content="RandomEnemy"/>
-                                    </ComboBox>
-                                </StackPanel>
-                            </Grid>
-
-                            <!-- Flags -->
-                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                <CheckBox x:Name="IsAoeCheck"
-                                          Content="Is AoE"
-                                          Style="{StaticResource DarkCheck}"
-                                          Margin="0,0,28,0"/>
-                                <CheckBox x:Name="IsPassiveCheck"
-                                          Content="Is Passive"
-                                          Style="{StaticResource DarkCheck}"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
+                    
 
                 </StackPanel>
             </ScrollViewer>
 
-            <!-- ═══════════ FOOTER / SAVE ═══════════ -->
+            <!-- ====== FOOTER / SAVE ====== -->
             <Border Grid.Row="2"
                     Background="#0A0704"
                     CornerRadius="0,0,6,6"
                     BorderBrush="{StaticResource BorderBrush}"
                     BorderThickness="0,1,0,0">
                 <Grid Margin="22,0">
-                    <TextBlock Text="* campos obligatorios"
+                    <TextBlock Text="* REQUIRED FIELDS"
                                Foreground="{StaticResource MutedBrush}"
                                FontFamily="Georgia" FontSize="10"
                                VerticalAlignment="Center"
                                Opacity="0.4"/>
-                    <Button Content="  ✦  GUARDAR  ✦  "
+                    <Button Content="  ✦  SAVE  ✦  "
                             Style="{StaticResource ActionButtonStyle}"
                             HorizontalAlignment="Right"
                             Width="170" Height="36"
