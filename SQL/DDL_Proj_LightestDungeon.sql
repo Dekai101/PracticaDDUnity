@@ -79,6 +79,8 @@ CREATE TABLE `Item` (
   `description` varchar(500),
   `quality` varchar(20) NOT NULL,
   `consumable` boolean NOT NULL,
+  `target_type` varchar(20) NOT NULL,
+  `is_aoe` boolean NOT NULL,
   `max_uses` int,
   `image_thumb` varchar(500) NOT NULL
 );

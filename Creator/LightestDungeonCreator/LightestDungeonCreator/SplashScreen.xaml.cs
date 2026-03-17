@@ -49,5 +49,11 @@ namespace LightestDungeonCreator
             new EnemyCreatorWindow().Show();
             this.Close();
         }
+
+        private void CreateItemBtn_Click(object sender, RoutedEventArgs e)
+        {
+            new ItemCreatorWindow().Show();
+            this.Close();
+        }
     }
 }

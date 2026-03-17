@@ -11,7 +11,7 @@ using Microsoft.Win32;
 namespace LightestDungeonCreator
 {
     //Auxiliary classes to represent effects that affect status and statistic modifications, with display-friendly properties and convenience for managing each type of effect separately.
-    public class StatusEffectVM
+    public class StatusEffect
     {
         public bool IsClean { get; set; }
         public int StatusId { get; set; }
@@ -24,7 +24,7 @@ namespace LightestDungeonCreator
         public string ChanceDisplay => $"{Chance * 100:0}%";
     }
 
-    public class StatEffectVM
+    public class StatEffect
     {
         public bool IsClean { get; set; }
         public int StatId { get; set; }
@@ -55,8 +55,8 @@ namespace LightestDungeonCreator
     public partial class SkillCreatorWindow : Window
     {
         //We create each effect type collection to store them separately, up to a max of 3 each
-        private readonly ObservableCollection<StatusEffectVM> _statusEffects = new ObservableCollection<StatusEffectVM>();
-        private readonly ObservableCollection<StatEffectVM> _statEffects = new ObservableCollection<StatEffectVM>();
+        private readonly ObservableCollection<StatusEffect> _statusEffects = new ObservableCollection<StatusEffect>();
+        private readonly ObservableCollection<StatEffect> _statEffects = new ObservableCollection<StatEffect>();
         private string? _imageThumbPath;
 
         public SkillCreatorWindow()
@@ -182,7 +182,7 @@ namespace LightestDungeonCreator
             int level = StatusLevelCombo.SelectedItem is int lvl ? lvl : 1;
             bool isCleanse = StatusCleanseRb.IsChecked == true;
 
-            _statusEffects.Add(new StatusEffectVM
+            _statusEffects.Add(new StatusEffect
             {
                 IsClean = isCleanse,
                 StatusId = selected.Id,
@@ -195,7 +195,7 @@ namespace LightestDungeonCreator
 
         private void RemoveStatusEffect_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is StatusEffectVM vm)
+            if (sender is Button btn && btn.Tag is StatusEffect vm)
                 _statusEffects.Remove(vm);
         }
 
@@ -238,7 +238,7 @@ namespace LightestDungeonCreator
 
             bool isCleanse = StatCleanseRb.IsChecked == true;
 
-            _statEffects.Add(new StatEffectVM
+            _statEffects.Add(new StatEffect
             {
                 IsClean = isCleanse,
                 StatId = selected.Id,
@@ -253,7 +253,7 @@ namespace LightestDungeonCreator
 
         private void RemoveStatEffect_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is StatEffectVM vm)
+            if (sender is Button btn && btn.Tag is StatEffect vm)
                 _statEffects.Remove(vm);
         }
 
