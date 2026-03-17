@@ -1,65 +1,34 @@
-﻿using System;
+﻿using LightestDungeonCreator.Models;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LightestDungeonCreator.Models;
-using Microsoft.Win32;
+using System.Windows.Shapes;
 
 namespace LightestDungeonCreator
 {
-    //Auxiliary classes to represent effects that affect status and statistic modifications, with display-friendly properties and convenience for managing each type of effect separately.
-    public class StatusEffect
-    {
-        public bool IsClean { get; set; }
-        public int StatusId { get; set; }
-        public string DisplayName { get; set; } = "";
-        public int Turns { get; set; }
-        public float Chance { get; set; }   // stored as 0-1 (0.7 = 70%)
-        public int EffectLevel { get; set; } = 1;
-
-        // Display properties
-        public string ChanceDisplay => $"{Chance * 100:0}%";
-    }
-
-    public class StatEffect
-    {
-        public bool IsClean { get; set; }
-        public int StatId { get; set; }
-        public string DisplayName { get; set; } = "";
-        public int Turns { get; set; }
-        public float Chance { get; set; }       // stored as 0-1 (0.7 = 70%)
-        public float Multiplier { get; set; }   // stored as 0-1 (-0.3 = -30%)
-        public int MinFlat { get; set; }
-        public int MaxFlat { get; set; }
-
-        // Display properties
-        public string ChanceDisplay => $"{Chance * 100:0}%";
-        public string ModifierDisplay
-        {
-            get
-            {
-                if (Multiplier != 0)
-                    return $"{Multiplier * 100:+0;-0}%";
-                if (MinFlat != 0 || MaxFlat != 0)
-                    return $"{MinFlat}~{MaxFlat}";
-                return "—";
-            }
-        }
-    }
+    // We grab StatusEffectVM and StatEffectVM from SkillCreatorWindow
 
     // -- Window -----------------------------------------------------------------------------------
 
-    public partial class SkillCreatorWindow : Window
+    public partial class ItemCreatorWindow : Window
     {
-        //We create each effect type collection to store them separately, up to a max of 3 each
+        //We create each effect type collection to store them separately
         private readonly ObservableCollection<StatusEffect> _statusEffects = new ObservableCollection<StatusEffect>();
         private readonly ObservableCollection<StatEffect> _statEffects = new ObservableCollection<StatEffect>();
         private string? _imageThumbPath;
 
-        public SkillCreatorWindow()
+        public ItemCreatorWindow()
         {
             InitializeComponent();
             StatusEffectsList.ItemsSource = _statusEffects;
@@ -84,10 +53,10 @@ namespace LightestDungeonCreator
             this.Close();
         }
 
-        private void ListSkills_Click(object sender, RoutedEventArgs e)
+        private void ListItems_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open a SkillListWindow when it's created
-            MessageBox.Show("Lista de habilidades — pendiente de implementar.",
+            // TODO: open an ItemListWindow when it's created
+            MessageBox.Show("Lista de items — pendiente de implementar.",
                             "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -115,31 +84,54 @@ namespace LightestDungeonCreator
             var dlg = new OpenFileDialog
             {
                 Filter = "Imágenes|*.png;*.jpg;*.jpeg;*.bmp;*.gif|Todos los archivos|*.*",
-                Title = "Selecciona la imagen de la habilidad"
+                Title = "Selecciona la imagen del item"
             };
 
             if (dlg.ShowDialog() == true)
+                ImagePathInput.Text = dlg.FileName; // TextChanged handles the rest
+        }
+
+        private void ImagePathInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string path = ImagePathInput.Text.Trim();
+            if (string.IsNullOrWhiteSpace(path))
             {
-                _imageThumbPath = dlg.FileName;
-                ImagePathInput.Text = dlg.SafeFileName;
-                try
-                {
-                    var bmp = new BitmapImage();
-                    bmp.BeginInit();
-                    bmp.UriSource = new Uri(dlg.FileName);
-                    bmp.CacheOption = BitmapCacheOption.OnLoad;
-                    bmp.EndInit();
-                    SkillImagePreview.Source = bmp;
-                }
-                catch
-                {
-                    SkillImagePreview.Source = null;
-                }
+                ItemImagePreview.Source = null;
+                _imageThumbPath = null;
+                return;
             }
+
+            try
+            {
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(path, UriKind.Absolute);
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                ItemImagePreview.Source = bmp;
+                _imageThumbPath = path;
+            }
+            catch
+            {
+                ItemImagePreview.Source = null;
+                _imageThumbPath = null;
+            }
+        }
+
+        // -- Item properties ------------------------------------------------------------
+
+        // Shows/hides MaxUses field based on Consumable checkbox
+        private void ConsumableCheck_Changed(object sender, RoutedEventArgs e)
+        {
+            if (MaxUsesPanel == null) return;
+            MaxUsesPanel.Visibility = ConsumableCheck.IsChecked == true
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
         // -- STATUS effects ------------------------------------------------------------
 
+        // Populates StatusLevelCombo with 1..Status.MaxLevel when the selected status changes
         private void StatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             StatusLevelCombo.Items.Clear();
@@ -186,7 +178,7 @@ namespace LightestDungeonCreator
                 _statusEffects.Remove(vm);
         }
 
-        // ── STAT effects ─────────────────────────────────────────────────────
+        // -- STAT effects ------------------------------------------------------------
 
         private void AddStatEffect_Click(object sender, RoutedEventArgs e)
         {
@@ -224,11 +216,11 @@ namespace LightestDungeonCreator
                 _statEffects.Remove(vm);
         }
 
-        // ── Save ─────────────────────────────────────────────────────────────
+        // -- Save ------------------------------------------------------------
 
-        private void SaveSkill_Click(object sender, RoutedEventArgs e)
+        private void SaveItem_Click(object sender, RoutedEventArgs e)
         {
-            // ── Validation ──────────────────────────────────────────────────
+            // -- Validation --
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
                 MessageBox.Show("El nombre es obligatorio.", "Validación",
@@ -237,26 +229,24 @@ namespace LightestDungeonCreator
                 return;
             }
 
-            if (!int.TryParse(HitsInput.Text, out int hits)) hits = 1;
-            if (!int.TryParse(CostInput.Text, out int cost)) cost = 0;
-            if (!float.TryParse(AccuracyInput.Text, out float accuracy)) accuracy = 100f;
+            var quality = (QualityCombo.SelectedItem as ComboBoxItem)
+                              ?.Content?.ToString() ?? "Common";
 
-            var targetType = (SkillTargetCombo.SelectedItem as ComboBoxItem)
-                                 ?.Content?.ToString() ?? "Single";
+            bool consumable = ConsumableCheck.IsChecked == true;
+            int? maxUses = null;
+            if (consumable && int.TryParse(MaxUsesInput.Text, out int parsedUses) && parsedUses > 0)
+                maxUses = parsedUses;
 
-            // -- Build model ------------------------------------------------------------
-            var skill = new Skill
+            // -- Build model --
+            var item = new Item
             {
                 Name = NameInput.Text.Trim(),
-                Description = string.IsNullOrWhiteSpace(DescInput.Text)
-                                  ? null
-                                  : DescInput.Text.Trim(),
-                EnergyCost = Math.Max(0, cost),
-                Accuracy = accuracy / 100f,
-                Hits = Math.Max(1, hits),
-                TargetType = targetType,
+                Description = string.IsNullOrWhiteSpace(DescInput.Text) ? null : DescInput.Text.Trim(),
+                Quality = quality,
+                Consumable = consumable,
+                MaxUses = maxUses,
                 IsAoe = IsAoeCheck.IsChecked == true,
-                IsPassive = IsPassiveCheck.IsChecked == true,
+                TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
                 ImageThumb = _imageThumbPath ?? ""
             };
 
@@ -264,7 +254,7 @@ namespace LightestDungeonCreator
             // EffectLevel = 0 means CLEANSE, >= 1 means APPLY
             foreach (var se in _statusEffects)
             {
-                skill.Effects.Add(new Effect
+                item.Effects.Add(new Effect
                 {
                     StatusId = se.StatusId,
                     Probability = se.Chance,
@@ -273,10 +263,10 @@ namespace LightestDungeonCreator
                 });
             }
 
-            // Stat effects -> Effect entities
+            // Stat effects → Effect entities
             foreach (var se in _statEffects)
             {
-                skill.Effects.Add(new Effect
+                item.Effects.Add(new Effect
                 {
                     StatId = se.StatId,
                     Probability = se.Chance,
@@ -288,15 +278,15 @@ namespace LightestDungeonCreator
                 });
             }
 
-            // -- Persist -----------------------------------------------------------
+            // -- Persist --
             try
             {
                 using var db = new AppDbContext();
-                db.Skills.Add(skill);
+                db.Items.Add(item);
                 db.SaveChanges();
 
-                MessageBox.Show($"Habilidad '{skill.Name}' guardada con éxito.\n" +
-                                $"Efectos: {skill.Effects.Count}",
+                MessageBox.Show($"Item '{item.Name}' guardado con éxito.\n" +
+                                $"Efectos: {item.Effects.Count}",
                                 "✦ Guardado", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetForm();
             }
@@ -314,11 +304,18 @@ namespace LightestDungeonCreator
             NameInput.Text = "";
             DescInput.Text = "";
             ImagePathInput.Text = "";
-            SkillImagePreview.Source = null;
+            ItemImagePreview.Source = null;
             _imageThumbPath = null;
 
             _statusEffects.Clear();
             _statEffects.Clear();
+
+            QualityCombo.SelectedIndex = 0;
+            ConsumableCheck.IsChecked = false;
+            IsAoeCheck.IsChecked = false;
+            ItemTargetCombo.SelectedIndex = 0;
+            MaxUsesInput.Text = "";
+            MaxUsesPanel.Visibility = Visibility.Collapsed;
 
             StatusChanceInput.Text = "100";
             StatusTurnsInput.Text = "3";
@@ -328,46 +325,12 @@ namespace LightestDungeonCreator
             StatMinFlatInput.Text = "0";
             StatMaxFlatInput.Text = "0";
 
-            HitsInput.Text = "1";
-            CostInput.Text = "0";
-            AccuracyInput.Text = "100";
-
-            IsAoeCheck.IsChecked = false;
-            IsPassiveCheck.IsChecked = false;
-
             StatusApplyRb.IsChecked = true;
             StatApplyRb.IsChecked = true;
 
             StatusCombo.SelectedIndex = -1;
             StatCombo.SelectedIndex = -1;
             StatusLevelCombo.Items.Clear();
-        }
-
-        private void ImagePathInput_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string path = ImagePathInput.Text.Trim();
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                SkillImagePreview.Source = null;
-                _imageThumbPath = null;
-                return;
-            }
-
-            try
-            {
-                var bmp = new BitmapImage();
-                bmp.BeginInit();
-                bmp.UriSource = new Uri(path, UriKind.Absolute);
-                bmp.CacheOption = BitmapCacheOption.OnLoad;
-                bmp.EndInit();
-                SkillImagePreview.Source = bmp;
-                _imageThumbPath = path;
-            }
-            catch
-            {
-                SkillImagePreview.Source = null;
-                _imageThumbPath = null;
-            }
         }
     }
 }

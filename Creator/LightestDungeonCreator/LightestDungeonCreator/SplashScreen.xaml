@@ -94,6 +94,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="24"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- ── Editar Skills Personatge ── -->
@@ -161,8 +163,41 @@
                         </StackPanel>
                     </Button>
 
-                    <!-- ── Crear Enemic ── -->
+                    <!-- ── Crear Item ── -->
                     <Button Grid.Column="4"
+                         Style="{StaticResource ActionButtonStyle}"
+                         x:Name="CreateItemBtn"
+                         Height="180"
+                         Click="CreateItemBtn_Click">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <!-- Icon area -->
+                            <Border Background="#140C04"
+                                 BorderBrush="{StaticResource GoldDimBrush}"
+                                 BorderThickness="1"
+                                 CornerRadius="50"
+                                 Width="72" Height="72"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,16">
+                                <TextBlock Text="🗡"
+                                    FontSize="30"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource GoldBrush}"/>
+                            </Border>
+
+                            <TextBlock Text="CREATE ITEM"
+                                Foreground="{StaticResource GoldBrush}"
+                                FontFamily="Georgia"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,8"/>
+
+                        </StackPanel>
+                    </Button>
+
+                    <!-- ── Crear Enemic ── -->
+                    <Button Grid.Column="6"
                          Style="{StaticResource ActionButtonStyle}"
                          x:Name="CreateEnemyBtn"
                          Height="180"
