@@ -145,13 +145,18 @@ namespace LightestDungeonCreator
             StatusLevelCombo.Items.Clear();
 
             if (StatusCombo.SelectedItem is not Status selected)
-                return;
+            {
+                StatusLevelCombo.IsEnabled = false;
+            }
+            else
+            {
+                StatusLevelCombo.IsEnabled = true;
+                int max = Math.Max(1, selected.MaxLevel);
+                for (int i = 1; i <= max; i++)
+                    StatusLevelCombo.Items.Add(i);
 
-            int max = Math.Max(1, selected.MaxLevel);
-            for (int i = 1; i <= max; i++)
-                StatusLevelCombo.Items.Add(i);
-
-            StatusLevelCombo.SelectedIndex = 0;
+                StatusLevelCombo.SelectedIndex = 0;
+            } 
         }
 
         private void AddStatusEffect_Click(object sender, RoutedEventArgs e)
@@ -163,8 +168,16 @@ namespace LightestDungeonCreator
                 return;
             }
 
-            if (!float.TryParse(StatusChanceInput.Text, out float chance)) chance = 100f;
-            if (!int.TryParse(StatusTurnsInput.Text, out int turns)) turns = 3;
+            if (!float.TryParse(StatusChanceInput.Text, out float chance))
+            {
+                MessageBox.Show("Has de ficar un numero vàlid d'entre 0 i 100");
+                return;
+            }
+            if (!int.TryParse(StatusTurnsInput.Text, out int turns))
+            {
+                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 5");
+                return;
+            }
 
             int level = StatusLevelCombo.SelectedItem is int lvl ? lvl : 1;
             bool isCleanse = StatusCleanseRb.IsChecked == true;
@@ -197,11 +210,31 @@ namespace LightestDungeonCreator
                 return;
             }
 
-            if (!float.TryParse(StatChanceInput.Text, out float chance)) chance = 100f;
-            if (!int.TryParse(StatTurnsInput.Text, out int turns)) turns = 1;
-            if (!float.TryParse(StatModifierInput.Text, out float modifier)) modifier = 0f;
-            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat)) minFlat = 0;
-            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat)) maxFlat = 0;
+            if (!float.TryParse(StatChanceInput.Text, out float chance) || chance < 0 || chance > 100)
+            {
+                MessageBox.Show("Has de ficar un numero vàlid d'entre 0 i 100");
+                return;
+            }
+            if (!int.TryParse(StatTurnsInput.Text, out int turns) || turns < 0 || turns > 5)
+            {
+                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 5");
+                return;
+            }
+            if (!float.TryParse(StatModifierInput.Text, out float modifier) || modifier < -10 || modifier > 10)
+            {
+                MessageBox.Show("Has de ficar un número vàlid d'entre -10 i 10");
+                return;
+            }
+            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat) || minFlat < 0)
+            {
+                MessageBox.Show("Has de ficar un número vàlid per el mínim", "Atenció", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat) || maxFlat < minFlat || maxFlat < 0)
+            {
+                MessageBox.Show("Has de ficar un número vàlid per el màxim o no menor al mínim", "Atenció", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             bool isCleanse = StatCleanseRb.IsChecked == true;
 
@@ -231,15 +264,33 @@ namespace LightestDungeonCreator
             // ── Validation ──────────────────────────────────────────────────
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
-                MessageBox.Show("El nombre es obligatorio.", "Validación",
+                MessageBox.Show("El nom es obligatori.", "Validació",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 NameInput.Focus();
                 return;
             }
 
-            if (!int.TryParse(HitsInput.Text, out int hits)) hits = 1;
-            if (!int.TryParse(CostInput.Text, out int cost)) cost = 0;
-            if (!float.TryParse(AccuracyInput.Text, out float accuracy)) accuracy = 100f;
+            if (!int.TryParse(HitsInput.Text, out int hits) || hits < 1 || hits > 5)
+            {
+                MessageBox.Show("Has de ficar un número vàlid d'entre 1 i 5 pels hits", "Validació",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                HitsInput.Focus();
+                return;
+            }
+            if (!int.TryParse(CostInput.Text, out int cost) || cost < 0 || cost > 100)
+            {
+                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 100 a energia.", "Validació",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                CostInput.Focus();
+                return;
+            }
+            if (!float.TryParse(AccuracyInput.Text, out float accuracy) || accuracy < 0 || accuracy > 100)
+            {
+                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 100 a precisió.", "Validació",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                AccuracyInput.Focus();
+                return;
+            }
 
             var targetType = (SkillTargetCombo.SelectedItem as ComboBoxItem)
                                  ?.Content?.ToString() ?? "Single";
@@ -260,8 +311,8 @@ namespace LightestDungeonCreator
                 ImageThumb = _imageThumbPath ?? ""
             };
 
-            // Status effects → Effect entities
-            // EffectLevel = 0 means CLEANSE, >= 1 means APPLY
+            // Status effects -> Effect entities
+            // EffectLevel = 0 CLEANSE, >= 1 APPLY
             foreach (var se in _statusEffects)
             {
                 skill.Effects.Add(new Effect
