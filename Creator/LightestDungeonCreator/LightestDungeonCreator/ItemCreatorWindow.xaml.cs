@@ -245,8 +245,8 @@ namespace LightestDungeonCreator
                 Quality = quality,
                 Consumable = consumable,
                 MaxUses = maxUses,
-                IsAoe = IsAoeCheck.IsChecked == true,
-                TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
+                //IsAoe = IsAoeCheck.IsChecked == true,
+                //TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
                 ImageThumb = _imageThumbPath ?? ""
             };
 

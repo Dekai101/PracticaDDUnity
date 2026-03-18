@@ -212,7 +212,7 @@ namespace LightestDungeonCreator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/LightestDungeonCreator;V1.0.0.0;component/view/creadorhabilitat.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/LightestDungeonCreator;component/view/creadorhabilitat.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\View\CreadorHabilitat.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

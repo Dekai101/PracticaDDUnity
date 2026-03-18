@@ -1,16 +1,12 @@
 ﻿using LightestDungeonCreator.Models;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LightestDungeonCreator
 {
@@ -57,47 +53,30 @@ namespace LightestDungeonCreator
 
         private void ListEnemies_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open enemy list / browser window
-            MessageBox.Show("Llista d'enemics (pendent d'implementar).",
-                            "Enemics", MessageBoxButton.OK, MessageBoxImage.Information);
+            new EnemyListWindow().Show();
         }
 
-        // ── Image browsing ────────────────────────────────────────────
-        private void BrowseThumb_Click(object sender, RoutedEventArgs e)
-        {
-            var path = PickImage();
-            if (path == null) return;
-            ThumbPathInput.Text = path;
-            ThumbPreview.Source = LoadBitmap(path);
-        }
 
-        private void BrowseFull_Click(object sender, RoutedEventArgs e)
-        {
-            var path = PickImage();
-            if (path == null) return;
-            FullPathInput.Text = path;
-            FullPreview.Source = LoadBitmap(path);
-        }
+        // ── Image URL inputs ──────────────────────────────────────────
+        private void ThumbPathInput_TextChanged(object sender, TextChangedEventArgs e)
+            => ThumbPreview.Source = TryLoadBitmap(ThumbPathInput.Text.Trim());
 
-        private static string? PickImage()
+        private void FullPathInput_TextChanged(object sender, TextChangedEventArgs e)
+            => FullPreview.Source = TryLoadBitmap(FullPathInput.Text.Trim());
+
+        private static BitmapImage? TryLoadBitmap(string path)
         {
-            var dlg = new OpenFileDialog
+            if (string.IsNullOrWhiteSpace(path)) return null;
+            try
             {
-                Title = "Select image",
-                Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|Any file|*.*"
-            };
-            return dlg.ShowDialog() == true ? dlg.FileName : null;
-        }
-
-        private static BitmapImage? LoadBitmap(string path)
-        {
-            if (!File.Exists(path)) return null;
-            var bmp = new BitmapImage();
-            bmp.BeginInit();
-            bmp.UriSource = new Uri(path, UriKind.Absolute);
-            bmp.CacheOption = BitmapCacheOption.OnLoad;
-            bmp.EndInit();
-            return bmp;
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                return bmp;
+            }
+            catch { return null; }
         }
 
         // ── Stat sliders ──────────────────────────────────────────────
@@ -162,12 +141,12 @@ namespace LightestDungeonCreator
                 MessageBox.Show("You already have this skill assigned", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(_assignedSkills.Count >= 4 && !_assignedSkills.Any(s=>s.IsPassive) && !skill.IsPassive)
+            if (_assignedSkills.Count >= 4 && !_assignedSkills.Any(s => s.IsPassive) && !skill.IsPassive)
             {
                 MessageBox.Show("You cannot add more than 4 normal skills", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(_assignedSkills.Count > 4)
+            if (_assignedSkills.Count > 4)
             {
                 MessageBox.Show("Max skill count reached, 4 normal skills and 1 passive skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -211,10 +190,11 @@ namespace LightestDungeonCreator
             string nameFilter = FilterNameInput?.Text?.ToLower() ?? "";
             int maxEnergy = (int)(EnergyCostFilter?.Value ?? 100);
             int maxAccuracy = (int)(AccuracyFilter?.Value ?? 100);
-            bool onlyAoe = FilterAoe?.IsChecked == true;
-            bool onlySingle = FilterSingleTarget?.IsChecked == true;
-            bool onlyPassive = FilterPassive?.IsChecked == true;
+            bool onlyAlly = FilterAlly?.IsChecked == true;
+            bool onlyEnemy = FilterEnemy?.IsChecked == true;
             bool onlySelf = FilterSelf?.IsChecked == true;
+            bool onlyAoe = FilterAoe?.IsChecked == true;
+            bool onlyPassive = FilterPassive?.IsChecked == true;
 
             var filtered = _allSkills.Where(s =>
             {
@@ -224,11 +204,13 @@ namespace LightestDungeonCreator
                     return false;
                 if (maxAccuracy < 100 && s.Accuracy > maxAccuracy)
                     return false;
+                // TARGET
+                if (onlyAlly && s.TargetType.ToUpper() != "ALLY") return false;
+                if (onlyEnemy && s.TargetType.ToUpper() != "ENEMY") return false;
+                if (onlySelf && s.TargetType.ToUpper() != "SELF") return false;
+                // TYPE
                 if (onlyAoe && !s.IsAoe) return false;
-                if (onlySingle && s.TargetType != "Single") return false;
                 if (onlyPassive && !s.IsPassive) return false;
-                if (onlySelf && s.TargetType != "Self") return false;
-
                 return true;
             });
 
@@ -246,26 +228,27 @@ namespace LightestDungeonCreator
                 MessageBox.Show("Name required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (ThumbPathInput.Text == "sin selección...")
+            if (string.IsNullOrWhiteSpace(ThumbPathInput.Text))
             {
                 MessageBox.Show("Thumb Image required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (FullPathInput.Text == "sin selección...")
+            if (string.IsNullOrWhiteSpace(FullPathInput.Text))
             {
                 MessageBox.Show("Full Image required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(!int.TryParse(LevelInput.Text, out _))
+            if (!int.TryParse(LevelInput.Text, out _))
             {
                 MessageBox.Show("Level has to be number", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(_assignedSkills.Count == 0)
+            if (_assignedSkills.Count == 0)
             {
                 MessageBox.Show("It is required to have 1 skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
-            } else if (_assignedSkills.Count == 1 && _assignedSkills.First().IsPassive)
+            }
+            else if (_assignedSkills.Count == 1 && _assignedSkills.First().IsPassive)
             {
                 MessageBox.Show("It is required to have 1 normal skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -273,7 +256,7 @@ namespace LightestDungeonCreator
 
             int.TryParse(LevelInput.Text, out int level);
 
-            if(level < 1 || level > 100)
+            if (level < 1 || level > 100)
             {
                 MessageBox.Show("Level has to be a number between 1 and 100");
                 return;
@@ -294,13 +277,13 @@ namespace LightestDungeonCreator
                     Attack = (int)AttackSlider.Value,
                     Defense = (int)DefenseSlider.Value,
                     Speed = (int)SpeedSlider.Value,
-                    CritChance = (int)CritChanceSlider.Value,
-                    CritDamage = (int)CritDamageSlider.Value,
+                    CritChance = (float)CritChanceSlider.Value / 100,
+                    CritDamage = (float)CritDamageSlider.Value / 100,
                     AccuracyMultiplier = 1,
                     Skills = _assignedSkills
                 },
             };
-            
+
             db.Entities.Add(enemy.Entity);
             db.SaveChanges();
             db.Enemies.Add(enemy);

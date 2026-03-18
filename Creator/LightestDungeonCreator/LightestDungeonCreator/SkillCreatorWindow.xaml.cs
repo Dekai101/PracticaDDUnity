@@ -86,9 +86,7 @@ namespace LightestDungeonCreator
 
         private void ListSkills_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open a SkillListWindow when it's created
-            MessageBox.Show("Lista de habilidades — pendiente de implementar.",
-                            "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            new SkillListWindow().Show();
         }
 
         // -- Data loading ------------------------------------------------------------

@@ -9,21 +9,12 @@ LightestDungeonCreator
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-<<<<<<< HEAD
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\App.xaml
-7-283821992
+101485839795
 
-23-391652002
+26-605306475
 2121752579814
-CharacterSkillAsignWindow.xaml;EnemyCreatorWindow.xaml;MainWindow.xaml;SkillCreatorWindow.xaml;SplashScreen.xaml;View\CreadorHabilitat.xaml;View\CreadorPersonatge.xaml;
-=======
-C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\App.xaml
-8730721355
-
-24-1380132287
-212-1234380038
-CharacterSkillAsignWindow.xaml;EnemyCreatorWindow.xaml;ItemCreatorWindow.xaml;MainWindow.xaml;SkillCreatorWindow.xaml;SplashScreen.xaml;View\CreadorHabilitat.xaml;View\CreadorPersonatge.xaml;
->>>>>>> 98b1717bb9653679aacfbaa2e7921a3f11384a2d
+CharacterSkillAsignWindow.xaml;EnemyCreatorWindow.xaml;EnemyListWindow.xaml;ItemCreatorWindow.xaml;MainWindow.xaml;SkillCreatorWindow.xaml;SkillListWindow.xaml;SplashScreen.xaml;View\CreadorHabilitat.xaml;View\CreadorPersonatge.xaml;
 
 False
 
