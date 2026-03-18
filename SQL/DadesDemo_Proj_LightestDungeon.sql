@@ -505,143 +505,73 @@ WHERE e.name = 'Dark Assassin'
 
 -- ---- HEAD (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Iron Helm',         'Casco básico de hierro.',                 'COMMON',   false, NULL, '/img/iron_helm.png',    'Self', false),
-('Knight Visor',      'Visor de caballero con alta defensa.',    'UNCOMMON', false, NULL, '/img/knight_visor.png', 'Self', false),
-('Shadow Hood',       'Capucha oscura que mejora la velocidad.', 'UNCOMMON', false, NULL, '/img/shadow_hood.png',  'Self', false),
-('Arcane Crown',      'Corona mágica que potencia la energía.',  'RARE',     false, NULL, '/img/arcane_crown.png', 'Self', false),
-('Ranger Cap',        'Gorra ligera para arqueros.',             'COMMON',   false, NULL, '/img/ranger_cap.png',   'Self', false),
-('Vampire Mask',      'Máscara que otorga regeneración oscura.', 'RARE',     false, NULL, '/img/vamp_mask.png',    'Self', false),
-('Golem Skull Plate', 'Placa de piedra de un gólem derrotado.',  'EPIC',     false, NULL, '/img/golem_skull.png',  'Self', false),
-('Blessed Tiara',     'Tiara sagrada que aumenta la precisión.', 'RARE',     false, NULL, '/img/tiara.png',        'Self', false);
+('Iron Helm',         'Casco básico de hierro.',                 'COMMON',   false, NULL, '/img/iron_helm.png',    'SELF', false),
+('Knight Visor',      'Visor de caballero con alta defensa.',    'UNCOMMON', false, NULL, '/img/knight_visor.png', 'SELF', false),
+('Shadow Hood',       'Capucha oscura que mejora la velocidad.', 'UNCOMMON', false, NULL, '/img/shadow_hood.png',  'SELF', false),
+('Arcane Crown',      'Corona mágica que potencia la energía.',  'RARE',     false, NULL, '/img/arcane_crown.png', 'SELF', false),
+('Ranger Cap',        'Gorra ligera para arqueros.',             'COMMON',   false, NULL, '/img/ranger_cap.png',   'SELF', false),
+('Vampire Mask',      'Máscara que otorga regeneración oscura.', 'RARE',     false, NULL, '/img/vamp_mask.png',    'SELF', false),
+('Golem Skull Plate', 'Placa de piedra de un gólem derrotado.',  'EPIC',     false, NULL, '/img/golem_skull.png',  'SELF', false),
+('Blessed Tiara',     'Tiara sagrada que aumenta la precisión.', 'RARE',     false, NULL, '/img/tiara.png',        'SELF', false);
 
 -- ---- CHEST (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Iron Chestplate',  'Peto de hierro estándar.',                'COMMON',   false, NULL, '/img/iron_chest.png',   'Self', false),
-('Battle Armor',     'Armadura de batalla reforzada.',          'UNCOMMON', false, NULL, '/img/battle_armor.png', 'Self', false),
-('Leather Vest',     'Chaleco ligero para agilidad.',           'COMMON',   false, NULL, '/img/leather_vest.png', 'Self', false),
-('Mage Robe',        'Túnica mágica que amplifica la energía.', 'UNCOMMON', false, NULL, '/img/mage_robe.png',    'Self', false),
-('Shadow Cloak',     'Capa oscura que mejora la evasión.',      'RARE',     false, NULL, '/img/shadow_cloak.png', 'Self', false),
-('Blessed Vestment', 'Vestimenta sagrada con aura curativa.',   'RARE',     false, NULL, '/img/vestment.png',     'Self', false),
-('Golem Shell',      'Coraza de piedra mágica.',                'EPIC',     false, NULL, '/img/golem_shell.png',  'Self', false),
-('Vampiric Coat',    'Abrigo oscuro que drena energía.',        'EPIC',     false, NULL, '/img/vamp_coat.png',    'Self', false);
+('Iron Chestplate',  'Peto de hierro estándar.',                'COMMON',   false, NULL, '/img/iron_chest.png',   'SELF', false),
+('Battle Armor',     'Armadura de batalla reforzada.',          'UNCOMMON', false, NULL, '/img/battle_armor.png', 'SELF', false),
+('Leather Vest',     'Chaleco ligero para agilidad.',           'COMMON',   false, NULL, '/img/leather_vest.png', 'SELF', false),
+('Mage Robe',        'Túnica mágica que amplifica la energía.', 'UNCOMMON', false, NULL, '/img/mage_robe.png',    'SELF', false),
+('Shadow Cloak',     'Capa oscura que mejora la evasión.',      'RARE',     false, NULL, '/img/shadow_cloak.png', 'SELF', false),
+('Blessed Vestment', 'Vestimenta sagrada con aura curativa.',   'RARE',     false, NULL, '/img/vestment.png',     'SELF', false),
+('Golem Shell',      'Coraza de piedra mágica.',                'EPIC',     false, NULL, '/img/golem_shell.png',  'SELF', false),
+('Vampiric Coat',    'Abrigo oscuro que drena energía.',        'EPIC',     false, NULL, '/img/vamp_coat.png',    'SELF', false);
 
 -- ---- LOWER (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Iron Greaves',    'Grebas de hierro básicas.',                 'COMMON',   false, NULL, '/img/iron_greaves.png',    'Self', false),
-('Knight Leggings', 'Mallas de caballero resistentes.',          'UNCOMMON', false, NULL, '/img/knight_legs.png',     'Self', false),
-('Swift Boots',     'Botas ligeras de alta velocidad.',          'UNCOMMON', false, NULL, '/img/swift_boots.png',     'Self', false),
-('Mage Sandals',    'Sandalias que canalizan magia.',            'COMMON',   false, NULL, '/img/mage_sandals.png',    'Self', false),
-('Shadow Leggings', 'Pantalones de sigilo.',                     'RARE',     false, NULL, '/img/shadow_legs.png',     'Self', false),
-('Ranger Boots',    'Botas de explorador para terreno difícil.', 'UNCOMMON', false, NULL, '/img/ranger_boots.png',    'Self', false),
-('Golem Stompers',  'Pezuñas de piedra con impacto sísmico.',    'EPIC',     false, NULL, '/img/golem_stomp.png',     'Self', false),
-('Blessed Sandals', 'Sandalias sagradas que mejoran la crit.',   'RARE',     false, NULL, '/img/blessed_sandals.png', 'Self', false);
+('Iron Greaves',    'Grebas de hierro básicas.',                 'COMMON',   false, NULL, '/img/iron_greaves.png',    'SELF', false),
+('Knight Leggings', 'Mallas de caballero resistentes.',          'UNCOMMON', false, NULL, '/img/knight_legs.png',     'SELF', false),
+('Swift Boots',     'Botas ligeras de alta velocidad.',          'UNCOMMON', false, NULL, '/img/swift_boots.png',     'SELF', false),
+('Mage Sandals',    'Sandalias que canalizan magia.',            'COMMON',   false, NULL, '/img/mage_sandals.png',    'SELF', false),
+('Shadow Leggings', 'Pantalones de sigilo.',                     'RARE',     false, NULL, '/img/shadow_legs.png',     'SELF', false),
+('Ranger Boots',    'Botas de explorador para terreno difícil.', 'UNCOMMON', false, NULL, '/img/ranger_boots.png',    'SELF', false),
+('Golem Stompers',  'Pezuñas de piedra con impacto sísmico.',    'EPIC',     false, NULL, '/img/golem_stomp.png',     'SELF', false),
+('Blessed Sandals', 'Sandalias sagradas que mejoran la crit.',   'RARE',     false, NULL, '/img/blessed_sandals.png', 'SELF', false);
 
 -- ---- WEAPONS (12) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Short Sword',         'Espada corta de inicio.',                    'COMMON',   false, NULL, '/img/short_sword.png',  'Self', false),
-('Longsword',           'Espada larga de caballero.',                 'UNCOMMON', false, NULL, '/img/longsword.png',    'Self', false),
-('Shadow Dagger',       'Daga rápida del asesino.',                   'UNCOMMON', false, NULL, '/img/shadow_dagger.png','Self', false),
-('Poison Blade',        'Daga impregnada de veneno.',                 'RARE',     false, NULL, '/img/poison_blade.png', 'Self', false),
-('War Hammer',          'Martillo de guerra pesado.',                 'UNCOMMON', false, NULL, '/img/war_hammer.png',   'Self', false),
-('Arcane Staff',        'Bastón que amplifica hechizos.',             'RARE',     false, NULL, '/img/arcane_staff.png', 'Self', false),
-('Holy Wand',           'Varita sagrada para sanadores.',             'RARE',     false, NULL, '/img/holy_wand.png',    'Self', false),
-('Longbow',             'Arco largo de alta precisión.',              'UNCOMMON', false, NULL, '/img/longbow.png',      'Self', false),
-('Crossbow',            'Ballesta compacta y potente.',               'RARE',     false, NULL, '/img/crossbow.png',     'Self', false),
-('Blood Scythe',        'Guadaña que absorbe la vida enemiga.',       'EPIC',     false, NULL, '/img/blood_scythe.png', 'Self', false),
-('Stone Fist Gauntlet', 'Guantelete de piedra con tremendo impacto.', 'EPIC',     false, NULL, '/img/stone_fist.png',   'Self', false),
-('Twin Blades',         'Par de dagas para ataques dobles.',          'RARE',     false, NULL, '/img/twin_blades.png',  'Self', false);
+('Short Sword',         'Espada corta de inicio.',                    'COMMON',   false, NULL, '/img/short_sword.png',  'SELF', false),
+('Longsword',           'Espada larga de caballero.',                 'UNCOMMON', false, NULL, '/img/longsword.png',    'SELF', false),
+('Shadow Dagger',       'Daga rápida del asesino.',                   'UNCOMMON', false, NULL, '/img/shadow_dagger.png','SELF', false),
+('Poison Blade',        'Daga impregnada de veneno.',                 'RARE',     false, NULL, '/img/poison_blade.png', 'SELF', false),
+('War Hammer',          'Martillo de guerra pesado.',                 'UNCOMMON', false, NULL, '/img/war_hammer.png',   'SELF', false),
+('Arcane Staff',        'Bastón que amplifica hechizos.',             'RARE',     false, NULL, '/img/arcane_staff.png', 'SELF', false),
+('Holy Wand',           'Varita sagrada para sanadores.',             'RARE',     false, NULL, '/img/holy_wand.png',    'SELF', false),
+('Longbow',             'Arco largo de alta precisión.',              'UNCOMMON', false, NULL, '/img/longbow.png',      'SELF', false),
+('Crossbow',            'Ballesta compacta y potente.',               'RARE',     false, NULL, '/img/crossbow.png',     'SELF', false),
+('Blood Scythe',        'Guadaña que absorbe la vida enemiga.',       'EPIC',     false, NULL, '/img/blood_scythe.png', 'SELF', false),
+('Stone Fist Gauntlet', 'Guantelete de piedra con tremendo impacto.', 'EPIC',     false, NULL, '/img/stone_fist.png',   'SELF', false),
+('Twin Blades',         'Par de dagas para ataques dobles.',          'RARE',     false, NULL, '/img/twin_blades.png',  'SELF', false);
 
 -- ---- CONSUMABLES (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Health Potion',      'Restaura 30% de HP.',                        'COMMON',   true, 1, '/img/health_pot.png',    'Self',  false),
-('Energy Elixir',      'Restaura 30% de energía.',                   'COMMON',   true, 1, '/img/energy_elixir.png', 'Self',  false),
-('Antidote',           'Elimina el estado Envenenado.',              'COMMON',   true, 1, '/img/antidote.png',      'Self',  false),
-('Rage Brew',          'Aplica Fortalecido lv1 al usuario.',         'UNCOMMON', true, 1, '/img/rage_brew.png',     'Self',  false),
-('Smoke Bomb',         'Aturde a todos los enemigos 1 turno.',       'UNCOMMON', true, 1, '/img/smoke_bomb.png',    'Enemy', true),
-('Greater Health Pot', 'Restaura 60% de HP.',                        'RARE',     true, 1, '/img/greater_hp.png',    'Self',  false),
-('Elixir of Speed',    'Aumenta velocidad un 30% durante 3 turnos.', 'UNCOMMON', true, 1, '/img/speed_elixir.png',  'Self',  false),
-('Phoenix Feather',    'Revive al usuario con el 50% de HP.',        'EPIC',     true, 1, '/img/phoenix.png',       'Self',  false);
+('Health Potion',      'Restaura 30% de HP.',                        'COMMON',   true, 1, '/img/health_pot.png',    'SELF',  false),
+('Energy Elixir',      'Restaura 30% de energía.',                   'COMMON',   true, 1, '/img/energy_elixir.png', 'SELF',  false),
+('Antidote',           'Elimina el estado Envenenado.',              'COMMON',   true, 1, '/img/antidote.png',      'SELF',  false),
+('Rage Brew',          'Aplica Fortalecido lv1 al usuario.',         'UNCOMMON', true, 1, '/img/rage_brew.png',     'SELF',  false),
+('Smoke Bomb',         'Aturde a todos los enemigos 1 turno.',       'UNCOMMON', true, 1, '/img/smoke_bomb.png',    'ENEMY', true),
+('Greater Health Pot', 'Restaura 60% de HP.',                        'RARE',     true, 1, '/img/greater_hp.png',    'SELF',  false),
+('Elixir of Speed',    'Aumenta velocidad un 30% durante 3 turnos.', 'UNCOMMON', true, 1, '/img/speed_elixir.png',  'SELF',  false),
+('Phoenix Feather',    'Revive al usuario con el 50% de HP.',        'EPIC',     true, 1, '/img/phoenix.png',       'SELF',  false);
 
 -- ---- NON-CONSUMABLES (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Lucky Charm',   'Amuleto que aumenta el crit_chance.',       'UNCOMMON', false, NULL, '/img/lucky_charm.png',   'Self',  false),
-('Stone Totem',   'Tótem que mejora la defensa pasivamente.',  'UNCOMMON', false, NULL, '/img/stone_totem.png',   'Self',  false),
-('Vampire Ring',  'Anillo que aplica Sangrado al atacar.',     'RARE',     false, NULL, '/img/vamp_ring.png',     'Enemy', false),
-('Poison Amulet', 'Amuleto que aplica Envenenado al atacar.',  'RARE',     false, NULL, '/img/poison_amulet.png', 'Enemy', false),
-('Battle Banner', 'Estandarte que da Fortalecido a aliados.',  'RARE',     false, NULL, '/img/banner.png',        'Ally',  true),
-('Speed Anklet',  'Tobillera que aumenta la velocidad.',       'UNCOMMON', false, NULL, '/img/anklet.png',        'Self',  false),
-('Accuracy Lens', 'Lente que mejora la precisión.',            'UNCOMMON', false, NULL, '/img/lens.png',          'Self',  false),
-('Crit Gem',      'Gema que mejora el daño crítico.',          'RARE',     false, NULL, '/img/crit_gem.png',      'Self',  false);
-
--- =====================================================
--- 🔟 ITEM ↔ EFFECT (ItemEffect)
--- =====================================================
-
--- HEAD
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.10 AND e.duration_turns = 0 WHERE i.name = 'Iron Helm';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.20 AND e.duration_turns = 0 WHERE i.name = 'Knight Visor';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.15 AND e.duration_turns = 0 WHERE i.name = 'Shadow Hood';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Energy  AND e.stat_multiplier = 1.25 AND e.duration_turns = 0 WHERE i.name = 'Arcane Crown';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.10 AND e.duration_turns = 0 WHERE i.name = 'Ranger Cap';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @HP      AND e.stat_multiplier = 1.15 AND e.duration_turns = 0 WHERE i.name = 'Vampire Mask';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.35 AND e.duration_turns = 0 WHERE i.name = 'Golem Skull Plate';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.20 AND e.duration_turns = 0 WHERE i.name = 'Blessed Tiara';
-
--- CHEST
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.15 AND e.duration_turns = 0 WHERE i.name = 'Iron Chestplate';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.25 AND e.duration_turns = 0 WHERE i.name = 'Battle Armor';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.12 AND e.duration_turns = 0 WHERE i.name = 'Leather Vest';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Energy  AND e.stat_multiplier = 1.30 AND e.duration_turns = 0 WHERE i.name = 'Mage Robe';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.18 AND e.duration_turns = 0 WHERE i.name = 'Shadow Cloak';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @HP      AND e.stat_multiplier = 1.20 AND e.duration_turns = 0 WHERE i.name = 'Blessed Vestment';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.40 AND e.duration_turns = 0 WHERE i.name = 'Golem Shell';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Energy  AND e.stat_multiplier = 1.25 AND e.duration_turns = 0 WHERE i.name = 'Vampiric Coat';
-
--- LOWER
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.08 AND e.duration_turns = 0 WHERE i.name = 'Iron Greaves';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.18 AND e.duration_turns = 0 WHERE i.name = 'Knight Leggings';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.25 AND e.duration_turns = 0 WHERE i.name = 'Swift Boots';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Energy  AND e.stat_multiplier = 1.10 AND e.duration_turns = 0 WHERE i.name = 'Mage Sandals';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.20 AND e.duration_turns = 0 WHERE i.name = 'Shadow Leggings';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.15 AND e.duration_turns = 0 WHERE i.name = 'Ranger Boots';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack  AND e.stat_multiplier = 1.12 AND e.duration_turns = 0 WHERE i.name = 'Golem Stompers';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.15 AND e.duration_turns = 0 WHERE i.name = 'Blessed Sandals';
-
--- WEAPONS
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 6  AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'Short Sword';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 10 AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'Longsword';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 7  AND e.max_flat_power = 10 AND e.stat_multiplier IS NULL AND e.duration_turns = 0 AND NOT EXISTS (SELECT 1 FROM ItemEffect ie2 JOIN Item i2 ON ie2.item_id = i2.id WHERE i2.name = 'Twin Blades' AND ie2.effect_id = e.id) WHERE i.name = 'Shadow Dagger';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.stat_multiplier = 1.18 AND e.duration_turns = 0 WHERE i.name = 'Poison Blade';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Envenenado AND e.probability = 0.25 AND e.duration_turns = 3 WHERE i.name = 'Poison Blade';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 16 AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'War Hammer';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Energy AND e.stat_multiplier = 1.35 AND e.duration_turns = 0 WHERE i.name = 'Arcane Staff';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @HP     AND e.stat_multiplier = 1.10 AND e.duration_turns = 0 WHERE i.name = 'Holy Wand';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 9  AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'Longbow';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 12 AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'Crossbow';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.stat_multiplier = 1.30 AND e.duration_turns = 0 WHERE i.name = 'Blood Scythe';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Sangrado AND e.probability = 0.20 AND e.duration_turns = 3 WHERE i.name = 'Blood Scythe';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 20 AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'Stone Fist Gauntlet';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.min_flat_power = 7 AND e.max_flat_power = 10 AND e.stat_multiplier IS NULL AND e.duration_turns = 0 WHERE i.name = 'Twin Blades';
-
--- NON-CONSUMABLES
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed   AND e.stat_multiplier = 1.15 AND e.duration_turns = 0 WHERE i.name = 'Lucky Charm';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Defense AND e.stat_multiplier = 1.20 AND e.duration_turns = 0 WHERE i.name = 'Stone Totem';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Sangrado   AND e.effect_level = 2 AND e.probability = 0.30 WHERE i.name = 'Vampire Ring';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Envenenado AND e.effect_level = 2 AND e.probability = 0.30 WHERE i.name = 'Poison Amulet';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Fortalecido AND e.probability = 1.00 AND e.duration_turns = 2 WHERE i.name = 'Battle Banner';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed AND e.stat_multiplier = 1.20 AND e.duration_turns = 0 WHERE i.name = 'Speed Anklet';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed AND e.stat_multiplier = 1.18 AND e.duration_turns = 0 WHERE i.name = 'Accuracy Lens';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Attack AND e.stat_multiplier = 1.10 AND e.duration_turns = 0 WHERE i.name = 'Crit Gem';
-
--- CONSUMABLES
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @HP     AND e.stat_multiplier = 1.30 AND e.duration_turns = 1 WHERE i.name = 'Health Potion';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Energy AND e.stat_multiplier = 1.30 AND e.duration_turns = 1 WHERE i.name = 'Energy Elixir';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Envenenado  AND e.effect_level = 0 AND e.probability = 1.0 WHERE i.name = 'Antidote';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Fortalecido AND e.effect_level = 1 AND e.duration_turns = 3 WHERE i.name = 'Rage Brew';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.status_id = @Aturdido    AND e.probability = 0.80 WHERE i.name = 'Smoke Bomb';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @HP    AND e.stat_multiplier = 1.60 AND e.duration_turns = 1 WHERE i.name = 'Greater Health Pot';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @Speed AND e.stat_multiplier = 1.30 AND e.duration_turns = 3 WHERE i.name = 'Elixir of Speed';
-INSERT INTO ItemEffect (item_id, effect_id) SELECT i.id, e.id FROM Item i JOIN Effect e ON e.stat_id = @HP    AND e.stat_multiplier = 1.50 AND e.duration_turns = 1 WHERE i.name = 'Phoenix Feather';
+('Lucky Charm',   'Amuleto que aumenta el crit_chance.',       'UNCOMMON', false, NULL, '/img/lucky_charm.png',   'SELF',  false),
+('Stone Totem',   'Tótem que mejora la defensa pasivamente.',  'UNCOMMON', false, NULL, '/img/stone_totem.png',   'SELF',  false),
+('Vampire Ring',  'Anillo que aplica Sangrado al atacar.',     'RARE',     false, NULL, '/img/vamp_ring.png',     'ENEMY', false),
+('Poison Amulet', 'Amuleto que aplica Envenenado al atacar.',  'RARE',     false, NULL, '/img/poison_amulet.png', 'ENEMY', false),
+('Battle Banner', 'Estandarte que da Fortalecido a aliados.',  'RARE',     false, NULL, '/img/banner.png',        'ALLY',  true),
+('Speed Anklet',  'Tobillera que aumenta la velocidad.',       'UNCOMMON', false, NULL, '/img/anklet.png',        'SELF',  false),
+('Accuracy Lens', 'Lente que mejora la precisión.',            'UNCOMMON', false, NULL, '/img/lens.png',          'SELF',  false),
+('Crit Gem',      'Gema que mejora el daño crítico.',          'RARE',     false, NULL, '/img/crit_gem.png',      'SELF',  false);
 
 -- =====================================================
 -- 1️⃣1️⃣ LOOT ENTRIES
