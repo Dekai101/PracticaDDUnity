@@ -15,6 +15,10 @@ public partial class Item
 
     public bool Consumable { get; set; }
 
+    public string TargetType { get; set; } = null!;
+
+    public bool IsAoe { get; set; }
+
     public int? MaxUses { get; set; }
 
     public string ImageThumb { get; set; } = null!;

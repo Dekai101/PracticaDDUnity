@@ -123,11 +123,17 @@ namespace LightestDungeonCreator
         // Shows/hides MaxUses field based on Consumable checkbox
         private void ConsumableCheck_Changed(object sender, RoutedEventArgs e)
         {
-            if (MaxUsesPanel == null) return;
-            MaxUsesPanel.Visibility = ConsumableCheck.IsChecked == true
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            if (ConsumableCheck.IsChecked == true)
+            {
+                MaxUsesInput.IsEnabled = true;
+            }
+            else
+            {
+                MaxUsesInput.IsEnabled = false;
+                MaxUsesInput.Text = "";
+            }
         }
+
 
         // -- STATUS effects ------------------------------------------------------------
 
@@ -242,11 +248,16 @@ namespace LightestDungeonCreator
             {
                 Name = NameInput.Text.Trim(),
                 Description = string.IsNullOrWhiteSpace(DescInput.Text) ? null : DescInput.Text.Trim(),
-                Quality = quality,
+                Quality = quality.ToUpper(),
                 Consumable = consumable,
                 MaxUses = maxUses,
+<<<<<<< HEAD
                 //IsAoe = IsAoeCheck.IsChecked == true,
                 //TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
+=======
+                IsAoe = IsAoeCheck.IsChecked == true,
+                TargetType = ((ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Enemy").ToUpper(),
+>>>>>>> fb362e9042d0e361d02a3dd061ffaa3234c69da9
                 ImageThumb = _imageThumbPath ?? ""
             };
 
@@ -332,5 +343,7 @@ namespace LightestDungeonCreator
             StatCombo.SelectedIndex = -1;
             StatusLevelCombo.Items.Clear();
         }
+
+        
     }
 }
