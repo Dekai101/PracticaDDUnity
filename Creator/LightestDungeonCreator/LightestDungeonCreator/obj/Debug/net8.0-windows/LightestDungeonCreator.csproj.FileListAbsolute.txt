@@ -234,3 +234,9 @@ C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDu
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\ref\LightestDungeonCreator.dll
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\ItemCreatorWindow.g.cs
 C:\Users\catal\Desktop\LightestDungeon\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\ItemCreatorWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\EnemyListWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\ItemCreatorWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillListWindow.baml
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\EnemyListWindow.g.cs
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\ItemCreatorWindow.g.cs
+D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillListWindow.g.cs

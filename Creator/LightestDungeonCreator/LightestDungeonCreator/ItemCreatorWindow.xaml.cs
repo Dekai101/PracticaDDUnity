@@ -251,8 +251,13 @@ namespace LightestDungeonCreator
                 Quality = quality.ToUpper(),
                 Consumable = consumable,
                 MaxUses = maxUses,
+<<<<<<< HEAD
+                //IsAoe = IsAoeCheck.IsChecked == true,
+                //TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
+=======
                 IsAoe = IsAoeCheck.IsChecked == true,
                 TargetType = ((ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Enemy").ToUpper(),
+>>>>>>> fb362e9042d0e361d02a3dd061ffaa3234c69da9
                 ImageThumb = _imageThumbPath ?? ""
             };
 

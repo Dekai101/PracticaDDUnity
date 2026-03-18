@@ -69,7 +69,7 @@ namespace LightestDungeonCreator {
                 ApplyFilters();
             }
             catch (Exception ex){
-                MessageBox.Show($"Error carregant habilitats:\n{ex.Message}",
+                MessageBox.Show($"Error loading skills:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }

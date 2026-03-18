@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LightestDungeonCreator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f034f5bf9d151185adf28c07ed0d3e21fc5d854a")]
+=======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e69f6fba38437ea8ab97f4987f38af51a9b05670")]
+>>>>>>> fb362e9042d0e361d02a3dd061ffaa3234c69da9
 [assembly: System.Reflection.AssemblyProductAttribute("LightestDungeonCreator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LightestDungeonCreator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

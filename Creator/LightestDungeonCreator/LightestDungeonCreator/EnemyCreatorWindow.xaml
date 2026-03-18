@@ -264,37 +264,19 @@
 
                         <StackPanel Grid.Column="2">
                             <TextBlock Text="IMAGE THUMB *" Style="{StaticResource FieldLabel}"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="6"/>
-                                    <ColumnDefinition Width="36"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="ThumbPathInput" Grid.Column="0"
-                                         Style="{StaticResource DarkInput}"
-                                         Height="30" FontSize="9" IsReadOnly="True"
-                                         Text="sin selección..." Foreground="#5C3A1E"/>
-                                <Button Grid.Column="2" Content="…"
-                                        Style="{StaticResource AddSkillBtnStyle}"
-                                        Padding="0" Click="BrowseThumb_Click"/>
-                            </Grid>
+                            <TextBox x:Name="ThumbPathInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" FontSize="9"
+                                     ToolTip="Escribe la ruta o URL de la imagen miniatura"
+                                     TextChanged="ThumbPathInput_TextChanged"/>
 
                             <TextBlock Text="IMAGE FULL *" Style="{StaticResource FieldLabel}"
                                        Margin="0,8,0,4"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="6"/>
-                                    <ColumnDefinition Width="36"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="FullPathInput" Grid.Column="0"
-                                         Style="{StaticResource DarkInput}"
-                                         Height="30" FontSize="9" IsReadOnly="True"
-                                         Text="sin selección..." Foreground="#5C3A1E"/>
-                                <Button Grid.Column="2" Content="…"
-                                        Style="{StaticResource AddSkillBtnStyle}"
-                                        Padding="0" Click="BrowseFull_Click"/>
-                            </Grid>
+                            <TextBox x:Name="FullPathInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" FontSize="9"
+                                     ToolTip="Escribe la ruta o URL de la imagen completa"
+                                     TextChanged="FullPathInput_TextChanged"/>
 
                             <TextBlock Text="PREVIEW:" Style="{StaticResource FieldLabel}"
                                        Margin="0,10,0,4"/>
@@ -594,7 +576,7 @@
                                                Fill="#8B1A1A" Opacity="0.4"/>
                                 </Grid>
 
-                                <Button Content="⊕  Afegir seleccionada"
+                                <Button Content="⊕  Add Selected"
                                         Style="{StaticResource AddSkillBtnStyle}"
                                         Width="180" HorizontalAlignment="Left"
                                         Margin="0,0,0,10"
@@ -709,14 +691,23 @@
                                                 ValueChanged="FilterAccuracySlider_Changed"/>
                                     </StackPanel>
                                     <TextBlock Text="Types:" Style="{StaticResource FilterLabel}"/>
-                                    <WrapPanel>
-                                        <CheckBox x:Name="FilterSingleTarget" Content="Single" VerticalContentAlignment="Center"
+                                    <!-- TARGET -->
+                                    <TextBlock Text="TARGET:" Style="{StaticResource FilterLabel}" Margin="0,8,0,2"/>
+                                    <WrapPanel Margin="0,0,0,4">
+                                        <CheckBox x:Name="FilterAlly" Content="Ally" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
-                                        <CheckBox x:Name="FilterAoe" Content="AoE" VerticalContentAlignment="Center"
+                                        <CheckBox x:Name="FilterEnemy" Content="Enemy" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                         <CheckBox x:Name="FilterSelf" Content="Self" VerticalContentAlignment="Center"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                    </WrapPanel>
+                                    <!-- TYPE -->
+                                    <TextBlock Text="TYPE:" Style="{StaticResource FilterLabel}" Margin="0,4,0,2"/>
+                                    <WrapPanel>
+                                        <CheckBox x:Name="FilterAoe" Content="AoE" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                         <CheckBox x:Name="FilterPassive" Content="Passive" VerticalContentAlignment="Center"
@@ -735,7 +726,7 @@
             <Border Grid.Row="2" Background="#0A0404" CornerRadius="0,0,6,6"
                     BorderBrush="#3D1010" BorderThickness="0,1,0,0">
                 <Grid Margin="22,0">
-                    <TextBlock Text="* campos obligatorios"
+                    <TextBlock Text="* Required fields"
                                Foreground="{StaticResource MutedBrush}"
                                FontFamily="Georgia" FontSize="10"
                                VerticalAlignment="Center" Opacity="0.4"/>
