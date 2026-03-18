@@ -236,7 +236,7 @@ namespace LightestDungeonCreator {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/LightestDungeonCreator;V1.0.0.0;component/view/creadorpersonatge.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/LightestDungeonCreator;component/view/creadorpersonatge.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\View\CreadorPersonatge.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

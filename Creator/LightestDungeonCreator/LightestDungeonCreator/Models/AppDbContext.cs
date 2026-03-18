@@ -201,6 +201,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.ImageThumb)
                 .HasMaxLength(500)
                 .HasColumnName("image_thumb");
+            entity.Property(e => e.IsAoe).HasColumnName("is_aoe");
             entity.Property(e => e.MaxUses)
                 .HasColumnType("int(11)")
                 .HasColumnName("max_uses");
@@ -210,6 +211,9 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Quality)
                 .HasMaxLength(20)
                 .HasColumnName("quality");
+            entity.Property(e => e.TargetType)
+                .HasMaxLength(20)
+                .HasColumnName("target_type");
 
             entity.HasMany(d => d.Effects).WithMany(p => p.Items)
                 .UsingEntity<Dictionary<string, object>>(

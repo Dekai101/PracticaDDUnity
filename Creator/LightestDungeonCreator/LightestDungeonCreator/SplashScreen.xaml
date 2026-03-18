@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LightestDungeonCreator"
         mc:Ignorable="d"
         Title="SplashScreen"
-        Height="520" Width="780"
+        Height="520" Width="850"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
