@@ -313,10 +313,9 @@
                                           BorderBrush="#5C3A1E"
                                           FontFamily="Georgia" FontSize="11"
                                       VerticalContentAlignment="Center">
-                                        <ComboBoxItem Content="Single"     IsSelected="True"/>
-                                        <ComboBoxItem Content="AoE"/>
-                                        <ComboBoxItem Content="Self"/>
-                                        <ComboBoxItem Content="RandomEnemy"/>
+                                        <ComboBoxItem Content="Enemy"     IsSelected="True"/>
+                                        <ComboBoxItem Content="Ally"/>
+                                        <ComboBoxItem Content="Self"/>  
                                     </ComboBox>
                                 </StackPanel>
                             </Grid>

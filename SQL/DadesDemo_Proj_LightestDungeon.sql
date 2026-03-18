@@ -504,74 +504,74 @@ WHERE e.name = 'Dark Assassin'
 -- =====================================================
 
 -- ---- HEAD (8) ----
-INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb) VALUES
-('Iron Helm',         'Casco básico de hierro.',                 'COMMON',   false, NULL, '/img/iron_helm.png'),
-('Knight Visor',      'Visor de caballero con alta defensa.',    'UNCOMMON', false, NULL, '/img/knight_visor.png'),
-('Shadow Hood',       'Capucha oscura que mejora la velocidad.', 'UNCOMMON', false, NULL, '/img/shadow_hood.png'),
-('Arcane Crown',      'Corona mágica que potencia la energía.',  'RARE',     false, NULL, '/img/arcane_crown.png'),
-('Ranger Cap',        'Gorra ligera para arqueros.',             'COMMON',   false, NULL, '/img/ranger_cap.png'),
-('Vampire Mask',      'Máscara que otorga regeneración oscura.', 'RARE',     false, NULL, '/img/vamp_mask.png'),
-('Golem Skull Plate', 'Placa de piedra de un gólem derrotado.',  'EPIC',     false, NULL, '/img/golem_skull.png'),
-('Blessed Tiara',     'Tiara sagrada que aumenta la precisión.', 'RARE',     false, NULL, '/img/tiara.png');
+INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
+('Iron Helm',         'Casco básico de hierro.',                 'COMMON',   false, NULL, '/img/iron_helm.png',    'Self', false),
+('Knight Visor',      'Visor de caballero con alta defensa.',    'UNCOMMON', false, NULL, '/img/knight_visor.png', 'Self', false),
+('Shadow Hood',       'Capucha oscura que mejora la velocidad.', 'UNCOMMON', false, NULL, '/img/shadow_hood.png',  'Self', false),
+('Arcane Crown',      'Corona mágica que potencia la energía.',  'RARE',     false, NULL, '/img/arcane_crown.png', 'Self', false),
+('Ranger Cap',        'Gorra ligera para arqueros.',             'COMMON',   false, NULL, '/img/ranger_cap.png',   'Self', false),
+('Vampire Mask',      'Máscara que otorga regeneración oscura.', 'RARE',     false, NULL, '/img/vamp_mask.png',    'Self', false),
+('Golem Skull Plate', 'Placa de piedra de un gólem derrotado.',  'EPIC',     false, NULL, '/img/golem_skull.png',  'Self', false),
+('Blessed Tiara',     'Tiara sagrada que aumenta la precisión.', 'RARE',     false, NULL, '/img/tiara.png',        'Self', false);
 
 -- ---- CHEST (8) ----
-INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb) VALUES
-('Iron Chestplate',  'Peto de hierro estándar.',                'COMMON',   false, NULL, '/img/iron_chest.png'),
-('Battle Armor',     'Armadura de batalla reforzada.',          'UNCOMMON', false, NULL, '/img/battle_armor.png'),
-('Leather Vest',     'Chaleco ligero para agilidad.',           'COMMON',   false, NULL, '/img/leather_vest.png'),
-('Mage Robe',        'Túnica mágica que amplifica la energía.', 'UNCOMMON', false, NULL, '/img/mage_robe.png'),
-('Shadow Cloak',     'Capa oscura que mejora la evasión.',      'RARE',     false, NULL, '/img/shadow_cloak.png'),
-('Blessed Vestment', 'Vestimenta sagrada con aura curativa.',   'RARE',     false, NULL, '/img/vestment.png'),
-('Golem Shell',      'Coraza de piedra mágica.',                'EPIC',     false, NULL, '/img/golem_shell.png'),
-('Vampiric Coat',    'Abrigo oscuro que drena energía.',        'EPIC',     false, NULL, '/img/vamp_coat.png');
+INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
+('Iron Chestplate',  'Peto de hierro estándar.',                'COMMON',   false, NULL, '/img/iron_chest.png',   'Self', false),
+('Battle Armor',     'Armadura de batalla reforzada.',          'UNCOMMON', false, NULL, '/img/battle_armor.png', 'Self', false),
+('Leather Vest',     'Chaleco ligero para agilidad.',           'COMMON',   false, NULL, '/img/leather_vest.png', 'Self', false),
+('Mage Robe',        'Túnica mágica que amplifica la energía.', 'UNCOMMON', false, NULL, '/img/mage_robe.png',    'Self', false),
+('Shadow Cloak',     'Capa oscura que mejora la evasión.',      'RARE',     false, NULL, '/img/shadow_cloak.png', 'Self', false),
+('Blessed Vestment', 'Vestimenta sagrada con aura curativa.',   'RARE',     false, NULL, '/img/vestment.png',     'Self', false),
+('Golem Shell',      'Coraza de piedra mágica.',                'EPIC',     false, NULL, '/img/golem_shell.png',  'Self', false),
+('Vampiric Coat',    'Abrigo oscuro que drena energía.',        'EPIC',     false, NULL, '/img/vamp_coat.png',    'Self', false);
 
 -- ---- LOWER (8) ----
-INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb) VALUES
-('Iron Greaves',    'Grebas de hierro básicas.',                'COMMON',   false, NULL, '/img/iron_greaves.png'),
-('Knight Leggings', 'Mallas de caballero resistentes.',         'UNCOMMON', false, NULL, '/img/knight_legs.png'),
-('Swift Boots',     'Botas ligeras de alta velocidad.',         'UNCOMMON', false, NULL, '/img/swift_boots.png'),
-('Mage Sandals',    'Sandalias que canalizan magia.',           'COMMON',   false, NULL, '/img/mage_sandals.png'),
-('Shadow Leggings', 'Pantalones de sigilo.',                    'RARE',     false, NULL, '/img/shadow_legs.png'),
-('Ranger Boots',    'Botas de explorador para terreno difícil.','UNCOMMON', false, NULL, '/img/ranger_boots.png'),
-('Golem Stompers',  'Pezuñas de piedra con impacto sísmico.',   'EPIC',     false, NULL, '/img/golem_stomp.png'),
-('Blessed Sandals', 'Sandalias sagradas que mejoran la crit.',  'RARE',     false, NULL, '/img/blessed_sandals.png');
+INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
+('Iron Greaves',    'Grebas de hierro básicas.',                 'COMMON',   false, NULL, '/img/iron_greaves.png',    'Self', false),
+('Knight Leggings', 'Mallas de caballero resistentes.',          'UNCOMMON', false, NULL, '/img/knight_legs.png',     'Self', false),
+('Swift Boots',     'Botas ligeras de alta velocidad.',          'UNCOMMON', false, NULL, '/img/swift_boots.png',     'Self', false),
+('Mage Sandals',    'Sandalias que canalizan magia.',            'COMMON',   false, NULL, '/img/mage_sandals.png',    'Self', false),
+('Shadow Leggings', 'Pantalones de sigilo.',                     'RARE',     false, NULL, '/img/shadow_legs.png',     'Self', false),
+('Ranger Boots',    'Botas de explorador para terreno difícil.', 'UNCOMMON', false, NULL, '/img/ranger_boots.png',    'Self', false),
+('Golem Stompers',  'Pezuñas de piedra con impacto sísmico.',    'EPIC',     false, NULL, '/img/golem_stomp.png',     'Self', false),
+('Blessed Sandals', 'Sandalias sagradas que mejoran la crit.',   'RARE',     false, NULL, '/img/blessed_sandals.png', 'Self', false);
 
 -- ---- WEAPONS (12) ----
-INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb) VALUES
-('Short Sword',         'Espada corta de inicio.',                   'COMMON',   false, NULL, '/img/short_sword.png'),
-('Longsword',           'Espada larga de caballero.',                'UNCOMMON', false, NULL, '/img/longsword.png'),
-('Shadow Dagger',       'Daga rápida del asesino.',                  'UNCOMMON', false, NULL, '/img/shadow_dagger.png'),
-('Poison Blade',        'Daga impregnada de veneno.',                'RARE',     false, NULL, '/img/poison_blade.png'),
-('War Hammer',          'Martillo de guerra pesado.',                'UNCOMMON', false, NULL, '/img/war_hammer.png'),
-('Arcane Staff',        'Bastón que amplifica hechizos.',            'RARE',     false, NULL, '/img/arcane_staff.png'),
-('Holy Wand',           'Varita sagrada para sanadores.',            'RARE',     false, NULL, '/img/holy_wand.png'),
-('Longbow',             'Arco largo de alta precisión.',             'UNCOMMON', false, NULL, '/img/longbow.png'),
-('Crossbow',            'Ballesta compacta y potente.',              'RARE',     false, NULL, '/img/crossbow.png'),
-('Blood Scythe',        'Guadaña que absorbe la vida enemiga.',      'EPIC',     false, NULL, '/img/blood_scythe.png'),
-('Stone Fist Gauntlet', 'Guantelete de piedra con tremendo impacto.','EPIC',     false, NULL, '/img/stone_fist.png'),
-('Twin Blades',         'Par de dagas para ataques dobles.',         'RARE',     false, NULL, '/img/twin_blades.png');
+INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
+('Short Sword',         'Espada corta de inicio.',                    'COMMON',   false, NULL, '/img/short_sword.png',  'Self', false),
+('Longsword',           'Espada larga de caballero.',                 'UNCOMMON', false, NULL, '/img/longsword.png',    'Self', false),
+('Shadow Dagger',       'Daga rápida del asesino.',                   'UNCOMMON', false, NULL, '/img/shadow_dagger.png','Self', false),
+('Poison Blade',        'Daga impregnada de veneno.',                 'RARE',     false, NULL, '/img/poison_blade.png', 'Self', false),
+('War Hammer',          'Martillo de guerra pesado.',                 'UNCOMMON', false, NULL, '/img/war_hammer.png',   'Self', false),
+('Arcane Staff',        'Bastón que amplifica hechizos.',             'RARE',     false, NULL, '/img/arcane_staff.png', 'Self', false),
+('Holy Wand',           'Varita sagrada para sanadores.',             'RARE',     false, NULL, '/img/holy_wand.png',    'Self', false),
+('Longbow',             'Arco largo de alta precisión.',              'UNCOMMON', false, NULL, '/img/longbow.png',      'Self', false),
+('Crossbow',            'Ballesta compacta y potente.',               'RARE',     false, NULL, '/img/crossbow.png',     'Self', false),
+('Blood Scythe',        'Guadaña que absorbe la vida enemiga.',       'EPIC',     false, NULL, '/img/blood_scythe.png', 'Self', false),
+('Stone Fist Gauntlet', 'Guantelete de piedra con tremendo impacto.', 'EPIC',     false, NULL, '/img/stone_fist.png',   'Self', false),
+('Twin Blades',         'Par de dagas para ataques dobles.',          'RARE',     false, NULL, '/img/twin_blades.png',  'Self', false);
 
 -- ---- CONSUMABLES (8) ----
-INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb) VALUES
-('Health Potion',      'Restaura 30% de HP.',                        'COMMON',   true, 1, '/img/health_pot.png'),
-('Energy Elixir',      'Restaura 30% de energía.',                   'COMMON',   true, 1, '/img/energy_elixir.png'),
-('Antidote',           'Elimina el estado Envenenado.',              'COMMON',   true, 1, '/img/antidote.png'),
-('Rage Brew',          'Aplica Fortalecido lv1 al usuario.',         'UNCOMMON', true, 1, '/img/rage_brew.png'),
-('Smoke Bomb',         'Aturde a todos los enemigos 1 turno.',       'UNCOMMON', true, 1, '/img/smoke_bomb.png'),
-('Greater Health Pot', 'Restaura 60% de HP.',                        'RARE',     true, 1, '/img/greater_hp.png'),
-('Elixir of Speed',    'Aumenta velocidad un 30% durante 3 turnos.', 'UNCOMMON', true, 1, '/img/speed_elixir.png'),
-('Phoenix Feather',    'Revive al usuario con el 50% de HP.',        'EPIC',     true, 1, '/img/phoenix.png');
+INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
+('Health Potion',      'Restaura 30% de HP.',                        'COMMON',   true, 1, '/img/health_pot.png',    'Self',  false),
+('Energy Elixir',      'Restaura 30% de energía.',                   'COMMON',   true, 1, '/img/energy_elixir.png', 'Self',  false),
+('Antidote',           'Elimina el estado Envenenado.',              'COMMON',   true, 1, '/img/antidote.png',      'Self',  false),
+('Rage Brew',          'Aplica Fortalecido lv1 al usuario.',         'UNCOMMON', true, 1, '/img/rage_brew.png',     'Self',  false),
+('Smoke Bomb',         'Aturde a todos los enemigos 1 turno.',       'UNCOMMON', true, 1, '/img/smoke_bomb.png',    'Enemy', true),
+('Greater Health Pot', 'Restaura 60% de HP.',                        'RARE',     true, 1, '/img/greater_hp.png',    'Self',  false),
+('Elixir of Speed',    'Aumenta velocidad un 30% durante 3 turnos.', 'UNCOMMON', true, 1, '/img/speed_elixir.png',  'Self',  false),
+('Phoenix Feather',    'Revive al usuario con el 50% de HP.',        'EPIC',     true, 1, '/img/phoenix.png',       'Self',  false);
 
 -- ---- NON-CONSUMABLES (8) ----
-INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb) VALUES
-('Lucky Charm',   'Amuleto que aumenta el crit_chance.',       'UNCOMMON', false, NULL, '/img/lucky_charm.png'),
-('Stone Totem',   'Tótem que mejora la defensa pasivamente.',  'UNCOMMON', false, NULL, '/img/stone_totem.png'),
-('Vampire Ring',  'Anillo que aplica Sangrado al atacar.',     'RARE',     false, NULL, '/img/vamp_ring.png'),
-('Poison Amulet', 'Amuleto que aplica Envenenado al atacar.',  'RARE',     false, NULL, '/img/poison_amulet.png'),
-('Battle Banner', 'Estandarte que da Fortalecido a aliados.',  'RARE',     false, NULL, '/img/banner.png'),
-('Speed Anklet',  'Tobillera que aumenta la velocidad.',       'UNCOMMON', false, NULL, '/img/anklet.png'),
-('Accuracy Lens', 'Lente que mejora la precisión.',            'UNCOMMON', false, NULL, '/img/lens.png'),
-('Crit Gem',      'Gema que mejora el daño crítico.',          'RARE',     false, NULL, '/img/crit_gem.png');
+INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
+('Lucky Charm',   'Amuleto que aumenta el crit_chance.',       'UNCOMMON', false, NULL, '/img/lucky_charm.png',   'Self',  false),
+('Stone Totem',   'Tótem que mejora la defensa pasivamente.',  'UNCOMMON', false, NULL, '/img/stone_totem.png',   'Self',  false),
+('Vampire Ring',  'Anillo que aplica Sangrado al atacar.',     'RARE',     false, NULL, '/img/vamp_ring.png',     'Enemy', false),
+('Poison Amulet', 'Amuleto que aplica Envenenado al atacar.',  'RARE',     false, NULL, '/img/poison_amulet.png', 'Enemy', false),
+('Battle Banner', 'Estandarte que da Fortalecido a aliados.',  'RARE',     false, NULL, '/img/banner.png',        'Ally',  true),
+('Speed Anklet',  'Tobillera que aumenta la velocidad.',       'UNCOMMON', false, NULL, '/img/anklet.png',        'Self',  false),
+('Accuracy Lens', 'Lente que mejora la precisión.',            'UNCOMMON', false, NULL, '/img/lens.png',          'Self',  false),
+('Crit Gem',      'Gema que mejora el daño crítico.',          'RARE',     false, NULL, '/img/crit_gem.png',      'Self',  false);
 
 -- =====================================================
 -- 🔟 ITEM ↔ EFFECT (ItemEffect)
