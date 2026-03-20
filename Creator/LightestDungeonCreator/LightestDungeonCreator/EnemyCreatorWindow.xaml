@@ -710,6 +710,9 @@
                                         <CheckBox x:Name="FilterAoe" Content="AoE" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                        <CheckBox x:Name="FilterNotAoe" Content="Not AoE" VerticalContentAlignment="Center"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                         <CheckBox x:Name="FilterPassive" Content="Passive" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>

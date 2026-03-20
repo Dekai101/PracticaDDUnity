@@ -181,7 +181,22 @@ namespace LightestDungeonCreator
         }
 
         private void Filter_CheckChanged(object sender, RoutedEventArgs e)
-            => ApplyFilters();
+        {
+            if (sender is CheckBox cb)
+            {
+                if (cb == FilterAlly && cb.IsChecked == true)
+                    FilterEnemy.IsChecked = FilterSelf.IsChecked = false;
+                else if (cb == FilterEnemy && cb.IsChecked == true)
+                    FilterAlly.IsChecked = FilterSelf.IsChecked = false;
+                else if (cb == FilterSelf && cb.IsChecked == true)
+                    FilterAlly.IsChecked = FilterEnemy.IsChecked = false;
+                else if (cb == FilterAoe && cb.IsChecked == true)
+                    FilterNotAoe.IsChecked = false;
+                else if (cb == FilterNotAoe && cb.IsChecked == true)
+                    FilterAoe.IsChecked = false;
+            }
+            ApplyFilters();
+        }
 
         private void ApplyFilters()
         {
@@ -194,6 +209,7 @@ namespace LightestDungeonCreator
             bool onlyEnemy = FilterEnemy?.IsChecked == true;
             bool onlySelf = FilterSelf?.IsChecked == true;
             bool onlyAoe = FilterAoe?.IsChecked == true;
+            bool onlyNotAoe = FilterNotAoe?.IsChecked == true;
             bool onlyPassive = FilterPassive?.IsChecked == true;
 
             var filtered = _allSkills.Where(s =>
@@ -210,6 +226,7 @@ namespace LightestDungeonCreator
                 if (onlySelf && s.TargetType.ToUpper() != "SELF") return false;
                 // TYPE
                 if (onlyAoe && !s.IsAoe) return false;
+                if (onlyNotAoe && s.IsAoe) return false;
                 if (onlyPassive && !s.IsPassive) return false;
                 return true;
             });
