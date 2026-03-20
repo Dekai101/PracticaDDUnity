@@ -55,9 +55,7 @@ namespace LightestDungeonCreator
 
         private void ListItems_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open an ItemListWindow when it's created
-            MessageBox.Show("Lista de items — pendiente de implementar.",
-                            "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            new ItemListWindow().Show();
         }
 
         // -- Data loading ------------------------------------------------------------
@@ -251,13 +249,8 @@ namespace LightestDungeonCreator
                 Quality = quality.ToUpper(),
                 Consumable = consumable,
                 MaxUses = maxUses,
-<<<<<<< HEAD
-                //IsAoe = IsAoeCheck.IsChecked == true,
-                //TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
-=======
                 IsAoe = IsAoeCheck.IsChecked == true,
-                TargetType = ((ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Enemy").ToUpper(),
->>>>>>> fb362e9042d0e361d02a3dd061ffaa3234c69da9
+                TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
                 ImageThumb = _imageThumbPath ?? ""
             };
 
@@ -344,6 +337,6 @@ namespace LightestDungeonCreator
             StatusLevelCombo.Items.Clear();
         }
 
-        
+
     }
 }

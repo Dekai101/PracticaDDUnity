@@ -215,7 +215,7 @@
                     <Button Content="←" Style="{StaticResource ExitButtonStyle}"
                             FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center"
                             Click="BackButton_Click"/>
-                    <TextBlock Text="✦  ASSIGNACIÓ D'HABILITATS  ✦"
+                    <TextBlock Text="✦  SKILL ASSIGNMENT  ✦"
                                Foreground="{StaticResource GoldDimBrush}"
                                FontFamily="Georgia" FontSize="11"
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -234,7 +234,7 @@
                         BorderThickness="0,0,1,0">
                     <StackPanel Margin="12,14,12,14">
 
-                        <TextBlock Text="✦  PERSONATGES" Style="{StaticResource SectionHeader}"
+                        <TextBlock Text="✦  CHARACTERS" Style="{StaticResource SectionHeader}"
                                    Margin="0,0,0,10"/>
 
                         <!-- Search -->
@@ -492,7 +492,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
                                                    Fill="{StaticResource GoldDimBrush}" Opacity="0.4"/>
-                                        <TextBlock Grid.Column="1" Text="  ✦  HABILITATS DEL PERSONATGE  ✦  "
+                                        <TextBlock Grid.Column="1" Text="  ✦  CURRENT CHARACTER SKILLS  ✦  "
                                                    Style="{StaticResource SectionHeader}"
                                                    VerticalAlignment="Center" Margin="0"/>
                                         <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
@@ -511,41 +511,53 @@
                                                             <ColumnDefinition Width="22"/>
                                                         </Grid.ColumnDefinitions>
                                                         <StackPanel>
+                                                            <!-- Row 1: nom + badges -->
                                                             <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
                                                                 <TextBlock Text="{Binding Name}"
                                                                            Foreground="#C8922A" FontFamily="Georgia"
                                                                            FontSize="12" FontWeight="Bold"
-                                                                           Margin="0,0,10,0"/>
+                                                                           Margin="0,0,8,0"/>
+                                                                <!-- Target badge -->
                                                                 <Border Background="#1A0A04" BorderBrush="#5C3A1E"
-                                                                        BorderThickness="1" CornerRadius="2" Padding="4,1"
-                                                                        Margin="0,0,4,0">
+                                                                        BorderThickness="1" CornerRadius="2"
+                                                                        Padding="4,1" Margin="0,0,4,0">
                                                                     <TextBlock Text="{Binding TargetType}"
-                                                                               Foreground="#7A6A5A" FontFamily="Georgia" FontSize="9"/>
+                                                                               Foreground="#7A6A5A"
+                                                                               FontFamily="Georgia" FontSize="9"/>
                                                                 </Border>
-                                                                <Border Background="#1A0A04" BorderBrush="#5C3A1E"
-                                                                        BorderThickness="1" CornerRadius="2" Padding="4,1"
-                                                                        Visibility="{Binding AoeBadgeVisibility}">
-                                                                    <TextBlock Text="AOE" Foreground="#8B1A1A"
+                                                                <!-- AoE badge -->
+                                                                <Border Background="#0A1A0A" BorderBrush="#1A4A1A"
+                                                                        BorderThickness="1" CornerRadius="2"
+                                                                        Padding="4,1">
+                                                                    <Border.Style>
+                                                                        <Style TargetType="Border">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsAoe}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Border.Style>
+                                                                    <TextBlock Text="AoE" Foreground="#3A8B3A"
                                                                                FontFamily="Georgia" FontSize="9"/>
                                                                 </Border>
                                                             </StackPanel>
+                                                            <!-- Row 2: stats -->
                                                             <StackPanel Orientation="Horizontal">
                                                                 <TextBlock Text="Cost: " Style="{StaticResource SmallMuted}"/>
-                                                                <TextBlock Text="{Binding EnergyCostDisplay}"
+                                                                <TextBlock Text="{Binding EnergyCost}"
                                                                            Foreground="#D4C5A9" FontFamily="Georgia"
-                                                                           FontSize="10" Margin="0,0,12,0"/>
+                                                                           FontSize="10" Margin="0,0,10,0"/>
                                                                 <TextBlock Text="Acc: " Style="{StaticResource SmallMuted}"/>
-                                                                <TextBlock Text="{Binding AccuracyDisplay}"
+                                                                <TextBlock Text="{Binding Accuracy, StringFormat={}{0:P0}}"
                                                                            Foreground="#D4C5A9" FontFamily="Georgia"
-                                                                           FontSize="10" Margin="0,0,12,0"/>
+                                                                           FontSize="10" Margin="0,0,10,0"/>
                                                                 <TextBlock Text="Hits: " Style="{StaticResource SmallMuted}"/>
                                                                 <TextBlock Text="{Binding Hits}"
-                                                                           Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                                           Foreground="#D4C5A9" FontFamily="Georgia"
+                                                                           FontSize="10"/>
                                                             </StackPanel>
-                                                            <TextBlock Text="{Binding EffectsSummary}"
-                                                                       Foreground="#5C3A1E" FontFamily="Georgia" FontSize="10"
-                                                                       TextWrapping="Wrap" Margin="0,3,0,0"
-                                                                       Visibility="{Binding EffectsVisibility}"/>
                                                         </StackPanel>
                                                         <Button Grid.Column="1" Style="{StaticResource RemoveBtnStyle}"
                                                                 Tag="{Binding}" VerticalAlignment="Top"
@@ -559,7 +571,7 @@
                                     <Border x:Name="NoSkillsPlaceholder"
                                             BorderBrush="#1E1208" BorderThickness="1"
                                             CornerRadius="3" Padding="14,16">
-                                        <TextBlock Text="Cap habilitat assignada."
+                                        <TextBlock Text="No skill assigned."
                                                    Foreground="#2D1E10" FontFamily="Georgia" FontSize="11"
                                                    FontStyle="Italic" TextAlignment="Center"/>
                                     </Border>
@@ -584,14 +596,14 @@
                                             </Grid.ColumnDefinitions>
                                             <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
                                                        Fill="{StaticResource GoldDimBrush}" Opacity="0.4"/>
-                                            <TextBlock Grid.Column="1" Text="  ✦  AFEGIR HABILITATS  ✦  "
+                                            <TextBlock Grid.Column="1" Text="  ✦  ADD SKILLS  ✦  "
                                                        Style="{StaticResource SectionHeader}"
                                                        VerticalAlignment="Center" Margin="0"/>
                                             <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
                                                        Fill="{StaticResource GoldDimBrush}" Opacity="0.4"/>
                                         </Grid>
 
-                                        <Button Content="⊕  Afegir seleccionada"
+                                        <Button Content="⊕  Add Selected"
                                                 Style="{StaticResource AddSkillBtnStyle}"
                                                 Width="180" HorizontalAlignment="Left"
                                                 Margin="0,0,0,10"
@@ -621,30 +633,53 @@
                                                 <DataTemplate>
                                                     <Border BorderBrush="#1E1208" BorderThickness="0,0,0,1" Padding="10,8">
                                                         <StackPanel>
-                                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                                            <!-- Row 1: nom + badges -->
+                                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
                                                                 <TextBlock Text="{Binding Name}"
                                                                            Foreground="#C8922A" FontFamily="Georgia"
-                                                                           FontSize="12" FontWeight="Bold" Margin="0,0,8,0"/>
-                                                                <TextBlock Text="{Binding TargetType}"
-                                                                           Foreground="#5C3A1E" FontFamily="Georgia"
-                                                                           FontSize="10" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="  AOE" Foreground="#8B1A1A"
-                                                                           FontFamily="Georgia" FontSize="10"
-                                                                           Visibility="{Binding AoeBadgeVisibility}"/>
+                                                                           FontSize="12" FontWeight="Bold"
+                                                                           Margin="0,0,8,0"/>
+                                                                <!-- Target -->
+                                                                <Border Background="#1A0A04" BorderBrush="#5C3A1E"
+                                                                        BorderThickness="1" CornerRadius="2"
+                                                                        Padding="4,1" Margin="0,0,4,0">
+                                                                    <TextBlock Text="{Binding TargetType}"
+                                                                               Foreground="#7A6A5A"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                </Border>
+                                                                <!-- AoE badge -->
+                                                                <Border Background="#0A1A0A" BorderBrush="#1A4A1A"
+                                                                        BorderThickness="1" CornerRadius="2"
+                                                                        Padding="4,1">
+                                                                    <Border.Style>
+                                                                        <Style TargetType="Border">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsAoe}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Border.Style>
+                                                                    <TextBlock Text="AoE" Foreground="#3A8B3A"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                </Border>
                                                             </StackPanel>
+                                                            <!-- Row 2: stats -->
                                                             <StackPanel Orientation="Horizontal">
                                                                 <TextBlock Text="Cost: " Style="{StaticResource SmallMuted}"/>
-                                                                <TextBlock Text="{Binding EnergyCostDisplay}"
+                                                                <TextBlock Text="{Binding EnergyCost}"
                                                                            Foreground="#D4C5A9" FontFamily="Georgia"
                                                                            FontSize="10" Margin="0,0,10,0"/>
                                                                 <TextBlock Text="Acc: " Style="{StaticResource SmallMuted}"/>
-                                                                <TextBlock Text="{Binding AccuracyDisplay}"
-                                                                           Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                                <TextBlock Text="{Binding Accuracy, StringFormat={}{0:P0}}"
+                                                                           Foreground="#D4C5A9" FontFamily="Georgia"
+                                                                           FontSize="10" Margin="0,0,10,0"/>
+                                                                <TextBlock Text="Hits: " Style="{StaticResource SmallMuted}"/>
+                                                                <TextBlock Text="{Binding Hits}"
+                                                                           Foreground="#D4C5A9" FontFamily="Georgia"
+                                                                           FontSize="10"/>
                                                             </StackPanel>
-                                                            <TextBlock Text="{Binding EffectsSummary}"
-                                                                       Foreground="#5C3A1E" FontFamily="Georgia" FontSize="10"
-                                                                       TextWrapping="Wrap"
-                                                                       Visibility="{Binding EffectsVisibility}"/>
                                                         </StackPanel>
                                                     </Border>
                                                 </DataTemplate>
@@ -657,13 +692,13 @@
                                             BorderBrush="#2A1A08" BorderThickness="1"
                                             CornerRadius="4" Padding="12,10">
                                         <StackPanel>
-                                            <TextBlock Text="FILTRES:" Foreground="#C8922A"
+                                            <TextBlock Text="FILTERS:" Foreground="#C8922A"
                                                        FontFamily="Georgia" FontSize="11" FontWeight="Bold"
                                                        Margin="0,0,0,10"/>
-                                            <TextBlock Text="Cerca per nom:" Style="{StaticResource FilterLabel}" Margin="0,0,0,4"/>
+                                            <TextBlock Text="Search by name:" Style="{StaticResource FilterLabel}" Margin="0,0,0,4"/>
                                             <TextBox x:Name="FilterNameInput" Style="{StaticResource DarkInput}"
                                                      Height="28" FontSize="11" TextChanged="Filter_Changed"/>
-                                            <TextBlock Text="Energia màx:" Style="{StaticResource FilterLabel}"/>
+                                            <TextBlock Text="Max energy:" Style="{StaticResource FilterLabel}"/>
                                             <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
                                                 <TextBlock x:Name="EnergyCostFilterVal" Text="Any"
                                                            Foreground="#C8922A" FontFamily="Georgia" FontSize="11"
@@ -672,8 +707,8 @@
                                                         Width="100" Style="{StaticResource GoldSlider}"
                                                         ValueChanged="FilterSlider_Changed"/>
                                             </StackPanel>
-                                            <TextBlock Text="Precisió mín:" Style="{StaticResource FilterLabel}"/>
-                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                                            <TextBlock Text="Min Accuracy:" Style="{StaticResource FilterLabel}"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                                 <TextBlock x:Name="AccuracyFilterVal" Text="0%"
                                                            Foreground="#C8922A" FontFamily="Georgia" FontSize="11"
                                                            Width="30" VerticalAlignment="Center"/>
@@ -681,15 +716,24 @@
                                                         Width="100" Style="{StaticResource GoldSlider}"
                                                         ValueChanged="FilterSlider_Changed"/>
                                             </StackPanel>
-                                            <TextBlock Text="Tipus:" Style="{StaticResource FilterLabel}"/>
-                                            <WrapPanel>
-                                                <CheckBox x:Name="FilterSingle" Content="Single"
+                                            <TextBlock Text="Target:" Style="{StaticResource FilterLabel}" Margin="0,4,0,2"/>
+                                            <WrapPanel Margin="0,0,0,4">
+                                                <CheckBox x:Name="FilterAlly" Content="Ally"
                                                           Style="{StaticResource FilterCheck}"
                                                           Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                                <CheckBox x:Name="FilterEnemy" Content="Enemy"
+                                                          Style="{StaticResource FilterCheck}"
+                                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                                <CheckBox x:Name="FilterSelf" Content="Self"
+                                                          Style="{StaticResource FilterCheck}"
+                                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                            </WrapPanel>
+                                            <TextBlock Text="Type:" Style="{StaticResource FilterLabel}" Margin="0,4,0,2"/>
+                                            <WrapPanel>
                                                 <CheckBox x:Name="FilterAoe" Content="AoE"
                                                           Style="{StaticResource FilterCheck}"
                                                           Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
-                                                <CheckBox x:Name="FilterPassive" Content="Passive"
+                                                <CheckBox x:Name="FilterNotAoe" Content="Not AoE"
                                                           Style="{StaticResource FilterCheck}"
                                                           Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                             </WrapPanel>
@@ -712,7 +756,7 @@
                                Foreground="{StaticResource MutedBrush}"
                                FontFamily="Georgia" FontSize="10"
                                VerticalAlignment="Center" Opacity="0.5"/>
-                    <Button Content="  ✦  GUARDAR CANVIS  ✦  "
+                    <Button Content="  ✦  SAVE CHANGES  ✦  "
                             Style="{StaticResource ActionButtonStyle}"
                             HorizontalAlignment="Right" Width="200" Height="36"
                             Click="SaveAssignment_Click"
