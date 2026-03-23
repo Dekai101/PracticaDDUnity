@@ -722,6 +722,171 @@
                         </Grid>
                     </Border>
 
+                    <!-- ─── LOOT TABLE ─── -->
+                    <Border Style="{StaticResource SectionPanel}">
+                        <StackPanel>
+
+                            <!-- Section header -->
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                                <TextBlock Grid.Column="1" Text="  ☠  LOOT  ☠  "
+                                           Foreground="#8B1A1A" FontFamily="Georgia"
+                                           FontSize="12" FontWeight="Bold"
+                                           VerticalAlignment="Center" Margin="0"/>
+                                <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                            </Grid>
+
+                            <!-- ── Add loot entry form ── -->
+                            <Border Background="#0D0404" BorderBrush="#2A0808"
+                                    BorderThickness="1" CornerRadius="3" Padding="12,10"
+                                    Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="ADD LOOT ENTRIES"
+                                               Foreground="#C8922A" FontFamily="Georgia"
+                                               FontSize="11" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                    <!-- Row 1: Item selector -->
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="ITEM *" Style="{StaticResource FieldLabel}"
+                                                   Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="LootItemCombo"
+                                                  Grid.Column="1" Height="30"
+                                                  Style="{StaticResource DarkComboBoxStyle}"
+                                                  DisplayMemberPath="Name"/>
+                                    </Grid>
+
+                                    <!-- Row 2: Min quality / Max quality -->
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="14"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="MIN QUALITY *" Style="{StaticResource FieldLabel}"/>
+                                            <ComboBox x:Name="LootMinQualityCombo"
+                                                      Height="30" Background="#120C06"
+                                                      Foreground="#D4C5A9" BorderBrush="#5C3A1E"
+                                                      FontFamily="Georgia" FontSize="11"
+                                                      VerticalContentAlignment="Center"
+                                                      SelectionChanged="LootQualityCombo_SelectionChanged">
+                                                <ComboBoxItem Content="COMMON"    IsSelected="True"/>
+                                                <ComboBoxItem Content="UNCOMMON"/>
+                                                <ComboBoxItem Content="RARE"/>
+                                                <ComboBoxItem Content="EPIC"/>
+                                                <ComboBoxItem Content="LEGENDARY"/>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="MAX QUALITY *" Style="{StaticResource FieldLabel}"/>
+                                            <ComboBox x:Name="LootMaxQualityCombo"
+                                                      Height="30" Background="#120C06"
+                                                      Foreground="#D4C5A9" BorderBrush="#5C3A1E"
+                                                      FontFamily="Georgia" FontSize="11"
+                                                      VerticalContentAlignment="Center">
+                                                <ComboBoxItem Content="COMMON"/>
+                                                <ComboBoxItem Content="UNCOMMON"/>
+                                                <ComboBoxItem Content="RARE"/>
+                                                <ComboBoxItem Content="EPIC"/>
+                                                <ComboBoxItem Content="LEGENDARY" IsSelected="True"/>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Row 3: Drop chance + botó -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="DROP CHANCE % *" Style="{StaticResource FieldLabel}"
+                                                   VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <TextBox x:Name="LootDropChanceInput" Grid.Column="1"
+                                                 Style="{StaticResource DarkInput}"
+                                                 Height="30" Text="10"
+                                                 TextAlignment="Center"
+                                                 ToolTip="Probabilitat de 0.1 a 100"/>
+                                        <Button Grid.Column="3"
+                                                Content="⊕  Add to Loot"
+                                                Style="{StaticResource AddSkillBtnStyle}"
+                                                Click="AddLootEntry_Click"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- ── Loot entries list ── -->
+                            <ItemsControl x:Name="LootEntriesList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#0D0404" BorderBrush="#2A0808"
+                                                BorderThickness="1" CornerRadius="3"
+                                                Margin="0,0,0,5" Padding="10,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="22"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <!-- Nom item + drop chance -->
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                                                        <TextBlock Text="{Binding ItemName}"
+                                                                   Foreground="#C8922A" FontFamily="Georgia"
+                                                                   FontSize="12" FontWeight="Bold"
+                                                                   Margin="0,0,10,0"/>
+                                                        <Border Background="#1A0808" BorderBrush="#5C1010"
+                                                                BorderThickness="1" CornerRadius="2" Padding="5,1">
+                                                            <TextBlock Text="{Binding DropChanceDisplay}"
+                                                                       Foreground="#8B1A1A"
+                                                                       FontFamily="Georgia" FontSize="9"
+                                                                       FontWeight="Bold"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <!-- Quality range -->
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Quality: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding MinQuality}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                        <TextBlock Text=" → " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding MaxQuality}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Button Grid.Column="1" Style="{StaticResource RemoveBtnStyle}"
+                                                        Tag="{Binding}" VerticalAlignment="Top"
+                                                        Click="RemoveLootEntry_Click"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Placeholder buida -->
+                            <Border x:Name="NoLootPlaceholder"
+                                    BorderBrush="#1E0808" BorderThickness="1"
+                                    CornerRadius="3" Padding="14,12">
+                                <TextBlock Text="Cap entrada de loot afegida."
+                                           Foreground="#2D1010" FontFamily="Georgia" FontSize="11"
+                                           FontStyle="Italic" TextAlignment="Center"/>
+                            </Border>
+
+                        </StackPanel>
+                    </Border>
+
                 </StackPanel>
             </ScrollViewer>
 

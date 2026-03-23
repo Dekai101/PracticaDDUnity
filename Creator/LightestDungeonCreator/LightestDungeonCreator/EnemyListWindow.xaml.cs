@@ -12,6 +12,8 @@ namespace LightestDungeonCreator
 {
     public partial class EnemyListWindow : Window
     {
+        AppDbContext db;
+
         // ── State ────────────────────────────────────────────────────
         private List<Enemy> _allEnemies = new();
         private List<Enemy> _filtered = new();
@@ -20,6 +22,8 @@ namespace LightestDungeonCreator
         // ── Constructor ──────────────────────────────────────────────
         public EnemyListWindow()
         {
+            db = new AppDbContext();
+
             InitializeComponent();
             LoadEnemies();
         }
@@ -44,7 +48,6 @@ namespace LightestDungeonCreator
         {
             try
             {
-                using var db = new AppDbContext();
                 _allEnemies = db.Enemies
                                 .Include(e => e.Entity)           // navigation: Enemy.Entity
                                     .ThenInclude(en => en.Skills) // navigation: Entity.Skills (many-to-many)
@@ -182,8 +185,6 @@ namespace LightestDungeonCreator
 
             try
             {
-                using var db = new AppDbContext();
-
                 // Load with all dependents using the CORRECT navigation names from the scaffold:
                 //   Enemy.Loottables  (not LootTables)
                 //   Loottable.Lootentries  (not LootEntries)

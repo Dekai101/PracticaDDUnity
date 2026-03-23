@@ -10,6 +10,18 @@ using System.Windows.Media.Imaging;
 
 namespace LightestDungeonCreator
 {
+    // ── ViewModel temporal per a cada entrada de loot ────────────────
+    public class LootEntryVM
+    {
+        public int ItemId { get; set; }
+        public string ItemName { get; set; } = "";
+        public string MinQuality { get; set; } = "";
+        public string MaxQuality { get; set; } = "";
+        public float DropChance { get; set; }
+
+        public string DropChanceDisplay => $"{DropChance * 100:0.#}%";
+    }
+
     public partial class EnemyCreatorWindow : Window
     {
         // AppDbContext
@@ -19,6 +31,7 @@ namespace LightestDungeonCreator
         private ObservableCollection<Skill> _assignedSkills;
         private ObservableCollection<Skill> _availableSkills;
         private List<Skill> _allSkills;
+        private ObservableCollection<LootEntryVM> _lootEntries;
 
         public EnemyCreatorWindow()
         {
@@ -27,6 +40,7 @@ namespace LightestDungeonCreator
             _assignedSkills = new ObservableCollection<Skill>();
             _availableSkills = new ObservableCollection<Skill>();
             _allSkills = new List<Skill>();
+            _lootEntries = new ObservableCollection<LootEntryVM>();
 
             //Initialize UI and events
             InitializeComponent();
@@ -34,10 +48,14 @@ namespace LightestDungeonCreator
             EnergySlider.ValueChanged += EnergySlider_ValueChanged;
             AttackSlider.ValueChanged += AttackSlider_ValueChanged;
             LoadAvailableSkills();
+            LoadItemsForLoot();
             ApplyFilters();
             AssignedSkillsList.ItemsSource = _assignedSkills;
             AvailableSkillsList.ItemsSource = _availableSkills;
+            LootEntriesList.ItemsSource = _lootEntries;
+            _lootEntries.CollectionChanged += (_, _) => UpdateLootPlaceholder();
             UpdateNoSkillsPlaceholder();
+            UpdateLootPlaceholder();
         }
 
         // ── Window drag ───────────────────────────────────────────────
@@ -305,7 +323,32 @@ namespace LightestDungeonCreator
             db.SaveChanges();
             db.Enemies.Add(enemy);
             db.SaveChanges();
-            MessageBox.Show($"Enemy «{enemy.Entity.Name}» successfully created!",
+
+            // La loottable es crea automàticament pel trigger trg_enemy_create_loot_table,
+            // per tant ja existeix a la BD. Ara hi afegim les loot entries.
+            if (_lootEntries.Count > 0)
+            {
+                var lootTable = db.Loottables
+                                  .FirstOrDefault(lt => lt.EnemyId == enemy.EntityId);
+                if (lootTable != null)
+                {
+                    foreach (var entry in _lootEntries)
+                    {
+                        db.Lootentries.Add(new Lootentry
+                        {
+                            LootTableId = lootTable.Id,
+                            ItemId = entry.ItemId,
+                            DropChance = entry.DropChance,
+                            MinQuality = entry.MinQuality,
+                            MaxQuality = entry.MaxQuality,
+                        });
+                    }
+                    db.SaveChanges();
+                }
+            }
+
+            MessageBox.Show($"Enemy «{enemy.Entity.Name}» successfully created!" +
+                            (_lootEntries.Count > 0 ? $"\n{_lootEntries.Count} loot entry/ies added." : ""),
                             "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             new SplashScreen().Show();
             Close();
@@ -316,9 +359,90 @@ namespace LightestDungeonCreator
             => NoSkillsPlaceholder.Visibility =
                _assignedSkills.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 
+        private void UpdateLootPlaceholder()
+            => NoLootPlaceholder.Visibility =
+               _lootEntries.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
         private void LoadAvailableSkills()
         {
             _allSkills = db.Skills.ToList();
+        }
+
+        private void LoadItemsForLoot()
+        {
+            try
+            {
+                var items = db.Items.OrderBy(i => i.Name).ToList();
+                LootItemCombo.ItemsSource = items;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading items:\n{ex.Message}",
+                                "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // ── Loot table ────────────────────────────────────────────────
+
+        // Quan canvia la qualitat mínima, ajusta la màxima perquè no sigui inferior
+        private void LootQualityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LootMinQualityCombo?.SelectedIndex == null || LootMaxQualityCombo == null) return;
+            if (LootMaxQualityCombo.SelectedIndex < LootMinQualityCombo.SelectedIndex)
+                LootMaxQualityCombo.SelectedIndex = LootMinQualityCombo.SelectedIndex;
+        }
+
+        private void AddLootEntry_Click(object sender, RoutedEventArgs e)
+        {
+            // Validació
+            if (LootItemCombo.SelectedItem is not Item selectedItem)
+            {
+                MessageBox.Show("Select an item.", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!float.TryParse(LootDropChanceInput.Text, out float chance)
+                || chance <= 0 || chance > 100)
+            {
+                MessageBox.Show("Drop chance has to be a number between 0.1 and 100.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string minQ = (LootMinQualityCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "COMMON";
+            string maxQ = (LootMaxQualityCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "LEGENDARY";
+
+            // Comprovar que max >= min (índex del combo)
+            if (LootMaxQualityCombo.SelectedIndex < LootMinQualityCombo.SelectedIndex)
+            {
+                MessageBox.Show("Max quality cannot be lower than min quality.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Comprovar que no hi hagi ja una entrada per aquest item
+            if (_lootEntries.Any(l => l.ItemId == selectedItem.Id))
+            {
+                MessageBox.Show($"Item «{selectedItem.Name}» is already in the loot table.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _lootEntries.Add(new LootEntryVM
+            {
+                ItemId = selectedItem.Id,
+                ItemName = selectedItem.Name,
+                MinQuality = minQ,
+                MaxQuality = maxQ,
+                DropChance = chance / 100f,
+            });
+        }
+
+        private void RemoveLootEntry_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is LootEntryVM vm)
+                _lootEntries.Remove(vm);
         }
     }
 }

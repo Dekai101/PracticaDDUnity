@@ -101,7 +101,7 @@ namespace LightestDungeonCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudo conectar a la base de datos:\n{ex.Message}",
+                MessageBox.Show($"Cannot connect to the database:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -112,8 +112,8 @@ namespace LightestDungeonCreator
         {
             var dlg = new OpenFileDialog
             {
-                Filter = "Imágenes|*.png;*.jpg;*.jpeg;*.bmp;*.gif|Todos los archivos|*.*",
-                Title = "Selecciona la imagen de la habilidad"
+                Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif|All files|*.*",
+                Title = "Select the skill image"
             };
 
             if (dlg.ShowDialog() == true)
@@ -161,19 +161,19 @@ namespace LightestDungeonCreator
         {
             if (StatusCombo.SelectedItem is not Status selected)
             {
-                MessageBox.Show("Selecciona un status primero.", "Atención",
+                MessageBox.Show("Select a status first.", "Attention",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!float.TryParse(StatusChanceInput.Text, out float chance))
             {
-                MessageBox.Show("Has de ficar un numero vàlid d'entre 0 i 100");
+                MessageBox.Show("You need to enter a valid number for the chance between 0 and 100");
                 return;
             }
             if (!int.TryParse(StatusTurnsInput.Text, out int turns))
             {
-                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 5");
+                MessageBox.Show("You need to enter a valid number for the turns between 0 and 5");
                 return;
             }
 
@@ -203,34 +203,34 @@ namespace LightestDungeonCreator
         {
             if (StatCombo.SelectedItem is not Statistic selected)
             {
-                MessageBox.Show("Selecciona un stat primero.", "Atención",
+                MessageBox.Show("Select a stat first.", "Attention",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!float.TryParse(StatChanceInput.Text, out float chance) || chance < 0 || chance > 100)
             {
-                MessageBox.Show("Has de ficar un numero vàlid d'entre 0 i 100");
+                MessageBox.Show("You need to enter a valid number for the chance between 0 and 100");
                 return;
             }
             if (!int.TryParse(StatTurnsInput.Text, out int turns) || turns < 0 || turns > 5)
             {
-                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 5");
+                MessageBox.Show("You need to enter a valid number for the turns between 0 and 5");
                 return;
             }
-            if (!float.TryParse(StatModifierInput.Text, out float modifier) || modifier < -10 || modifier > 10)
+            if (!float.TryParse(StatModifierInput.Text, out float modifier) || modifier < -100 || modifier > 100)
             {
-                MessageBox.Show("Has de ficar un número vàlid d'entre -10 i 10");
+                MessageBox.Show("You need to enter a valid number for the modifier between -100 and 100");
                 return;
             }
-            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat) || minFlat < 0)
+            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat) || minFlat < -100 || minFlat > 100)
             {
-                MessageBox.Show("Has de ficar un número vàlid per el mínim", "Atenció", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("You need to enter a valid number for the min flat between -100 and 100", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat) || maxFlat < minFlat || maxFlat < 0)
+            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat) || maxFlat < minFlat || maxFlat > 100)
             {
-                MessageBox.Show("Has de ficar un número vàlid per el màxim o no menor al mínim", "Atenció", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("You need to enter a valid number for the max flat between -100 and 100", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -262,7 +262,7 @@ namespace LightestDungeonCreator
             // ── Validation ──────────────────────────────────────────────────
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
-                MessageBox.Show("El nom es obligatori.", "Validació",
+                MessageBox.Show("Name is required.", "Validation",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 NameInput.Focus();
                 return;
@@ -270,21 +270,21 @@ namespace LightestDungeonCreator
 
             if (!int.TryParse(HitsInput.Text, out int hits) || hits < 1 || hits > 5)
             {
-                MessageBox.Show("Has de ficar un número vàlid d'entre 1 i 5 pels hits", "Validació",
+                MessageBox.Show("You need to enter a valid number for the hits between 1 and 5", "Validation",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 HitsInput.Focus();
                 return;
             }
             if (!int.TryParse(CostInput.Text, out int cost) || cost < 0 || cost > 100)
             {
-                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 100 a energia.", "Validació",
+                MessageBox.Show("You need to enter a valid number for the energy cost between 0 and 100.", "Validation",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 CostInput.Focus();
                 return;
             }
             if (!float.TryParse(AccuracyInput.Text, out float accuracy) || accuracy < 0 || accuracy > 100)
             {
-                MessageBox.Show("Has de ficar un número vàlid d'entre 0 i 100 a precisió.", "Validació",
+                MessageBox.Show("You need to enter a valid number for the accuracy between 0 and 100.", "Validation",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 AccuracyInput.Focus();
                 return;
@@ -344,14 +344,14 @@ namespace LightestDungeonCreator
                 db.Skills.Add(skill);
                 db.SaveChanges();
 
-                MessageBox.Show($"Habilidad '{skill.Name}' guardada con éxito.\n" +
-                                $"Efectos: {skill.Effects.Count}",
-                                "✦ Guardado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Skill '{skill.Name}' saved successfully.\n" +
+                                $"Effects: {skill.Effects.Count}",
+                                "✦ Saved ✦", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar:\n{ex.Message}",
+                MessageBox.Show($"Error saving:\n{ex.Message}",
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

@@ -298,10 +298,10 @@
 
                                 <!-- Max Uses -->
                                 <StackPanel Grid.Column="2" x:Name="MaxUsesPanel">
-                                    <TextBlock Text="MAX USES" Style="{StaticResource FieldLabel}"/>
+                                    <TextBlock Text="MAX USES (only if consumable is enabled)" Style="{StaticResource FieldLabel}"/>
                                     <TextBox x:Name="MaxUsesInput"
                                          Style="{StaticResource DarkInput}"
-                                         Height="30" Text=""
+                                         Height="30" Text="" IsEnabled="False"
                                          ToolTip="Leave empty for unlimited"/>
                                 </StackPanel>
 
