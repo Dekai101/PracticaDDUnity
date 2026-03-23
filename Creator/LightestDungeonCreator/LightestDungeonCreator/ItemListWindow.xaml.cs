@@ -13,6 +13,8 @@ namespace LightestDungeonCreator
 {
     public partial class ItemListWindow : Window
     {
+        AppDbContext db;
+
         // ── State ────────────────────────────────────────────────────
         private List<Item> _allItems = new();
         private List<Item> _filtered = new();
@@ -21,6 +23,8 @@ namespace LightestDungeonCreator
         // ── Constructor ──────────────────────────────────────────────
         public ItemListWindow()
         {
+            db = new AppDbContext();
+
             InitializeComponent();
             LoadItems();
         }
@@ -38,7 +42,6 @@ namespace LightestDungeonCreator
         {
             try
             {
-                using var db = new AppDbContext();
                 _allItems = db.Items
                               .Include(i => i.Effects)
                                   .ThenInclude(e => e.Stat)
@@ -266,7 +269,6 @@ namespace LightestDungeonCreator
 
             try
             {
-                using var db = new AppDbContext();
                 var item = db.Items
                              .Include(i => i.Effects)
                              .FirstOrDefault(i => i.Id == _selected.Id);
