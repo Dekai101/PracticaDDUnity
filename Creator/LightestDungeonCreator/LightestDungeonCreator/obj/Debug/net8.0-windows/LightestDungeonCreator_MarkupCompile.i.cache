@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\App.xaml
-111384384833
+9596304922
 
-27-2027816505
+25201986206
 2121752579814
-CharacterSkillAsignWindow.xaml;EnemyCreatorWindow.xaml;EnemyListWindow.xaml;ItemCreatorWindow.xaml;ItemListWindow.xaml;MainWindow.xaml;SkillCreatorWindow.xaml;SkillListWindow.xaml;SplashScreen.xaml;View\CreadorHabilitat.xaml;View\CreadorPersonatge.xaml;
+CharacterSkillAsignWindow.xaml;EnemyCreatorWindow.xaml;EnemyListWindow.xaml;ItemCreatorWindow.xaml;ItemListWindow.xaml;MainWindow.xaml;SkillCreatorWindow.xaml;SkillListWindow.xaml;SplashScreen.xaml;
 
 False
 

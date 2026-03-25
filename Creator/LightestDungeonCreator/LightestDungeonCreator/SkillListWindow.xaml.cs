@@ -266,11 +266,18 @@ namespace LightestDungeonCreator
                 using var db = new AppDbContext();
                 var skill = db.Skills
                               .Include(s => s.Effects)
+                              .Include(s => s.Entities)
                               .FirstOrDefault(s => s.Id == _selected.Id);
 
                 if (skill != null)
                 {
+                    // We must remove effects first due to FK constraints
                     skill.Effects.Clear();
+
+                    // If an Entity has this skill, we should remove that association too
+                    skill.Entities.Clear();
+
+                    // Remove the skill itself
                     db.Skills.Remove(skill);
                     db.SaveChanges();
                 }
