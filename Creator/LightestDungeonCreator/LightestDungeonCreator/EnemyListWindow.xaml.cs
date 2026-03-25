@@ -10,6 +10,18 @@ using System.Windows.Media.Imaging;
 
 namespace LightestDungeonCreator
 {
+    // ── ViewModel para cada entrada de loot en el panel de detalle ───
+    public class LootEntryDisplayVM
+    {
+        public string ItemName { get; set; } = "";
+        public string ItemThumb { get; set; } = "";
+        public string MinQuality { get; set; } = "";
+        public string MaxQuality { get; set; } = "";
+        public float DropChance { get; set; }  // 0-1
+
+        public string DropChanceDisplay => $"{DropChance * 100:0.#}%";
+    }
+
     public partial class EnemyListWindow : Window
     {
         AppDbContext db;
@@ -49,8 +61,11 @@ namespace LightestDungeonCreator
             try
             {
                 _allEnemies = db.Enemies
-                                .Include(e => e.Entity)           // navigation: Enemy.Entity
-                                    .ThenInclude(en => en.Skills) // navigation: Entity.Skills (many-to-many)
+                                .Include(e => e.Entity)
+                                    .ThenInclude(en => en.Skills)
+                                .Include(e => e.Loottables)           // ← loot tables del enemic
+                                    .ThenInclude(lt => lt.Lootentries) // ← entrades de loot
+                                        .ThenInclude(le => le.Item)   // ← item de cada entrada
                                 .OrderBy(e => e.Entity.Name)
                                 .ToList();
             }
@@ -150,7 +165,7 @@ namespace LightestDungeonCreator
             DetailAttack.Text = en.Attack.ToString();
             DetailDefense.Text = en.Defense.ToString();
             DetailSpeed.Text = en.Speed.ToString();
-            DetailCrit.Text = $"{en.CritChance:P0}   x{(int)(en.CritDamage*100)}";
+            DetailCrit.Text = $"{en.CritChance:P0}   x{(int)(en.CritDamage * 100)}";
 
             // Stat bars
             SetBarWidth(BarHp, en.HpMax, 1000);
@@ -163,6 +178,24 @@ namespace LightestDungeonCreator
                 DetailSkillsList.ItemsSource = en.Skills.OrderBy(s => s.IsPassive).ToList();
             else
                 DetailSkillsList.ItemsSource = new List<string> { "— No skills assigned —" };
+
+            // Loot table — Enemy.Loottables → Lootentries → Item
+            var lootVMs = enemy.Loottables
+                .SelectMany(lt => lt.Lootentries)
+                .OrderByDescending(le => le.DropChance)
+                .Select(le => new LootEntryDisplayVM
+                {
+                    ItemName = le.Item?.Name ?? $"Item ID {le.ItemId}",
+                    ItemThumb = le.Item?.ImageThumb ?? "",
+                    MinQuality = le.MinQuality,
+                    MaxQuality = le.MaxQuality,
+                    DropChance = le.DropChance,
+                })
+                .ToList();
+
+            DetailLootList.ItemsSource = (System.Collections.IEnumerable)(lootVMs.Count > 0
+                ? (object)lootVMs
+                : new List<string> { "— No loot entries —" });
         }
 
         private void ClearDetail()

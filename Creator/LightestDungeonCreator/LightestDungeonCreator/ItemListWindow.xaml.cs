@@ -275,8 +275,11 @@ namespace LightestDungeonCreator
 
                 if (item != null)
                 {
-                    // Clears rows in the itemeffect join table
+                    // We must clear the lootentries and effects associations before deleting the item
                     item.Effects.Clear();
+                    db.Lootentries.RemoveRange(db.Lootentries.Where(le => le.ItemId == item.Id));
+
+                    // Remove the item itself
                     db.Items.Remove(item);
                     db.SaveChanges();
                 }

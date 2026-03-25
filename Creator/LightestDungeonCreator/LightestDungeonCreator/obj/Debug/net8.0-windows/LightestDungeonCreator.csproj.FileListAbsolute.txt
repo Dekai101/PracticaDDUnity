@@ -88,15 +88,11 @@ D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\Ligh
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\CharacterSkillAsignWindow.baml
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\EnemyCreatorWindow.baml
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.baml
-D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorHabilitat.baml
-D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorPersonatge.baml
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\CharacterSkillAsignWindow.g.cs
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\EnemyCreatorWindow.g.cs
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\MainWindow.g.cs
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SkillCreatorWindow.g.cs
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\SplashScreen.g.cs
-D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorHabilitat.g.cs
-D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\View\CreadorPersonatge.g.cs
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\App.g.cs
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\LightestDungeonCreator_MarkupCompile.cache
 D:\Archius DAM\PROJECTE DAM2\PracticaDDUnity\Creator\LightestDungeonCreator\LightestDungeonCreator\obj\Debug\net8.0-windows\LightestDungeonCreator_MarkupCompile.lref
