@@ -87,8 +87,7 @@
               "ViewState": "AgIAAFABAAAAAAAAAAAAAGQBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-12T18:50:18.62Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -117,8 +116,7 @@
               "RelativeToolTip": "LightestDungeonCreator\\ItemListWindow.xaml.cs",
               "ViewState": "AgIAAAsBAAAAlpmZmZkrwBoBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T18:14:35.612Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T18:14:35.612Z"
             },
             {
               "$type": "Document",
@@ -130,8 +128,7 @@
               "RelativeToolTip": "LightestDungeonCreator\\EnemyListWindow.xaml.cs",
               "ViewState": "AgIAALsAAAAAAAAAAAAAAMUAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T18:05:58.431Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T18:05:58.431Z"
             },
             {
               "$type": "Document",
@@ -142,8 +139,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\EnemyListWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\EnemyListWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-25T18:05:50.146Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T18:05:50.146Z"
             },
             {
               "$type": "Document",
@@ -154,8 +150,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\EnemyCreatorWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\EnemyCreatorWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-25T17:33:14.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T17:33:14.438Z"
             },
             {
               "$type": "Document",
@@ -166,8 +161,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\App.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-25T17:33:08.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T17:33:08.249Z"
             },
             {
               "$type": "Document",
@@ -178,8 +172,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\ItemCreatorWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\ItemCreatorWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-20T16:32:10.565Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-20T16:32:10.565Z"
             },
             {
               "$type": "Document",
@@ -202,8 +195,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\SkillCreatorWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\SkillCreatorWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-12T18:39:26.914Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T18:39:26.914Z"
             },
             {
               "$type": "Document",
@@ -214,8 +206,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\CharacterSkillAsignWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\CharacterSkillAsignWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-12T18:39:18.505Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T18:39:18.505Z"
             },
             {
               "$type": "Document",
@@ -250,8 +241,7 @@
               "RelativeToolTip": "LightestDungeonCreator\\CharacterSkillAsignWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-11T18:06:38.075Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-11T18:06:38.075Z"
             },
             {
               "$type": "Document",
@@ -274,8 +264,7 @@
               "ToolTip": "D:\\Archius DAM\\PROJECTE DAM2\\PracticaDDUnity\\Creator\\LightestDungeonCreator\\LightestDungeonCreator\\MainWindow.xaml",
               "RelativeToolTip": "LightestDungeonCreator\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-03-11T18:05:42.496Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-11T18:05:42.496Z"
             }
           ]
         }

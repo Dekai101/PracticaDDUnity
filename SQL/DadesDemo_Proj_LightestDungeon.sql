@@ -33,10 +33,10 @@ INSERT INTO Statistic (name) VALUES
 -- 2️⃣ STATUS
 -- =====================================================
 INSERT INTO Status (name, max_level, description, scaling_formula) VALUES
-('Sangrado',    3, 'Pierde vida cada turno.',                             'HP * 0.05 * level'),
-('Envenenado',  3, 'Pierde HP cada turno. Debuff apilable.',              'HP * 0.04 * level'),
-('Fortalecido', 3, 'Aumenta el ataque del objetivo. Buff temporal.',      'Attack * 0.15 * level'),
-('Aturdido',    2, 'Probabilidad de perder el turno. Debuff de control.', '0.40 + (0.20 * level)');
+('Bleeding', 3, 'Loses HP each turn', 'HP * 0.05 * level'),
+('Poisoned', 3, 'Loses HP each turn - Apilable debuff', 'HP * 0.04 * level'),
+('Strengthened', 3, 'Increases target attack - Temporary buff', 'Attack * 0.15 * level'),
+('Stunned', 2, 'Chance of losing your turn - Control debuff', '0.40 + (0.20 * level)');
 
 -- =====================================================
 -- 3️⃣ SKILLS
@@ -44,38 +44,26 @@ INSERT INTO Status (name, max_level, description, scaling_formula) VALUES
 INSERT INTO Skill
 (name, description, energy_cost, accuracy, hits, target_type, is_aoe, is_passive, image_thumb)
 VALUES
--- Skills originales
-('Aquatic Blessing', 'Restaura HP y Energía a un aliado.',               40, 0.90, 1, 'ALLY',  false, false, '/img/aquatic.png'),
-('Iron Body',        'Aumenta la defensa del usuario.',                   30, 1.00, 1, 'SELF',  false, false, '/img/iron.png'),
-('Blood Rain',       'Ataque en área con posibilidad de Sangrado.',       70, 0.95, 1, 'ENEMY', true,  false, '/img/blood.png'),
--- Nuevas skills — DAÑO
-('Shadow Strike',    'Golpe rápido que ignora parte de la defensa.',      25, 0.95, 1, 'ENEMY', false, false, '/img/shadow_strike.png'),
-('Meteor Crash',     'Impacto masivo que daña a todos los enemigos.',     80, 0.85, 1, 'ENEMY', true,  false, '/img/meteor.png'),
-('Poison Dart',      'Disparo que aplica Envenenado al objetivo.',        20, 0.90, 1, 'ENEMY', false, false, '/img/poison_dart.png'),
-('Twin Slash',       'Dos golpes rápidos consecutivos al mismo objetivo.',35, 0.90, 2, 'ENEMY', false, false, '/img/twin_slash.png'),
-('Soul Drain',       'Absorbe HP del enemigo y se cura en un 50%.',       50, 0.85, 1, 'ENEMY', false, false, '/img/soul_drain.png'),
--- Nuevas skills — SOPORTE
-('Battle Cry',       'Aplica Fortalecido a todos los aliados.',           45, 1.00, 1, 'ALLY',  true,  false, '/img/battle_cry.png'),
-('Healing Wave',     'Cura moderada a todos los aliados.',                60, 1.00, 1, 'ALLY',  true,  false, '/img/healing_wave.png'),
-('Barrier Shield',   'Aplica un escudo de defensa al aliado objetivo.',   40, 1.00, 1, 'ALLY',  false, false, '/img/barrier.png'),
-('Revive',           'Revive a un aliado caído con el 30% de HP.',        90, 1.00, 1, 'ALLY',  false, false, '/img/revive.png'),
--- Nuevas skills — CONTROL
-('Stun Smash',       'Golpe fuerte con posibilidad de aturdir.',          45, 0.88, 1, 'ENEMY', false, false, '/img/stun_smash.png'),
-('Frost Nova',       'Ráfaga de hielo que aturde a todos los enemigos.',  75, 0.80, 1, 'ENEMY', true,  false, '/img/frost_nova.png'),
--- Nuevas skills — PASIVAS
-('Evasion Mastery',  'Aumenta la precisión base del portador.',            0, 1.00, 0, 'SELF',  false, true,  '/img/evasion.png'),
-('Berserker Rage',   'Al bajar del 30% HP, aumenta el ataque automáticamente.', 0, 1.00, 0, 'SELF', false, true, '/img/berserk.png');
+('Aquatic Blessing', 'Restores HP and Energy to an ally',               40, 0.90, 1, 'ALLY',  false, false, '/img/aquatic.png'),
+('Iron Body',        'It increases the user defense',                   30, 1.00, 1, 'SELF',  false, false, '/img/iron.png'),
+('Blood Rain',       'Area attack with potential bleeding',             70, 0.95, 1, 'ENEMY', true,  false, '/img/blood.png'),
+('Shadow Strike',    'Fast strike that ignores part of the defense.',      25, 0.95, 1, 'ENEMY', false, false, '/img/shadow_strike.png'),
+('Meteor Crash',     'Massive impact that damages all enemies.',           80, 0.85, 1, 'ENEMY', true,  false, '/img/meteor.png'),
+('Poison Dart',      'Shot that applies Poisoned to the target.',          20, 0.90, 1, 'ENEMY', false, false, '/img/poison_dart.png'),
+('Twin Slash',       'Two consecutive fast strikes on the same target.',   35, 0.90, 2, 'ENEMY', false, false, '/img/twin_slash.png'),
+('Soul Drain',       'Absorbs enemy HP and heals self for 50%.',          50, 0.85, 1, 'ENEMY', false, false, '/img/soul_drain.png'),
+('Battle Cry',       'Applies Strengthened to all allies.',               45, 1.00, 1, 'ALLY',  true,  false, '/img/battle_cry.png'),
+('Healing Wave',     'Moderately heals all allies.',                      60, 1.00, 1, 'ALLY',  true,  false, '/img/healing_wave.png'),
+('Barrier Shield',   'Applies a defense shield to the target ally.',      40, 1.00, 1, 'ALLY',  false, false, '/img/barrier.png'),
+('Revive',           'Revives a fallen ally with 30% HP.',               90, 1.00, 1, 'ALLY',  false, false, '/img/revive.png'),
+('Stun Smash',       'Strong hit with a chance to stun.',                 45, 0.88, 1, 'ENEMY', false, false, '/img/stun_smash.png'),
+('Frost Nova',       'Ice burst that stuns all enemies.',                 75, 0.80, 1, 'ENEMY', true,  false, '/img/frost_nova.png'),
+('Evasion Mastery',  'Increases the base accuracy of the user.',         0, 1.00, 0, 'SELF',  false, true,  '/img/evasion.png'),
+('Berserker Rage',   'When HP drops below 30%, automatically increases attack.', 0, 1.00, 0, 'SELF', false, true, '/img/berserk.png');
 
 -- =====================================================
 -- 4️⃣ EFECTOS
 -- =====================================================
--- Convención min_flat_power / max_flat_power:
---   NULL  → efecto puramente porcentual (usa stat_multiplier)
---   valor → poder base fijo que el código escalará con nivel + stat del personaje
--- Skills de soporte/buff y efectos de estado siempre tienen flat = NULL.
--- Skills de daño directo: mezcla según su naturaleza (ver comentarios).
--- Items de armadura/accesorio: siempre porcentuales (flat = NULL).
--- Armas: ligeras/rápidas → fijo; pesadas/mágicas → porcentual.
 
 -- Capturar IDs de estadísticas
 SET @HP       = (SELECT id FROM Statistic WHERE name = 'hp');
@@ -89,10 +77,6 @@ SET @Sangrado    = (SELECT id FROM Status WHERE name = 'Sangrado');
 SET @Envenenado  = (SELECT id FROM Status WHERE name = 'Envenenado');
 SET @Fortalecido = (SELECT id FROM Status WHERE name = 'Fortalecido');
 SET @Aturdido    = (SELECT id FROM Status WHERE name = 'Aturdido');
-
--- -------------------------------------------------------
--- EFECTOS DE SKILLS ORIGINALES
--- -------------------------------------------------------
 
 -- Aquatic Blessing: curación porcentual de HP
 INSERT INTO Effect (stat_id, stat_multiplier, status_id, min_flat_power, max_flat_power, effect_level, probability, duration_turns)
@@ -113,10 +97,6 @@ VALUES (@Attack, NULL, NULL, 18, 24, NULL, 1.0, 0);
 -- Blood Rain: aplica Sangrado lv1 (sin poder base, escala vía scaling_formula del Status)
 INSERT INTO Effect (stat_id, stat_multiplier, status_id, min_flat_power, max_flat_power, effect_level, probability, duration_turns)
 VALUES (NULL, NULL, @Sangrado, NULL, NULL, 1, 0.15, 3);
-
--- -------------------------------------------------------
--- EFECTOS DE NUEVAS SKILLS
--- -------------------------------------------------------
 
 -- Shadow Strike: DAÑO FIJO + multiplicador leve (golpe físico ágil)
 INSERT INTO Effect (stat_id, stat_multiplier, status_id, min_flat_power, max_flat_power, effect_level, probability, duration_turns)
@@ -428,10 +408,10 @@ INSERT INTO Entity
  crit_chance, crit_damage, accuracy_multiplier,
  image_thumb, image_full, description)
 VALUES
-('Hero Knight',     1, 10, 10, 10, 10, 10, 10, 10, 0.05, 1.5, 1.0, '/img/hero_t.png',   '/img/hero_f.png',   'Caballero equilibrado.'),
-('Ocean Priestess', 1, 10, 10, 10, 10, 10, 10, 10, 0.05, 1.5, 1.0, '/img/priest_t.png', '/img/priest_f.png', 'Sacerdotisa marina.'),
-('Arcane Mage',     1, 10, 10, 10, 10, 10, 10, 10, 0.05, 1.5, 1.0, '/img/mage_t.png',   '/img/mage_f.png',   'Mago versátil.'),
-('Forest Ranger',   1, 10, 10, 10, 10, 10, 10, 10, 0.05, 1.5, 1.0, '/img/ranger_t.png', '/img/ranger_f.png', 'Explorador del bosque.');
+('Hero Knight',     1, 90, 90, 100, 100, 25, 40, 20, 0.05, 1.5, 1.0, '/img/hero_t.png',   '/img/hero_f.png',   'Sturdy knight.'),
+('Ocean Priestess', 1, 70, 50, 100, 100, 20, 25, 35, 0.05, 1.5, 1.0, '/img/priest_t.png', '/img/priest_f.png', 'Support priestess.'),
+('Arcane Mage',     1, 40, 40, 100, 100, 40, 20, 30, 0.05, 1.5, 1.0, '/img/mage_t.png',   '/img/mage_f.png',   'Versatile mage.'),
+('Forest Ranger',   1, 60, 60, 100, 100, 35, 20, 40, 0.05, 1.5, 1.0, '/img/ranger_t.png', '/img/ranger_f.png', 'Forest dweller.');
 
 INSERT INTO Player (entity_id, xp_points, skill_points)
 SELECT id, 0, 3 FROM Entity
@@ -445,10 +425,10 @@ INSERT INTO Entity
  crit_chance, crit_damage, accuracy_multiplier,
  image_thumb, image_full, description)
 VALUES
-('Goblin Berserker', 2, 25, 25, 10, 10, 15,  5, 12, 0.10, 1.5, 1.0, '/img/goblin_t.png',   '/img/goblin_f.png',   'Pequeño pero agresivo.'),
-('Stone Golem',      3, 50, 50,  5,  5, 12, 20,  4, 0.05, 1.5, 0.9, '/img/golem_t.png',    '/img/golem_f.png',    'Tanque resistente.'),
-('Vampire Lord',     5, 70, 70, 30, 30, 25, 12, 18, 0.20, 2.0, 1.1, '/img/vampire_t.png',  '/img/vampire_f.png',  'Dominador de la sangre.'),
-('Dark Assassin',    4, 40, 40, 20, 20, 18,  8, 22, 0.15, 1.7, 1.0, '/img/assassin_t.png', '/img/assassin_f.png', 'Asesino veloz y mortal.');
+('Goblin Berserker', 2, 40, 40, 100, 100, 35,  15, 25, 0.05, 1.5, 1.0, '/img/goblin_t.png',   '/img/goblin_f.png',   'Strong but fragile.'),
+('Stone Golem',      3, 100, 100,  100,  100, 15, 30,  15, 0.05, 1.5, 1.0, '/img/golem_t.png',    '/img/golem_f.png',    'Walking Fortress, almost no offensive capabilities.'),
+('Vampire Lord',     5, 70, 70, 100, 100, 35, 25, 25, 0.05, 1.5, 1.0, '/img/vampire_t.png',  '/img/vampire_f.png',  'Expert in blood manipulation, draining his opponents blood heals him.'),
+('Dark Assassin',    4, 50, 50, 100, 100, 40,  15, 40, 0.15, 1.7, 1.0, '/img/assassin_t.png', '/img/assassin_f.png', 'Speedy sneaky assasin ');
 
 -- (El trigger trg_enemy_create_loot_table crea la LootTable automáticamente)
 INSERT INTO Enemy (entity_id, passiveId)
@@ -505,73 +485,73 @@ WHERE e.name = 'Dark Assassin'
 
 -- ---- HEAD (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Iron Helm',         'Casco básico de hierro.',                 'COMMON',   false, NULL, '/img/iron_helm.png',    'SELF', false),
-('Knight Visor',      'Visor de caballero con alta defensa.',    'UNCOMMON', false, NULL, '/img/knight_visor.png', 'SELF', false),
-('Shadow Hood',       'Capucha oscura que mejora la velocidad.', 'UNCOMMON', false, NULL, '/img/shadow_hood.png',  'SELF', false),
-('Arcane Crown',      'Corona mágica que potencia la energía.',  'RARE',     false, NULL, '/img/arcane_crown.png', 'SELF', false),
-('Ranger Cap',        'Gorra ligera para arqueros.',             'COMMON',   false, NULL, '/img/ranger_cap.png',   'SELF', false),
-('Vampire Mask',      'Máscara que otorga regeneración oscura.', 'RARE',     false, NULL, '/img/vamp_mask.png',    'SELF', false),
-('Golem Skull Plate', 'Placa de piedra de un gólem derrotado.',  'EPIC',     false, NULL, '/img/golem_skull.png',  'SELF', false),
-('Blessed Tiara',     'Tiara sagrada que aumenta la precisión.', 'RARE',     false, NULL, '/img/tiara.png',        'SELF', false);
+('Iron Helm',         'Basic iron helmet.',                         'COMMON',   false, NULL, '/img/iron_helm.png',    'SELF', false),
+('Knight Visor',      'Knight visor with high defense.',            'UNCOMMON', false, NULL, '/img/knight_visor.png', 'SELF', false),
+('Shadow Hood',       'Dark hood that increases speed.',            'UNCOMMON', false, NULL, '/img/shadow_hood.png',  'SELF', false),
+('Arcane Crown',      'Magical crown that boosts energy.',          'RARE',     false, NULL, '/img/arcane_crown.png', 'SELF', false),
+('Ranger Cap',        'Light cap for archers.',                      'COMMON',   false, NULL, '/img/ranger_cap.png',   'SELF', false),
+('Vampire Mask',      'Mask that grants dark regeneration.',         'RARE',     false, NULL, '/img/vamp_mask.png',    'SELF', false),
+('Golem Skull Plate', 'Stone plate from a defeated golem.',         'EPIC',     false, NULL, '/img/golem_skull.png',  'SELF', false),
+('Blessed Tiara',     'Sacred tiara that increases accuracy.',      'RARE',     false, NULL, '/img/tiara.png',        'SELF', false);
 
 -- ---- CHEST (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Iron Chestplate',  'Peto de hierro estándar.',                'COMMON',   false, NULL, '/img/iron_chest.png',   'SELF', false),
-('Battle Armor',     'Armadura de batalla reforzada.',          'UNCOMMON', false, NULL, '/img/battle_armor.png', 'SELF', false),
-('Leather Vest',     'Chaleco ligero para agilidad.',           'COMMON',   false, NULL, '/img/leather_vest.png', 'SELF', false),
-('Mage Robe',        'Túnica mágica que amplifica la energía.', 'UNCOMMON', false, NULL, '/img/mage_robe.png',    'SELF', false),
-('Shadow Cloak',     'Capa oscura que mejora la evasión.',      'RARE',     false, NULL, '/img/shadow_cloak.png', 'SELF', false),
-('Blessed Vestment', 'Vestimenta sagrada con aura curativa.',   'RARE',     false, NULL, '/img/vestment.png',     'SELF', false),
-('Golem Shell',      'Coraza de piedra mágica.',                'EPIC',     false, NULL, '/img/golem_shell.png',  'SELF', false),
-('Vampiric Coat',    'Abrigo oscuro que drena energía.',        'EPIC',     false, NULL, '/img/vamp_coat.png',    'SELF', false);
+('Iron Chestplate',  'Standard iron chestplate.',                  'COMMON',   false, NULL, '/img/iron_chest.png',   'SELF', false),
+('Battle Armor',     'Reinforced battle armor.',                   'UNCOMMON', false, NULL, '/img/battle_armor.png', 'SELF', false),
+('Leather Vest',     'Light vest for agility.',                     'COMMON',   false, NULL, '/img/leather_vest.png', 'SELF', false),
+('Mage Robe',        'Magical robe that amplifies energy.',        'UNCOMMON', false, NULL, '/img/mage_robe.png',    'SELF', false),
+('Shadow Cloak',     'Dark cloak that improves evasion.',          'RARE',     false, NULL, '/img/shadow_cloak.png', 'SELF', false),
+('Blessed Vestment', 'Sacred garment with healing aura.',           'RARE',     false, NULL, '/img/vestment.png',     'SELF', false),
+('Golem Shell',      'Magical stone cuirass.',                      'EPIC',     false, NULL, '/img/golem_shell.png',  'SELF', false),
+('Vampiric Coat',    'Dark coat that drains energy.',               'EPIC',     false, NULL, '/img/vamp_coat.png',    'SELF', false);
 
 -- ---- LOWER (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Iron Greaves',    'Grebas de hierro básicas.',                 'COMMON',   false, NULL, '/img/iron_greaves.png',    'SELF', false),
-('Knight Leggings', 'Mallas de caballero resistentes.',          'UNCOMMON', false, NULL, '/img/knight_legs.png',     'SELF', false),
-('Swift Boots',     'Botas ligeras de alta velocidad.',          'UNCOMMON', false, NULL, '/img/swift_boots.png',     'SELF', false),
-('Mage Sandals',    'Sandalias que canalizan magia.',            'COMMON',   false, NULL, '/img/mage_sandals.png',    'SELF', false),
-('Shadow Leggings', 'Pantalones de sigilo.',                     'RARE',     false, NULL, '/img/shadow_legs.png',     'SELF', false),
-('Ranger Boots',    'Botas de explorador para terreno difícil.', 'UNCOMMON', false, NULL, '/img/ranger_boots.png',    'SELF', false),
-('Golem Stompers',  'Pezuñas de piedra con impacto sísmico.',    'EPIC',     false, NULL, '/img/golem_stomp.png',     'SELF', false),
-('Blessed Sandals', 'Sandalias sagradas que mejoran la crit.',   'RARE',     false, NULL, '/img/blessed_sandals.png', 'SELF', false);
+('Iron Greaves',    'Basic iron greaves.',                          'COMMON',   false, NULL, '/img/iron_greaves.png',    'SELF', false),
+('Knight Leggings', 'Sturdy knight leggings.',                       'UNCOMMON', false, NULL, '/img/knight_legs.png',     'SELF', false),
+('Swift Boots',     'Light boots for high speed.',                  'UNCOMMON', false, NULL, '/img/swift_boots.png',     'SELF', false),
+('Mage Sandals',    'Sandals that channel magic.',                  'COMMON',   false, NULL, '/img/mage_sandals.png',    'SELF', false),
+('Shadow Leggings', 'Stealth leggings.',                             'RARE',     false, NULL, '/img/shadow_legs.png',     'SELF', false),
+('Ranger Boots',    'Explorer boots for rough terrain.',            'UNCOMMON', false, NULL, '/img/ranger_boots.png',    'SELF', false),
+('Golem Stompers',  'Stone hooves with seismic impact.',            'EPIC',     false, NULL, '/img/golem_stomp.png',     'SELF', false),
+('Blessed Sandals', 'Sacred sandals that improve critical chance.', 'RARE',     false, NULL, '/img/blessed_sandals.png', 'SELF', false);
 
 -- ---- WEAPONS (12) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Short Sword',         'Espada corta de inicio.',                    'COMMON',   false, NULL, '/img/short_sword.png',  'SELF', false),
-('Longsword',           'Espada larga de caballero.',                 'UNCOMMON', false, NULL, '/img/longsword.png',    'SELF', false),
-('Shadow Dagger',       'Daga rápida del asesino.',                   'UNCOMMON', false, NULL, '/img/shadow_dagger.png','SELF', false),
-('Poison Blade',        'Daga impregnada de veneno.',                 'RARE',     false, NULL, '/img/poison_blade.png', 'SELF', false),
-('War Hammer',          'Martillo de guerra pesado.',                 'UNCOMMON', false, NULL, '/img/war_hammer.png',   'SELF', false),
-('Arcane Staff',        'Bastón que amplifica hechizos.',             'RARE',     false, NULL, '/img/arcane_staff.png', 'SELF', false),
-('Holy Wand',           'Varita sagrada para sanadores.',             'RARE',     false, NULL, '/img/holy_wand.png',    'SELF', false),
-('Longbow',             'Arco largo de alta precisión.',              'UNCOMMON', false, NULL, '/img/longbow.png',      'SELF', false),
-('Crossbow',            'Ballesta compacta y potente.',               'RARE',     false, NULL, '/img/crossbow.png',     'SELF', false),
-('Blood Scythe',        'Guadaña que absorbe la vida enemiga.',       'EPIC',     false, NULL, '/img/blood_scythe.png', 'SELF', false),
-('Stone Fist Gauntlet', 'Guantelete de piedra con tremendo impacto.', 'EPIC',     false, NULL, '/img/stone_fist.png',   'SELF', false),
-('Twin Blades',         'Par de dagas para ataques dobles.',          'RARE',     false, NULL, '/img/twin_blades.png',  'SELF', false);
+('Short Sword',         'Starter short sword.',                       'COMMON',   false, NULL, '/img/short_sword.png',  'SELF', false),
+('Longsword',           'Knights long sword.',                        'UNCOMMON', false, NULL, '/img/longsword.png',    'SELF', false),
+('Shadow Dagger',       'Assassins fast dagger.',                     'UNCOMMON', false, NULL, '/img/shadow_dagger.png','SELF', false),
+('Poison Blade',        'Dagger coated with poison.',                  'RARE',     false, NULL, '/img/poison_blade.png', 'SELF', false),
+('War Hammer',          'Heavy war hammer.',                            'UNCOMMON', false, NULL, '/img/war_hammer.png',   'SELF', false),
+('Arcane Staff',        'Staff that amplifies spells.',                'RARE',     false, NULL, '/img/arcane_staff.png', 'SELF', false),
+('Holy Wand',           'Holy wand for healers.',                       'RARE',     false, NULL, '/img/holy_wand.png',    'SELF', false),
+('Longbow',             'High-precision longbow.',                      'UNCOMMON', false, NULL, '/img/longbow.png',      'SELF', false),
+('Crossbow',            'Compact and powerful crossbow.',               'RARE',     false, NULL, '/img/crossbow.png',     'SELF', false),
+('Blood Scythe',        'Scythe that absorbs enemy life.',              'EPIC',     false, NULL, '/img/blood_scythe.png', 'SELF', false),
+('Stone Fist Gauntlet', 'Stone gauntlet with tremendous impact.',       'EPIC',     false, NULL, '/img/stone_fist.png',   'SELF', false),
+('Twin Blades',         'Pair of daggers for double attacks.',         'RARE',     false, NULL, '/img/twin_blades.png',  'SELF', false);
 
 -- ---- CONSUMABLES (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Health Potion',      'Restaura 30% de HP.',                        'COMMON',   true, 1, '/img/health_pot.png',    'SELF',  false),
-('Energy Elixir',      'Restaura 30% de energía.',                   'COMMON',   true, 1, '/img/energy_elixir.png', 'SELF',  false),
-('Antidote',           'Elimina el estado Envenenado.',              'COMMON',   true, 1, '/img/antidote.png',      'SELF',  false),
-('Rage Brew',          'Aplica Fortalecido lv1 al usuario.',         'UNCOMMON', true, 1, '/img/rage_brew.png',     'SELF',  false),
-('Smoke Bomb',         'Aturde a todos los enemigos 1 turno.',       'UNCOMMON', true, 1, '/img/smoke_bomb.png',    'ENEMY', true),
-('Greater Health Pot', 'Restaura 60% de HP.',                        'RARE',     true, 1, '/img/greater_hp.png',    'SELF',  false),
-('Elixir of Speed',    'Aumenta velocidad un 30% durante 3 turnos.', 'UNCOMMON', true, 1, '/img/speed_elixir.png',  'SELF',  false),
-('Phoenix Feather',    'Revive al usuario con el 50% de HP.',        'EPIC',     true, 1, '/img/phoenix.png',       'SELF',  false);
+('Health Potion',      'Restores 30% HP.',                             'COMMON',   true, 1, '/img/health_pot.png',    'SELF',  false),
+('Energy Elixir',      'Restores 30% energy.',                         'COMMON',   true, 1, '/img/energy_elixir.png', 'SELF',  false),
+('Antidote',           'Removes the Poisoned status.',                 'COMMON',   true, 1, '/img/antidote.png',      'SELF',  false),
+('Rage Brew',          'Applies Strengthened lv1 to user.',            'UNCOMMON', true, 1, '/img/rage_brew.png',     'SELF',  false),
+('Smoke Bomb',         'Stuns all enemies for 1 turn.',               'UNCOMMON', true, 1, '/img/smoke_bomb.png',    'ENEMY', true),
+('Greater Health Pot', 'Restores 60% HP.',                             'RARE',     true, 1, '/img/greater_hp.png',    'SELF',  false),
+('Elixir of Speed',    'Increases speed by 30% for 3 turns.',         'UNCOMMON', true, 1, '/img/speed_elixir.png',  'SELF',  false),
+('Phoenix Feather',    'Revives user with 50% HP.',                   'EPIC',     true, 1, '/img/phoenix.png',       'SELF',  false);
 
 -- ---- NON-CONSUMABLES (8) ----
 INSERT INTO Item (name, description, quality, consumable, max_uses, image_thumb, target_type, is_aoe) VALUES
-('Lucky Charm',   'Amuleto que aumenta el crit_chance.',       'UNCOMMON', false, NULL, '/img/lucky_charm.png',   'SELF',  false),
-('Stone Totem',   'Tótem que mejora la defensa pasivamente.',  'UNCOMMON', false, NULL, '/img/stone_totem.png',   'SELF',  false),
-('Vampire Ring',  'Anillo que aplica Sangrado al atacar.',     'RARE',     false, NULL, '/img/vamp_ring.png',     'ENEMY', false),
-('Poison Amulet', 'Amuleto que aplica Envenenado al atacar.',  'RARE',     false, NULL, '/img/poison_amulet.png', 'ENEMY', false),
-('Battle Banner', 'Estandarte que da Fortalecido a aliados.',  'RARE',     false, NULL, '/img/banner.png',        'ALLY',  true),
-('Speed Anklet',  'Tobillera que aumenta la velocidad.',       'UNCOMMON', false, NULL, '/img/anklet.png',        'SELF',  false),
-('Accuracy Lens', 'Lente que mejora la precisión.',            'UNCOMMON', false, NULL, '/img/lens.png',          'SELF',  false),
-('Crit Gem',      'Gema que mejora el daño crítico.',          'RARE',     false, NULL, '/img/crit_gem.png',      'SELF',  false);
+('Lucky Charm',   'Amulet that increases crit chance.',          'UNCOMMON', false, NULL, '/img/lucky_charm.png',   'SELF',  false),
+('Stone Totem',   'Totem that passively improves defense.',      'UNCOMMON', false, NULL, '/img/stone_totem.png',   'SELF',  false),
+('Vampire Ring',  'Ring that applies Bleeding on attack.',      'RARE',     false, NULL, '/img/vamp_ring.png',     'ENEMY', false),
+('Poison Amulet', 'Amulet that applies Poisoned on attack.',     'RARE',     false, NULL, '/img/poison_amulet.png', 'ENEMY', false),
+('Battle Banner', 'Banner that grants Strengthened to allies.', 'RARE',     false, NULL, '/img/banner.png',        'ALLY',  true),
+('Speed Anklet',  'Anklet that increases speed.',               'UNCOMMON', false, NULL, '/img/anklet.png',        'SELF',  false),
+('Accuracy Lens', 'Lens that improves accuracy.',               'UNCOMMON', false, NULL, '/img/lens.png',          'SELF',  false),
+('Crit Gem',      'Gem that improves critical damage.',         'RARE',     false, NULL, '/img/crit_gem.png',      'SELF',  false);
 
 -- =====================================================
 -- 1️⃣1️⃣ LOOT ENTRIES
