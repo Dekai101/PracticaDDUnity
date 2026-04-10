@@ -86,9 +86,7 @@ namespace LightestDungeonCreator
 
         private void ListSkills_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open a SkillListWindow when it's created
-            MessageBox.Show("Lista de habilidades — pendiente de implementar.",
-                            "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            new SkillListWindow().Show();
         }
 
         // -- Data loading ------------------------------------------------------------
@@ -103,7 +101,7 @@ namespace LightestDungeonCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudo conectar a la base de datos:\n{ex.Message}",
+                MessageBox.Show($"Cannot connect to the database:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -114,8 +112,8 @@ namespace LightestDungeonCreator
         {
             var dlg = new OpenFileDialog
             {
-                Filter = "Imágenes|*.png;*.jpg;*.jpeg;*.bmp;*.gif|Todos los archivos|*.*",
-                Title = "Selecciona la imagen de la habilidad"
+                Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif|All files|*.*",
+                Title = "Select the skill image"
             };
 
             if (dlg.ShowDialog() == true)
@@ -145,26 +143,39 @@ namespace LightestDungeonCreator
             StatusLevelCombo.Items.Clear();
 
             if (StatusCombo.SelectedItem is not Status selected)
-                return;
+            {
+                StatusLevelCombo.IsEnabled = false;
+            }
+            else
+            {
+                StatusLevelCombo.IsEnabled = true;
+                int max = Math.Max(1, selected.MaxLevel);
+                for (int i = 1; i <= max; i++)
+                    StatusLevelCombo.Items.Add(i);
 
-            int max = Math.Max(1, selected.MaxLevel);
-            for (int i = 1; i <= max; i++)
-                StatusLevelCombo.Items.Add(i);
-
-            StatusLevelCombo.SelectedIndex = 0;
+                StatusLevelCombo.SelectedIndex = 0;
+            } 
         }
 
         private void AddStatusEffect_Click(object sender, RoutedEventArgs e)
         {
             if (StatusCombo.SelectedItem is not Status selected)
             {
-                MessageBox.Show("Selecciona un status primero.", "Atención",
+                MessageBox.Show("Select a status first.", "Attention",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (!float.TryParse(StatusChanceInput.Text, out float chance)) chance = 100f;
-            if (!int.TryParse(StatusTurnsInput.Text, out int turns)) turns = 3;
+            if (!float.TryParse(StatusChanceInput.Text, out float chance))
+            {
+                MessageBox.Show("You need to enter a valid number for the chance between 0 and 100");
+                return;
+            }
+            if (!int.TryParse(StatusTurnsInput.Text, out int turns))
+            {
+                MessageBox.Show("You need to enter a valid number for the turns between 0 and 5");
+                return;
+            }
 
             int level = StatusLevelCombo.SelectedItem is int lvl ? lvl : 1;
             bool isCleanse = StatusCleanseRb.IsChecked == true;
@@ -192,16 +203,36 @@ namespace LightestDungeonCreator
         {
             if (StatCombo.SelectedItem is not Statistic selected)
             {
-                MessageBox.Show("Selecciona un stat primero.", "Atención",
+                MessageBox.Show("Select a stat first.", "Attention",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (!float.TryParse(StatChanceInput.Text, out float chance)) chance = 100f;
-            if (!int.TryParse(StatTurnsInput.Text, out int turns)) turns = 1;
-            if (!float.TryParse(StatModifierInput.Text, out float modifier)) modifier = 0f;
-            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat)) minFlat = 0;
-            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat)) maxFlat = 0;
+            if (!float.TryParse(StatChanceInput.Text, out float chance) || chance < 0 || chance > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the chance between 0 and 100");
+                return;
+            }
+            if (!int.TryParse(StatTurnsInput.Text, out int turns) || turns < 0 || turns > 5)
+            {
+                MessageBox.Show("You need to enter a valid number for the turns between 0 and 5");
+                return;
+            }
+            if (!float.TryParse(StatModifierInput.Text, out float modifier) || modifier < -100 || modifier > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the modifier between -100 and 100");
+                return;
+            }
+            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat) || minFlat < -100 || minFlat > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the min flat between -100 and 100", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat) || maxFlat < minFlat || maxFlat > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the max flat between -100 and 100", "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             bool isCleanse = StatCleanseRb.IsChecked == true;
 
@@ -231,15 +262,33 @@ namespace LightestDungeonCreator
             // ── Validation ──────────────────────────────────────────────────
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
-                MessageBox.Show("El nombre es obligatorio.", "Validación",
+                MessageBox.Show("Name is required.", "Validation",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 NameInput.Focus();
                 return;
             }
 
-            if (!int.TryParse(HitsInput.Text, out int hits)) hits = 1;
-            if (!int.TryParse(CostInput.Text, out int cost)) cost = 0;
-            if (!float.TryParse(AccuracyInput.Text, out float accuracy)) accuracy = 100f;
+            if (!int.TryParse(HitsInput.Text, out int hits) || hits < 1 || hits > 5)
+            {
+                MessageBox.Show("You need to enter a valid number for the hits between 1 and 5", "Validation",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                HitsInput.Focus();
+                return;
+            }
+            if (!int.TryParse(CostInput.Text, out int cost) || cost < 0 || cost > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the energy cost between 0 and 100.", "Validation",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                CostInput.Focus();
+                return;
+            }
+            if (!float.TryParse(AccuracyInput.Text, out float accuracy) || accuracy < 0 || accuracy > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the accuracy between 0 and 100.", "Validation",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                AccuracyInput.Focus();
+                return;
+            }
 
             var targetType = (SkillTargetCombo.SelectedItem as ComboBoxItem)
                                  ?.Content?.ToString() ?? "Single";
@@ -260,8 +309,8 @@ namespace LightestDungeonCreator
                 ImageThumb = _imageThumbPath ?? ""
             };
 
-            // Status effects → Effect entities
-            // EffectLevel = 0 means CLEANSE, >= 1 means APPLY
+            // Status effects -> Effect entities
+            // EffectLevel = 0 CLEANSE, >= 1 APPLY
             foreach (var se in _statusEffects)
             {
                 skill.Effects.Add(new Effect
@@ -295,14 +344,14 @@ namespace LightestDungeonCreator
                 db.Skills.Add(skill);
                 db.SaveChanges();
 
-                MessageBox.Show($"Habilidad '{skill.Name}' guardada con éxito.\n" +
-                                $"Efectos: {skill.Effects.Count}",
-                                "✦ Guardado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Skill '{skill.Name}' saved successfully.\n" +
+                                $"Effects: {skill.Effects.Count}",
+                                "✦ Saved ✦", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar:\n{ex.Message}",
+                MessageBox.Show($"Error saving:\n{ex.Message}",
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

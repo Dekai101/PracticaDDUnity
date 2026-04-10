@@ -9,9 +9,12 @@ using System.Windows.Media.Imaging;
 using LightestDungeonCreator.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LightestDungeonCreator {
+namespace LightestDungeonCreator
+{
     public partial class CharacterSkillAssignWindow : Window
     {
+        AppDbContext db;
+
         private readonly ObservableCollection<Skill> _assignedSkills = new();
         private List<Skill> _allSkills = new();
         private int? _selectedEntityId;
@@ -19,6 +22,8 @@ namespace LightestDungeonCreator {
 
         public CharacterSkillAssignWindow()
         {
+            db = new AppDbContext();
+
             InitializeComponent();
             AssignedSkillsList.ItemsSource = _assignedSkills;
             _assignedSkills.CollectionChanged += (_, _) => UpdatePlaceholder();
@@ -43,18 +48,17 @@ namespace LightestDungeonCreator {
         {
             try
             {
-                using var db = new AppDbContext();
                 _allChars = db.Players
-                    .Include(p => p.Entity)                          // cargar la entidad
+                    .Include(p => p.Entity)                          // load the entity
                     .Where(p => p.Entity != null && p.Entity.Name != null)
-                    .OrderBy(p => p.Entity.Name)
+                    .OrderBy(p => p.Entity.Name).Include(p => p.Entity.Skills)
                     .ToList();
 
                 CharacterList.ItemsSource = _allChars;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error carregant personatges:\n{ex.Message}",
+                MessageBox.Show($"Error loading characters:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -63,13 +67,13 @@ namespace LightestDungeonCreator {
         {
             try
             {
-                using var db = new AppDbContext();
-                _allSkills = db.Skills.OrderBy(s => s.Name).ToList();
+                _allSkills = db.Skills.OrderBy(s => s.Name).Except(db.Skills.Where(s => s.IsPassive)).ToList();
 
                 ApplyFilters();
             }
-            catch (Exception ex){
-                MessageBox.Show($"Error carregant habilitats:\n{ex.Message}",
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading skills:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -86,7 +90,6 @@ namespace LightestDungeonCreator {
         {
             try
             {
-                using var db = new AppDbContext();
                 var entity = db.Entities.Find(entityId);
 
                 if (entity == null) return;
@@ -95,7 +98,7 @@ namespace LightestDungeonCreator {
 
                 // Fill card
                 DetailName.Text = entity.Name;
-                DetailLevel.Text = $"Nivell {entity.Level}";
+                DetailLevel.Text = $"Level {entity.Level}";
                 DetailDesc.Text = entity.Description ?? "";
                 DetailThumb.Source = LoadBitmap(entity.ImageThumb);
                 DetailFull.Source = LoadBitmap(entity.ImageFull);
@@ -107,8 +110,8 @@ namespace LightestDungeonCreator {
                 StatDef.Text = entity.Defense.ToString();
                 StatSpd.Text = entity.Speed.ToString();
                 StatCrit.Text = $"{entity.CritChance * 100:0.#}%";
-                StatCritDmg.Text = $"{entity.CritDamage * 100:0.#}%";
-                StatAcc.Text = $"{entity.AccuracyMultiplier:0.##}×";
+                StatCritDmg.Text = $"x{entity.CritDamage * 100:0.#}%";
+                StatAcc.Text = $"{(entity.AccuracyMultiplier * 100)}%";
 
                 // Fill assigned skills
                 _assignedSkills.Clear();
@@ -119,11 +122,11 @@ namespace LightestDungeonCreator {
                 NoSelectionPanel.Visibility = Visibility.Collapsed;
                 CharDetailPanel.Visibility = Visibility.Visible;
                 SaveBtn.IsEnabled = true;
-                FooterHint.Text = $"Editant habilitats de: {entity.Name}";
+                FooterHint.Text = $"Editing skills of: {entity.Name}";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error carregant detall:\n{ex.Message}",
+                MessageBox.Show($"Error loading details:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -133,10 +136,16 @@ namespace LightestDungeonCreator {
         private void AddSelectedSkill_Click(object sender, RoutedEventArgs e)
         {
             if (AvailableSkillsList.SelectedItem is not Skill selected) return;
-            if (_assignedSkills.Any(s => s.Id == selected.Id))
+            if (_assignedSkills.Any(s => s.Name == selected.Name))
             {
-                MessageBox.Show("Aquesta habilitat ja està assignada.", "Info",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("You already have this skill assigned", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (_assignedSkills.Count >= 4)
+            {
+                MessageBox.Show("You cannot add more than 4 normal skills", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             _assignedSkills.Add(selected);
@@ -175,7 +184,23 @@ namespace LightestDungeonCreator {
 
         private void Filter_Changed(object sender, TextChangedEventArgs e) => ApplyFilters();
 
-        private void Filter_CheckChanged(object sender, RoutedEventArgs e) => ApplyFilters();
+        private void Filter_CheckChanged(object sender, RoutedEventArgs e)
+        {
+            if(sender is CheckBox cb)
+            {
+                if (cb == FilterAlly && cb.IsChecked == true)
+                    FilterEnemy.IsChecked = FilterSelf.IsChecked = false;
+                else if (cb == FilterEnemy && cb.IsChecked == true)
+                    FilterAlly.IsChecked = FilterSelf.IsChecked = false;
+                else if (cb == FilterSelf && cb.IsChecked == true)
+                    FilterAlly.IsChecked = FilterEnemy.IsChecked = false;
+                else if (cb == FilterAoe && cb.IsChecked == true)
+                    FilterNotAoe.IsChecked = false;
+                else if (cb == FilterNotAoe && cb.IsChecked == true)
+                    FilterAoe.IsChecked = false;
+            }
+            ApplyFilters();
+        }
 
         private void FilterSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -195,23 +220,27 @@ namespace LightestDungeonCreator {
             int maxCost = (int)(EnergyCostFilter?.Value ?? 100);
             float minAcc = (float)(AccuracyFilter?.Value ?? 0) / 100f;
 
-            bool fSingle = FilterSingle?.IsChecked == true;
-            bool fAoe = FilterAoe?.IsChecked == true;
-            bool fPassive = FilterPassive?.IsChecked == true;
-            bool anyType = fSingle || fAoe || fPassive;
+            bool onlyAlly = FilterAlly?.IsChecked == true;
+            bool onlyEnemy = FilterEnemy?.IsChecked == true;
+            bool onlySelf = FilterSelf?.IsChecked == true;
+            bool onlyAoe = FilterAoe?.IsChecked == true;
+            bool onlyNotAoe = FilterNotAoe?.IsChecked == true;
 
             var result = _allSkills.Where(s =>
             {
-                if (!string.IsNullOrEmpty(name) && !s.Name.ToLower().Contains(name)) return false;
-                if (maxCost < 100 && s.EnergyCost > maxCost) return false;
-                if (s.Accuracy < minAcc) return false;
-                if (anyType)
-                {
-                    bool matchS = fSingle && !s.IsAoe && !s.IsPassive;
-                    bool matchA = fAoe && s.IsAoe;
-                    bool matchP = fPassive && s.IsPassive;
-                    if (!matchS && !matchA && !matchP) return false;
-                }
+                if (!string.IsNullOrEmpty(name) && !s.Name.ToLower().Contains(name))
+                    return false;
+                if (maxCost < 100 && s.EnergyCost > maxCost)
+                    return false;
+                if (s.Accuracy < minAcc)
+                    return false;
+                // TARGET
+                if (onlyAlly && s.TargetType != "ALLY") return false;
+                if (onlyEnemy && s.TargetType != "ENEMY") return false;
+                if (onlySelf && s.TargetType != "SELF") return false;
+                // TYPE
+                if (onlyAoe && !s.IsAoe) return false;
+                if (onlyNotAoe && s.IsAoe) return false;
                 return true;
             }).ToList();
 
@@ -226,29 +255,28 @@ namespace LightestDungeonCreator {
 
             try
             {
-                using var db = new AppDbContext();
-                var entity = db.Entities
+                Entity en = db.Entities
                     .Where(en => en.Id == _selectedEntityId)
                     .FirstOrDefault();
 
-                if (entity == null) return;
+                if (e == null) return;
 
                 // Clear existing
-                entity.Skills.Clear();
+                en.Skills.Clear();
 
                 // Re-assign
                 var ids = _assignedSkills.Select(s => s.Id).ToList();
                 var tracked = db.Skills.Where(s => ids.Contains(s.Id)).ToList();
-                foreach (var sk in tracked) entity.Skills.Add(sk);
+                foreach (var sk in tracked) en.Skills.Add(sk);
 
                 db.SaveChanges();
 
-                MessageBox.Show($"Habilitats de '{entity.Name}' guardades.\n{tracked.Count} habilitat(s).",
-                                "✦ Guardat", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Skills of '{en.Name}' saved successfully.\n{tracked.Count} skill(s) assigned.",
+                                "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar:\n{ex.Message}",
+                MessageBox.Show($"Error saving:\n{ex.Message}",
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

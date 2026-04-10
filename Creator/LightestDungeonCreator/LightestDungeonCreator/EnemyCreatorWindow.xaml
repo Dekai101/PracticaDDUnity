@@ -1,4 +1,4 @@
-﻿<Window x:Class="LightestDungeonCreator.EnemyCreatorWindow"
+<Window x:Class="LightestDungeonCreator.EnemyCreatorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Enemy Creator"
@@ -10,196 +10,7 @@
         Background="Transparent"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
-    <Window.Resources>
-
-        <Style x:Key="DarkInput" TargetType="TextBox">
-            <Setter Property="Background"      Value="#120C06"/>
-            <Setter Property="Foreground"      Value="#D4C5A9"/>
-            <Setter Property="BorderBrush"     Value="#5C3A1E"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding"         Value="6,5"/>
-            <Setter Property="FontFamily"      Value="Georgia"/>
-            <Setter Property="FontSize"        Value="12"/>
-            <Setter Property="CaretBrush"      Value="#C8922A"/>
-        </Style>
-
-        <Style x:Key="FieldLabel" TargetType="TextBlock">
-            <Setter Property="Foreground"  Value="#7A6A5A"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="10"/>
-            <Setter Property="FontWeight"  Value="Bold"/>
-            <Setter Property="Margin"      Value="0,0,0,4"/>
-        </Style>
-
-        <Style x:Key="SectionHeader" TargetType="TextBlock">
-            <Setter Property="Foreground"  Value="#C8922A"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="12"/>
-            <Setter Property="FontWeight"  Value="Bold"/>
-        </Style>
-
-        <Style x:Key="SectionPanel" TargetType="Border">
-            <Setter Property="Background"      Value="#110D07"/>
-            <Setter Property="BorderBrush"     Value="#5C3A1E"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius"    Value="4"/>
-            <Setter Property="Padding"         Value="14,12"/>
-            <Setter Property="Margin"          Value="0,10,0,0"/>
-        </Style>
-
-        <Style x:Key="SmallMuted" TargetType="TextBlock">
-            <Setter Property="Foreground"  Value="#5C3A1E"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="10"/>
-        </Style>
-
-        <Style x:Key="NumInput" TargetType="TextBox" BasedOn="{StaticResource DarkInput}">
-            <Setter Property="Width"         Value="68"/>
-            <Setter Property="Height"        Value="30"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-        </Style>
-
-        <Style x:Key="GoldSlider" TargetType="Slider">
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Slider">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
-                            </Grid.RowDefinitions>
-                            <Track x:Name="PART_Track" Grid.Row="1">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton Command="Slider.DecreaseLarge">
-                                        <RepeatButton.Template>
-                                            <ControlTemplate TargetType="RepeatButton">
-                                                <Border Background="#8B1A1A" Height="4" CornerRadius="2"/>
-                                            </ControlTemplate>
-                                        </RepeatButton.Template>
-                                    </RepeatButton>
-                                </Track.DecreaseRepeatButton>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Command="Slider.IncreaseLarge">
-                                        <RepeatButton.Template>
-                                            <ControlTemplate TargetType="RepeatButton">
-                                                <Border Background="#2A1A08" Height="4" CornerRadius="2"/>
-                                            </ControlTemplate>
-                                        </RepeatButton.Template>
-                                    </RepeatButton>
-                                </Track.IncreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb>
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="Thumb">
-                                                <Border Width="14" Height="20" CornerRadius="2"
-                                                        Background="#8B1A1A" BorderBrush="#5C1010" BorderThickness="1">
-                                                    <Border.Effect>
-                                                        <DropShadowEffect Color="#8B1A1A" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
-                                                    </Border.Effect>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Track.Thumb>
-                            </Track>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="StatValue" TargetType="TextBlock">
-            <Setter Property="Foreground"    Value="#8B1A1A"/>
-            <Setter Property="FontFamily"    Value="Georgia"/>
-            <Setter Property="FontSize"      Value="13"/>
-            <Setter Property="FontWeight"    Value="Bold"/>
-            <Setter Property="Width"         Value="40"/>
-            <Setter Property="TextAlignment" Value="Right"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-
-        <Style x:Key="StatLabel" TargetType="TextBlock">
-            <Setter Property="Foreground"  Value="#D4C5A9"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="12"/>
-            <Setter Property="Width"       Value="110"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-
-        <Style x:Key="RemoveBtnStyle" TargetType="Button">
-            <Setter Property="Background"      Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground"      Value="#5C3A1E"/>
-            <Setter Property="Cursor"          Value="Hand"/>
-            <Setter Property="Width"           Value="22"/>
-            <Setter Property="Height"          Value="22"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock x:Name="T" Text="✕" Foreground="{TemplateBinding Foreground}"
-                                   FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="T" Property="Foreground" Value="#CC3333"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="AddSkillBtnStyle" TargetType="Button">
-            <Setter Property="Background"      Value="#1F1208"/>
-            <Setter Property="BorderBrush"     Value="#8A6015"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground"      Value="#C8922A"/>
-            <Setter Property="Cursor"          Value="Hand"/>
-            <Setter Property="Height"          Value="28"/>
-            <Setter Property="FontFamily"      Value="Georgia"/>
-            <Setter Property="FontSize"        Value="11"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="R" Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="1" CornerRadius="3" Padding="10,0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="R" Property="Background" Value="#3A2210"/>
-                                <Setter TargetName="R" Property="BorderBrush" Value="#C8922A"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="FilterCheck" TargetType="CheckBox">
-            <Setter Property="Foreground"  Value="#7A6A5A"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="11"/>
-            <Setter Property="Margin"      Value="0,3,10,3"/>
-            <Style.Triggers>
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Foreground" Value="#C8922A"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="FilterLabel" TargetType="TextBlock">
-            <Setter Property="Foreground"  Value="#8A6015"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="10"/>
-            <Setter Property="FontWeight"  Value="Bold"/>
-            <Setter Property="Margin"      Value="0,8,0,4"/>
-        </Style>
-
-    </Window.Resources>
-
-    <Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D1010">
+<Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D1010">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Color="#0E0808" Offset="0"/>
@@ -264,37 +75,19 @@
 
                         <StackPanel Grid.Column="2">
                             <TextBlock Text="IMAGE THUMB *" Style="{StaticResource FieldLabel}"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="6"/>
-                                    <ColumnDefinition Width="36"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="ThumbPathInput" Grid.Column="0"
-                                         Style="{StaticResource DarkInput}"
-                                         Height="30" FontSize="9" IsReadOnly="True"
-                                         Text="sin selección..." Foreground="#5C3A1E"/>
-                                <Button Grid.Column="2" Content="…"
-                                        Style="{StaticResource AddSkillBtnStyle}"
-                                        Padding="0" Click="BrowseThumb_Click"/>
-                            </Grid>
+                            <TextBox x:Name="ThumbPathInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" FontSize="9"
+                                     ToolTip="Escribe la ruta o URL de la imagen miniatura"
+                                     TextChanged="ThumbPathInput_TextChanged"/>
 
                             <TextBlock Text="IMAGE FULL *" Style="{StaticResource FieldLabel}"
                                        Margin="0,8,0,4"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="6"/>
-                                    <ColumnDefinition Width="36"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="FullPathInput" Grid.Column="0"
-                                         Style="{StaticResource DarkInput}"
-                                         Height="30" FontSize="9" IsReadOnly="True"
-                                         Text="sin selección..." Foreground="#5C3A1E"/>
-                                <Button Grid.Column="2" Content="…"
-                                        Style="{StaticResource AddSkillBtnStyle}"
-                                        Padding="0" Click="BrowseFull_Click"/>
-                            </Grid>
+                            <TextBox x:Name="FullPathInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="30" FontSize="9"
+                                     ToolTip="Escribe la ruta o URL de la imagen completa"
+                                     TextChanged="FullPathInput_TextChanged"/>
 
                             <TextBlock Text="PREVIEW:" Style="{StaticResource FieldLabel}"
                                        Margin="0,10,0,4"/>
@@ -594,7 +387,7 @@
                                                Fill="#8B1A1A" Opacity="0.4"/>
                                 </Grid>
 
-                                <Button Content="⊕  Afegir seleccionada"
+                                <Button Content="⊕  Add Selected"
                                         Style="{StaticResource AddSkillBtnStyle}"
                                         Width="180" HorizontalAlignment="Left"
                                         Margin="0,0,0,10"
@@ -709,14 +502,26 @@
                                                 ValueChanged="FilterAccuracySlider_Changed"/>
                                     </StackPanel>
                                     <TextBlock Text="Types:" Style="{StaticResource FilterLabel}"/>
-                                    <WrapPanel>
-                                        <CheckBox x:Name="FilterSingleTarget" Content="Single" VerticalContentAlignment="Center"
+                                    <!-- TARGET -->
+                                    <TextBlock Text="TARGET:" Style="{StaticResource FilterLabel}" Margin="0,8,0,2"/>
+                                    <WrapPanel Margin="0,0,0,4">
+                                        <CheckBox x:Name="FilterAlly" Content="Ally" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
-                                        <CheckBox x:Name="FilterAoe" Content="AoE" VerticalContentAlignment="Center"
+                                        <CheckBox x:Name="FilterEnemy" Content="Enemy" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                         <CheckBox x:Name="FilterSelf" Content="Self" VerticalContentAlignment="Center"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                    </WrapPanel>
+                                    <!-- TYPE -->
+                                    <TextBlock Text="TYPE:" Style="{StaticResource FilterLabel}" Margin="0,4,0,2"/>
+                                    <WrapPanel>
+                                        <CheckBox x:Name="FilterAoe" Content="AoE" VerticalContentAlignment="Center"
+                                                  Style="{StaticResource FilterCheck}"
+                                                  Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                        <CheckBox x:Name="FilterNotAoe" Content="Not AoE" VerticalContentAlignment="Center"
                                                   Style="{StaticResource FilterCheck}"
                                                   Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
                                         <CheckBox x:Name="FilterPassive" Content="Passive" VerticalContentAlignment="Center"
@@ -728,6 +533,167 @@
                         </Grid>
                     </Border>
 
+                    <!-- ─── LOOT TABLE ─── -->
+                    <Border Style="{StaticResource SectionPanel}">
+                        <StackPanel>
+
+                            <!-- Section header -->
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                                <TextBlock Grid.Column="1" Text="  ☠  LOOT TABLE  ☠  "
+                                           Foreground="#8B1A1A" FontFamily="Georgia"
+                                           FontSize="12" FontWeight="Bold"
+                                           VerticalAlignment="Center" Margin="0"/>
+                                <Rectangle Grid.Column="2" Height="1" VerticalAlignment="Center"
+                                           Fill="#8B1A1A" Opacity="0.4"/>
+                            </Grid>
+
+                            <!-- ── Add loot entry form ── -->
+                            <Border Background="#0D0404" BorderBrush="#2A0808"
+                                    BorderThickness="1" CornerRadius="3" Padding="12,10"
+                                    Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="ADD LOOT ENTRY"
+                                               Foreground="#C8922A" FontFamily="Georgia"
+                                               FontSize="11" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                    <!-- Row 1: Item selector -->
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="ITEM *" Style="{StaticResource FieldLabel}"
+                                                   Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="LootItemCombo"
+                                                  Grid.Column="1" Height="30"
+                                                  Style="{StaticResource DarkCombo}"
+                                                  DisplayMemberPath="Name"/>
+                                    </Grid>
+
+                                    <!-- Row 2: Min quality / Max quality -->
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="14"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="MIN QUALITY *" Style="{StaticResource FieldLabel}"/>
+                                            <ComboBox x:Name="LootMinQualityCombo"
+                                                      Height="30"
+                                                      Style="{StaticResource DarkCombo}"
+                                                      SelectionChanged="LootQualityCombo_SelectionChanged">
+                                                <ComboBoxItem Content="COMMON"    IsSelected="True"/>
+                                                <ComboBoxItem Content="UNCOMMON"/>
+                                                <ComboBoxItem Content="RARE"/>
+                                                <ComboBoxItem Content="EPIC"/>
+                                                <ComboBoxItem Content="LEGENDARY"/>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="MAX QUALITY *" Style="{StaticResource FieldLabel}"/>
+                                            <ComboBox x:Name="LootMaxQualityCombo"
+                                                      Height="30"
+                                                      Style="{StaticResource DarkCombo}">
+                                                <ComboBoxItem Content="COMMON"/>
+                                                <ComboBoxItem Content="UNCOMMON"/>
+                                                <ComboBoxItem Content="RARE"/>
+                                                <ComboBoxItem Content="EPIC"/>
+                                                <ComboBoxItem Content="LEGENDARY" IsSelected="True"/>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Row 3: Drop chance + botó -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="DROP CHANCE % *" Style="{StaticResource FieldLabel}"
+                                                   VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <TextBox x:Name="LootDropChanceInput" Grid.Column="1"
+                                                 Style="{StaticResource DarkInput}"
+                                                 Height="30" Text="10"
+                                                 TextAlignment="Center"
+                                                 ToolTip="Probabilitat de 0.1 a 100"/>
+                                        <Button Grid.Column="3"
+                                                Content="⊕  Add to Loot"
+                                                Style="{StaticResource AddSkillBtnStyle}"
+                                                Click="AddLootEntry_Click"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- ── Loot entries list ── -->
+                            <ItemsControl x:Name="LootEntriesList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#0D0404" BorderBrush="#2A0808"
+                                                BorderThickness="1" CornerRadius="3"
+                                                Margin="0,0,0,5" Padding="10,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="22"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <!-- Nom item + drop chance -->
+                                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                                                        <TextBlock Text="{Binding ItemName}"
+                                                                   Foreground="#C8922A" FontFamily="Georgia"
+                                                                   FontSize="12" FontWeight="Bold"
+                                                                   Margin="0,0,10,0"/>
+                                                        <Border Background="#1A0808" BorderBrush="#5C1010"
+                                                                BorderThickness="1" CornerRadius="2" Padding="5,1">
+                                                            <TextBlock Text="{Binding DropChanceDisplay}"
+                                                                       Foreground="#8B1A1A"
+                                                                       FontFamily="Georgia" FontSize="9"
+                                                                       FontWeight="Bold"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <!-- Quality range -->
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Quality: " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding MinQuality}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                        <TextBlock Text=" → " Style="{StaticResource SmallMuted}"/>
+                                                        <TextBlock Text="{Binding MaxQuality}"
+                                                                   Foreground="#D4C5A9" FontFamily="Georgia" FontSize="10"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Button Grid.Column="1" Style="{StaticResource RemoveBtnStyle}"
+                                                        Tag="{Binding}" VerticalAlignment="Top"
+                                                        Click="RemoveLootEntry_Click"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Placeholder buida -->
+                            <Border x:Name="NoLootPlaceholder"
+                                    BorderBrush="#1E0808" BorderThickness="1"
+                                    CornerRadius="3" Padding="14,12">
+                                <TextBlock Text="Cap entrada de loot afegida."
+                                           Foreground="#2D1010" FontFamily="Georgia" FontSize="11"
+                                           FontStyle="Italic" TextAlignment="Center"/>
+                            </Border>
+
+                        </StackPanel>
+                    </Border>
+
                 </StackPanel>
             </ScrollViewer>
 
@@ -735,7 +701,7 @@
             <Border Grid.Row="2" Background="#0A0404" CornerRadius="0,0,6,6"
                     BorderBrush="#3D1010" BorderThickness="0,1,0,0">
                 <Grid Margin="22,0">
-                    <TextBlock Text="* campos obligatorios"
+                    <TextBlock Text="* Required fields"
                                Foreground="{StaticResource MutedBrush}"
                                FontFamily="Georgia" FontSize="10"
                                VerticalAlignment="Center" Opacity="0.4"/>

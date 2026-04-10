@@ -55,9 +55,7 @@ namespace LightestDungeonCreator
 
         private void ListItems_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open an ItemListWindow when it's created
-            MessageBox.Show("Lista de items — pendiente de implementar.",
-                            "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            new ItemListWindow().Show();
         }
 
         // -- Data loading ------------------------------------------------------------
@@ -72,7 +70,7 @@ namespace LightestDungeonCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudo conectar a la base de datos:\n{ex.Message}",
+                MessageBox.Show($"DB Error:\n{ex.Message}",
                                 "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
@@ -83,8 +81,8 @@ namespace LightestDungeonCreator
         {
             var dlg = new OpenFileDialog
             {
-                Filter = "Imágenes|*.png;*.jpg;*.jpeg;*.bmp;*.gif|Todos los archivos|*.*",
-                Title = "Selecciona la imagen del item"
+                Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif|All files|*.*",
+                Title = "Select the item image"
             };
 
             if (dlg.ShowDialog() == true)
@@ -143,8 +141,12 @@ namespace LightestDungeonCreator
             StatusLevelCombo.Items.Clear();
 
             if (StatusCombo.SelectedItem is not Status selected)
+            {
+                StatusLevelCombo.IsEnabled = false;
                 return;
+            }
 
+            StatusLevelCombo.IsEnabled = true;
             int max = Math.Max(1, selected.MaxLevel);
             for (int i = 1; i <= max; i++)
                 StatusLevelCombo.Items.Add(i);
@@ -156,13 +158,21 @@ namespace LightestDungeonCreator
         {
             if (StatusCombo.SelectedItem is not Status selected)
             {
-                MessageBox.Show("Selecciona un status primero.", "Atención",
+                MessageBox.Show("Select a status first.", "Attention",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (!float.TryParse(StatusChanceInput.Text, out float chance)) chance = 100f;
-            if (!int.TryParse(StatusTurnsInput.Text, out int turns)) turns = 3;
+            if (!float.TryParse(StatusChanceInput.Text, out float chance) || chance < 0 || chance > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the chance between 0 and 100");
+                return;
+            }
+            if (!int.TryParse(StatusTurnsInput.Text, out int turns) || turns < 0 || turns > 5)
+            {
+                MessageBox.Show("You need to enter a valid number for the turns between 0 and 5");
+                return;
+            }
 
             int level = StatusLevelCombo.SelectedItem is int lvl ? lvl : 1;
             bool isCleanse = StatusCleanseRb.IsChecked == true;
@@ -190,16 +200,38 @@ namespace LightestDungeonCreator
         {
             if (StatCombo.SelectedItem is not Statistic selected)
             {
-                MessageBox.Show("Selecciona un stat primero.", "Atención",
+                MessageBox.Show("Select a stat first.", "Attention",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (!float.TryParse(StatChanceInput.Text, out float chance)) chance = 100f;
-            if (!int.TryParse(StatTurnsInput.Text, out int turns)) turns = 1;
-            if (!float.TryParse(StatModifierInput.Text, out float modifier)) modifier = 0f;
-            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat)) minFlat = 0;
-            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat)) maxFlat = 0;
+            if (!float.TryParse(StatChanceInput.Text, out float chance) || chance < 0 || chance > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the chance between 0 and 100");
+                return;
+            }
+            if (!int.TryParse(StatTurnsInput.Text, out int turns) || turns < 0 || turns > 5)
+            {
+                MessageBox.Show("You need to enter a valid number for the turns between 0 and 5");
+                return;
+            }
+            if (!float.TryParse(StatModifierInput.Text, out float modifier) || modifier < -100 || modifier > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the modifier between -100 and 100");
+                return;
+            }
+            if (!int.TryParse(StatMinFlatInput.Text, out int minFlat) || minFlat < -100 || minFlat > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the minimum flat power between -100 and 100", "Attention",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (!int.TryParse(StatMaxFlatInput.Text, out int maxFlat) || maxFlat < minFlat || maxFlat > 100)
+            {
+                MessageBox.Show("You need to enter a valid number for the maximum that is not less than the minimum flat power between -100 and 100", "Attention",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             bool isCleanse = StatCleanseRb.IsChecked == true;
 
@@ -229,7 +261,7 @@ namespace LightestDungeonCreator
             // -- Validation --
             if (string.IsNullOrWhiteSpace(NameInput.Text))
             {
-                MessageBox.Show("El nombre es obligatorio.", "Validación",
+                MessageBox.Show("Name required", "Validation",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                 NameInput.Focus();
                 return;
@@ -240,8 +272,17 @@ namespace LightestDungeonCreator
 
             bool consumable = ConsumableCheck.IsChecked == true;
             int? maxUses = null;
-            if (consumable && int.TryParse(MaxUsesInput.Text, out int parsedUses) && parsedUses > 0)
+            if (consumable)
+            {
+                if(!int.TryParse(MaxUsesInput.Text, out int parsedUses) || parsedUses < 0 || parsedUses > 10)
+                {
+                    MessageBox.Show("Max uses must be between 0 and 10", "Validation",
+                                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MaxUsesInput.Focus();
+                    return;
+                }
                 maxUses = parsedUses;
+            }
 
             // -- Build model --
             var item = new Item
@@ -252,7 +293,7 @@ namespace LightestDungeonCreator
                 Consumable = consumable,
                 MaxUses = maxUses,
                 IsAoe = IsAoeCheck.IsChecked == true,
-                TargetType = ((ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Enemy").ToUpper(),
+                TargetType = (ItemTargetCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Single",
                 ImageThumb = _imageThumbPath ?? ""
             };
 
@@ -291,14 +332,14 @@ namespace LightestDungeonCreator
                 db.Items.Add(item);
                 db.SaveChanges();
 
-                MessageBox.Show($"Item '{item.Name}' guardado con éxito.\n" +
-                                $"Efectos: {item.Effects.Count}",
-                                "✦ Guardado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Item '{item.Name}' saved successfully.\n" +
+                                $"Efects: {item.Effects.Count}",
+                                "✦ Saved ✦", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar:\n{ex.Message}",
+                MessageBox.Show($"Error saving:\n{ex.Message}",
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -339,6 +380,6 @@ namespace LightestDungeonCreator
             StatusLevelCombo.Items.Clear();
         }
 
-        
+
     }
 }

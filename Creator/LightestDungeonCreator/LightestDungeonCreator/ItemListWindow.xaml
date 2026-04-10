@@ -1,0 +1,486 @@
+<Window x:Class="LightestDungeonCreator.ItemListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Item List"
+        Height="700" Width="900"
+        MinHeight="500" MinWidth="720"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+<Border CornerRadius="6" BorderThickness="1" BorderBrush="#3D2210">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#0E0A08" Offset="0"/>
+                <GradientStop Color="#120C08" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" BlurRadius="40" ShadowDepth="0" Opacity="0.9"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <!-- ══════════════ TITLE BAR ══════════════ -->
+            <Border Grid.Row="0" Background="#0A0704" CornerRadius="6,6,0,0">
+                <Grid Margin="12,0">
+                    <Button Content="←"
+                            Style="{StaticResource ExitButtonStyle}"
+                            FontSize="18"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Click="BackButton_Click"/>
+                    <TextBlock Text="✦  ITEM REGISTRY  ✦"
+                               Foreground="{StaticResource GoldDimBrush}"
+                               FontFamily="Georgia" FontSize="11"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- ══════════════ CONTENT ══════════════ -->
+            <Grid Grid.Row="1" Margin="16,12,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="310"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ────────────── LEFT COLUMN ────────────── -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Filters -->
+                    <Border Grid.Row="0"
+                            Background="#0D0904" BorderBrush="#3D2210"
+                            BorderThickness="1" CornerRadius="4"
+                            Padding="12,10" Margin="0,0,0,8">
+                        <StackPanel>
+                            <TextBlock Text="FILTERS"
+                                       Foreground="#C8922A" FontFamily="Georgia"
+                                       FontSize="12" FontWeight="Bold"
+                                       Margin="0,0,0,6"/>
+
+                            <!-- Search by name -->
+                            <TextBlock Text="SEARCH BY NAME" Style="{StaticResource FilterLabel}" Margin="0,0,0,3"/>
+                            <TextBox x:Name="FilterNameInput"
+                                     Style="{StaticResource DarkInput}"
+                                     Height="28" FontSize="11"
+                                     TextChanged="FilterName_Changed"/>
+
+                            <!-- TARGET -->
+                            <TextBlock Text="TARGET" Style="{StaticResource FilterLabel}"/>
+                            <WrapPanel Margin="0,0,0,4">
+                                <CheckBox x:Name="FilterAlly"  Content="Ally"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterEnemy" Content="Enemy"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterSelf"  Content="Self"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                            </WrapPanel>
+
+                            <!-- TYPE -->
+                            <TextBlock Text="TYPE" Style="{StaticResource FilterLabel}"/>
+                            <WrapPanel Margin="0,0,0,4">
+                                <CheckBox x:Name="FilterAoe"        Content="AoE"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterConsumable" Content="Consumable"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                            </WrapPanel>
+
+                            <!-- QUALITY -->
+                            <TextBlock Text="QUALITY" Style="{StaticResource FilterLabel}"/>
+                            <WrapPanel>
+                                <CheckBox x:Name="FilterCommon"    Content="Common"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterUncommon"  Content="Uncommon"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterRare"      Content="Rare"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterEpic"      Content="Epic"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                                <CheckBox x:Name="FilterLegendary" Content="Legendary"
+                                          Style="{StaticResource FilterCheck}"
+                                          Checked="Filter_CheckChanged" Unchecked="Filter_CheckChanged"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Item list -->
+                    <Border Grid.Row="1"
+                            Background="#0A0704" BorderBrush="#3D2210"
+                            BorderThickness="1" CornerRadius="4">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- List header -->
+                            <Border Grid.Row="0"
+                                    Background="#0D0904" CornerRadius="4,4,0,0"
+                                    BorderBrush="#2A1A08" BorderThickness="0,0,0,1"
+                                    Padding="12,7">
+                                <Grid>
+                                    <TextBlock Foreground="#C8922A" FontFamily="Georgia"
+                                               FontSize="10" FontWeight="Bold" Text="ITEMS"/>
+                                    <TextBlock x:Name="ItemCountLabel"
+                                               Foreground="#5C3A1E" FontFamily="Georgia"
+                                               FontSize="10" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Empty placeholder -->
+                            <TextBlock x:Name="NoItemsLabel"
+                                       Grid.Row="1"
+                                       Text="No items found."
+                                       Foreground="#5C3A1E" FontFamily="Georgia"
+                                       FontSize="11" FontStyle="Italic"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+
+                            <!-- List -->
+                            <ScrollViewer Grid.Row="1"
+                                          VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <ItemsControl x:Name="ItemList">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource ItemRowBorder}"
+                                                    MouseLeftButtonDown="ItemRow_Click"
+                                                    Tag="{Binding}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="46"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Thumbnail -->
+                                                    <Border Grid.Column="0"
+                                                            Width="36" Height="36"
+                                                            BorderBrush="#5C3A1E" BorderThickness="1"
+                                                            CornerRadius="2" Background="#0A0704">
+                                                        <Image Source="{Binding ImageThumb}"
+                                                               Stretch="UniformToFill"/>
+                                                    </Border>
+
+                                                    <!-- Info -->
+                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+
+                                                        <!-- Row 1: nombre + badges -->
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Name}"
+                                                                       Foreground="#D4C5A9"
+                                                                       FontFamily="Georgia"
+                                                                       FontSize="12" FontWeight="Bold"/>
+
+                                                            <!-- AoE badge -->
+                                                            <Border Background="#0A1A0A"
+                                                                    BorderBrush="#1A4A1A" BorderThickness="1"
+                                                                    CornerRadius="2" Padding="4,1" Margin="6,0,0,0">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsAoe}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Text="AoE" Foreground="#3A8B3A"
+                                                                           FontFamily="Georgia" FontSize="9"/>
+                                                            </Border>
+
+                                                            <!-- Consumable badge -->
+                                                            <Border Background="#1A1A08"
+                                                                    BorderBrush="#4A4A1E" BorderThickness="1"
+                                                                    CornerRadius="2" Padding="4,1" Margin="4,0,0,0">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Consumable}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Text="CONSUMABLE" Foreground="#8B8B1A"
+                                                                           FontFamily="Georgia" FontSize="9"/>
+                                                            </Border>
+                                                        </StackPanel>
+
+                                                        <!-- Row 2: quality + target -->
+                                                        <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                                            <TextBlock Text="{Binding Quality}"
+                                                                       Foreground="#8A6015" FontFamily="Georgia"
+                                                                       FontSize="10" Margin="0,0,8,0"/>
+                                                            <TextBlock Text="→ " Style="{StaticResource SmallMuted}"/>
+                                                            <TextBlock Text="{Binding TargetType}"
+                                                                       Foreground="#5C3A1E" FontFamily="Georgia"
+                                                                       FontSize="10"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- ────────────── RIGHT COLUMN: DETAIL ────────────── -->
+                <Border Grid.Column="2"
+                        Background="#0A0704" BorderBrush="#3D2210"
+                        BorderThickness="1" CornerRadius="4">
+                    <Grid>
+                        <!-- Empty state -->
+                        <StackPanel x:Name="DetailEmpty"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="✦"
+                                       Foreground="#2A1A08" FontFamily="Georgia"
+                                       FontSize="40" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Select an item to view details"
+                                       Foreground="#3A2A18" FontFamily="Georgia"
+                                       FontSize="12" FontStyle="Italic"
+                                       HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                        </StackPanel>
+
+                        <!-- Detail content -->
+                        <ScrollViewer x:Name="DetailPanel"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Visibility="Collapsed"
+                                      Padding="18,16">
+                            <StackPanel>
+
+                                <!-- Image + name header -->
+                                <Grid Margin="0,0,0,14">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0"
+                                            Width="76" Height="76"
+                                            BorderBrush="#5C3A1E" BorderThickness="1"
+                                            CornerRadius="4" Background="#0A0704">
+                                        <Image x:Name="DetailImage" Stretch="UniformToFill" Margin="2"/>
+                                    </Border>
+
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                        <TextBlock x:Name="DetailName"
+                                                   Foreground="#C8922A"
+                                                   FontFamily="Georgia"
+                                                   FontSize="20" FontWeight="Bold">
+                                            <TextBlock.Effect>
+                                                <DropShadowEffect Color="#C8922A" BlurRadius="8"
+                                                                  ShadowDepth="0" Opacity="0.3"/>
+                                            </TextBlock.Effect>
+                                        </TextBlock>
+                                        <!-- Badges row -->
+                                        <StackPanel x:Name="DetailBadges"
+                                                    Orientation="Horizontal" Margin="0,5,0,0"/>
+                                        <TextBlock x:Name="DetailId"
+                                                   Foreground="#3A2A18" FontFamily="Georgia"
+                                                   FontSize="10" Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Rectangle Height="1" Fill="#2A1A08" Margin="0,0,0,10"/>
+
+                                <!-- Description -->
+                                <TextBlock Text="DESCRIPTION" Style="{StaticResource DetailLabel}" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="DetailDescription"
+                                           Foreground="#7A6A5A" FontFamily="Georgia"
+                                           FontSize="11" FontStyle="Italic"
+                                           TextWrapping="Wrap" Margin="0,0,0,4"/>
+
+                                <!-- Properties chips -->
+                                <TextBlock Text="PROPERTIES" Style="{StaticResource DetailLabel}"/>
+                                <WrapPanel Margin="0,4,0,6">
+                                    <Border Style="{StaticResource StatChip}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="QUALITY  " Style="{StaticResource SmallMuted}"/>
+                                            <TextBlock x:Name="DetailQuality" Style="{StaticResource DetailValue}" FontSize="11"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Style="{StaticResource StatChip}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="TARGET  " Style="{StaticResource SmallMuted}"/>
+                                            <TextBlock x:Name="DetailTarget" Style="{StaticResource DetailValue}" FontSize="11"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="DetailMaxUsesChip" Style="{StaticResource StatChip}" Visibility="Collapsed">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="MAX USES  " Style="{StaticResource SmallMuted}"/>
+                                            <TextBlock x:Name="DetailMaxUses" Style="{StaticResource DetailValue}" FontSize="11"/>
+                                        </StackPanel>
+                                    </Border>
+                                </WrapPanel>
+
+                                <!-- Effects -->
+                                <TextBlock Text="EFFECTS" Style="{StaticResource DetailLabel}"/>
+                                <Border Background="#0D0904" BorderBrush="#2A1A08"
+                                        BorderThickness="1" CornerRadius="3"
+                                        Padding="10,8" Margin="0,4,0,12">
+                                    <ItemsControl x:Name="DetailEffectsList">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <!-- Each item is an EffectDisplayVM -->
+                                                <Border Background="#120C06"
+                                                        BorderBrush="#2A1A08" BorderThickness="1"
+                                                        CornerRadius="2" Padding="8,7"
+                                                        Margin="0,0,0,6">
+                                                    <StackPanel>
+                                                        <!-- Row 1: nombre + chips -->
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="▸ " Foreground="#5C3A1E"
+                                                                       FontSize="9" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding EffectName}"
+                                                                       Foreground="#C8922A"
+                                                                       FontFamily="Georgia"
+                                                                       FontSize="12" FontWeight="Bold"/>
+                                                            <!-- Nivel -->
+                                                            <Border Background="#1A1208" BorderBrush="#5C3A1E"
+                                                                    BorderThickness="1" CornerRadius="2"
+                                                                    Padding="5,1" Margin="8,0,0,0"
+                                                                    Visibility="{Binding LevelVisibility}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Lv " Foreground="#5C3A1E"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                    <TextBlock Text="{Binding Level}"
+                                                                               Foreground="#D4C5A9"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                            <!-- Turnos -->
+                                                            <Border Background="#1A1208" BorderBrush="#5C3A1E"
+                                                                    BorderThickness="1" CornerRadius="2"
+                                                                    Padding="5,1" Margin="4,0,0,0">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Turns}"
+                                                                               Foreground="#D4C5A9"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                    <TextBlock Text=" turns" Foreground="#5C3A1E"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                            <!-- Chance -->
+                                                            <Border Background="#1A1208" BorderBrush="#5C3A1E"
+                                                                    BorderThickness="1" CornerRadius="2"
+                                                                    Padding="5,1" Margin="4,0,0,0">
+                                                                <TextBlock Text="{Binding Chance}"
+                                                                           Foreground="#D4C5A9"
+                                                                           FontFamily="Georgia" FontSize="9"/>
+                                                            </Border>
+                                                            <!-- CLEANSE badge -->
+                                                            <Border Background="#0A1A0A" BorderBrush="#1A4A1A"
+                                                                    BorderThickness="1" CornerRadius="2"
+                                                                    Padding="5,1" Margin="4,0,0,0"
+                                                                    Visibility="{Binding CleanseVisibility}">
+                                                                <TextBlock Text="CLEANSE" Foreground="#3A8B3A"
+                                                                           FontFamily="Georgia" FontSize="9"/>
+                                                            </Border>
+                                                        </StackPanel>
+
+                                                        <!-- Row 2: flat damage y/o multiplier -->
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Margin="12,4,0,0"
+                                                                    Visibility="{Binding PowerRowVisibility}">
+                                                            <!-- Flat damage -->
+                                                            <Border Background="#1A1208" BorderBrush="#5C3A1E"
+                                                                    BorderThickness="1" CornerRadius="2"
+                                                                    Padding="6,2" Margin="0,0,6,0"
+                                                                    Visibility="{Binding FlatVisibility}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="POWER " Foreground="#5C3A1E"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                    <TextBlock Text="{Binding FlatRange}"
+                                                                               Foreground="#C8922A"
+                                                                               FontFamily="Georgia" FontSize="9"
+                                                                               FontWeight="Bold"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                            <!-- Stat multiplier -->
+                                                            <Border Background="#1A1208" BorderBrush="#5C3A1E"
+                                                                    BorderThickness="1" CornerRadius="2"
+                                                                    Padding="6,2"
+                                                                    Visibility="{Binding MultiplierVisibility}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="×" Foreground="#5C3A1E"
+                                                                               FontFamily="Georgia" FontSize="9"/>
+                                                                    <TextBlock Text="{Binding Multiplier}"
+                                                                               Foreground="#C8922A"
+                                                                               FontFamily="Georgia" FontSize="9"
+                                                                               FontWeight="Bold"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </StackPanel>
+
+                                                        <!-- Row 3: descripción del Status -->
+                                                        <TextBlock Text="{Binding Description}"
+                                                                   Foreground="#5C4A3A"
+                                                                   FontFamily="Georgia" FontSize="10"
+                                                                   FontStyle="Italic" TextWrapping="Wrap"
+                                                                   Margin="12,4,0,0"
+                                                                   Visibility="{Binding DescriptionVisibility}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Border>
+
+                                <!-- Delete button -->
+                                <Button x:Name="DeleteItemBtn"
+                                        Content="✕  DELETE ITEM"
+                                        Style="{StaticResource DeleteBtnStyle}"
+                                        HorizontalAlignment="Right"
+                                        Width="140" Height="32"
+                                        Click="DeleteItem_Click"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- ══════════════ FOOTER ══════════════ -->
+            <Border Grid.Row="2"
+                    Background="#0A0704" CornerRadius="0,0,6,6"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,1,0,0">
+                <Grid Margin="16,0">
+                    <TextBlock x:Name="FooterLabel"
+                               Foreground="{StaticResource MutedBrush}"
+                               FontFamily="Georgia" FontSize="10"
+                               VerticalAlignment="Center" Opacity="0.5"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

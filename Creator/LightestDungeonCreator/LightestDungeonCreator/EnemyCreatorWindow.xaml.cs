@@ -1,19 +1,27 @@
 ﻿using LightestDungeonCreator.Models;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LightestDungeonCreator
 {
+    // ── ViewModel temporal per a cada entrada de loot ────────────────
+    public class LootEntryVM
+    {
+        public int ItemId { get; set; }
+        public string ItemName { get; set; } = "";
+        public string MinQuality { get; set; } = "";
+        public string MaxQuality { get; set; } = "";
+        public float DropChance { get; set; }
+
+        public string DropChanceDisplay => $"{DropChance * 100:0.#}%";
+    }
+
     public partial class EnemyCreatorWindow : Window
     {
         // AppDbContext
@@ -23,6 +31,7 @@ namespace LightestDungeonCreator
         private ObservableCollection<Skill> _assignedSkills;
         private ObservableCollection<Skill> _availableSkills;
         private List<Skill> _allSkills;
+        private ObservableCollection<LootEntryVM> _lootEntries;
 
         public EnemyCreatorWindow()
         {
@@ -31,6 +40,7 @@ namespace LightestDungeonCreator
             _assignedSkills = new ObservableCollection<Skill>();
             _availableSkills = new ObservableCollection<Skill>();
             _allSkills = new List<Skill>();
+            _lootEntries = new ObservableCollection<LootEntryVM>();
 
             //Initialize UI and events
             InitializeComponent();
@@ -38,10 +48,14 @@ namespace LightestDungeonCreator
             EnergySlider.ValueChanged += EnergySlider_ValueChanged;
             AttackSlider.ValueChanged += AttackSlider_ValueChanged;
             LoadAvailableSkills();
+            LoadItemsForLoot();
             ApplyFilters();
             AssignedSkillsList.ItemsSource = _assignedSkills;
             AvailableSkillsList.ItemsSource = _availableSkills;
+            LootEntriesList.ItemsSource = _lootEntries;
+            _lootEntries.CollectionChanged += (_, _) => UpdateLootPlaceholder();
             UpdateNoSkillsPlaceholder();
+            UpdateLootPlaceholder();
         }
 
         // ── Window drag ───────────────────────────────────────────────
@@ -57,47 +71,30 @@ namespace LightestDungeonCreator
 
         private void ListEnemies_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: open enemy list / browser window
-            MessageBox.Show("Llista d'enemics (pendent d'implementar).",
-                            "Enemics", MessageBoxButton.OK, MessageBoxImage.Information);
+            new EnemyListWindow().Show();
         }
 
-        // ── Image browsing ────────────────────────────────────────────
-        private void BrowseThumb_Click(object sender, RoutedEventArgs e)
-        {
-            var path = PickImage();
-            if (path == null) return;
-            ThumbPathInput.Text = path;
-            ThumbPreview.Source = LoadBitmap(path);
-        }
 
-        private void BrowseFull_Click(object sender, RoutedEventArgs e)
-        {
-            var path = PickImage();
-            if (path == null) return;
-            FullPathInput.Text = path;
-            FullPreview.Source = LoadBitmap(path);
-        }
+        // ── Image URL inputs ──────────────────────────────────────────
+        private void ThumbPathInput_TextChanged(object sender, TextChangedEventArgs e)
+            => ThumbPreview.Source = TryLoadBitmap(ThumbPathInput.Text.Trim());
 
-        private static string? PickImage()
+        private void FullPathInput_TextChanged(object sender, TextChangedEventArgs e)
+            => FullPreview.Source = TryLoadBitmap(FullPathInput.Text.Trim());
+
+        private static BitmapImage? TryLoadBitmap(string path)
         {
-            var dlg = new OpenFileDialog
+            if (string.IsNullOrWhiteSpace(path)) return null;
+            try
             {
-                Title = "Select image",
-                Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|Any file|*.*"
-            };
-            return dlg.ShowDialog() == true ? dlg.FileName : null;
-        }
-
-        private static BitmapImage? LoadBitmap(string path)
-        {
-            if (!File.Exists(path)) return null;
-            var bmp = new BitmapImage();
-            bmp.BeginInit();
-            bmp.UriSource = new Uri(path, UriKind.Absolute);
-            bmp.CacheOption = BitmapCacheOption.OnLoad;
-            bmp.EndInit();
-            return bmp;
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                return bmp;
+            }
+            catch { return null; }
         }
 
         // ── Stat sliders ──────────────────────────────────────────────
@@ -162,12 +159,12 @@ namespace LightestDungeonCreator
                 MessageBox.Show("You already have this skill assigned", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(_assignedSkills.Count >= 4 && !_assignedSkills.Any(s=>s.IsPassive) && !skill.IsPassive)
+            if (_assignedSkills.Count >= 4 && !_assignedSkills.Any(s => s.IsPassive) && !skill.IsPassive)
             {
                 MessageBox.Show("You cannot add more than 4 normal skills", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(_assignedSkills.Count > 4)
+            if (_assignedSkills.Count > 4)
             {
                 MessageBox.Show("Max skill count reached, 4 normal skills and 1 passive skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -202,7 +199,22 @@ namespace LightestDungeonCreator
         }
 
         private void Filter_CheckChanged(object sender, RoutedEventArgs e)
-            => ApplyFilters();
+        {
+            if (sender is CheckBox cb)
+            {
+                if (cb == FilterAlly && cb.IsChecked == true)
+                    FilterEnemy.IsChecked = FilterSelf.IsChecked = false;
+                else if (cb == FilterEnemy && cb.IsChecked == true)
+                    FilterAlly.IsChecked = FilterSelf.IsChecked = false;
+                else if (cb == FilterSelf && cb.IsChecked == true)
+                    FilterAlly.IsChecked = FilterEnemy.IsChecked = false;
+                else if (cb == FilterAoe && cb.IsChecked == true)
+                    FilterNotAoe.IsChecked = false;
+                else if (cb == FilterNotAoe && cb.IsChecked == true)
+                    FilterAoe.IsChecked = false;
+            }
+            ApplyFilters();
+        }
 
         private void ApplyFilters()
         {
@@ -211,10 +223,12 @@ namespace LightestDungeonCreator
             string nameFilter = FilterNameInput?.Text?.ToLower() ?? "";
             int maxEnergy = (int)(EnergyCostFilter?.Value ?? 100);
             int maxAccuracy = (int)(AccuracyFilter?.Value ?? 100);
-            bool onlyAoe = FilterAoe?.IsChecked == true;
-            bool onlySingle = FilterSingleTarget?.IsChecked == true;
-            bool onlyPassive = FilterPassive?.IsChecked == true;
+            bool onlyAlly = FilterAlly?.IsChecked == true;
+            bool onlyEnemy = FilterEnemy?.IsChecked == true;
             bool onlySelf = FilterSelf?.IsChecked == true;
+            bool onlyAoe = FilterAoe?.IsChecked == true;
+            bool onlyNotAoe = FilterNotAoe?.IsChecked == true;
+            bool onlyPassive = FilterPassive?.IsChecked == true;
 
             var filtered = _allSkills.Where(s =>
             {
@@ -224,11 +238,14 @@ namespace LightestDungeonCreator
                     return false;
                 if (maxAccuracy < 100 && s.Accuracy > maxAccuracy)
                     return false;
+                // TARGET
+                if (onlyAlly && s.TargetType.ToUpper() != "ALLY") return false;
+                if (onlyEnemy && s.TargetType.ToUpper() != "ENEMY") return false;
+                if (onlySelf && s.TargetType.ToUpper() != "SELF") return false;
+                // TYPE
                 if (onlyAoe && !s.IsAoe) return false;
-                if (onlySingle && s.TargetType != "Single") return false;
+                if (onlyNotAoe && s.IsAoe) return false;
                 if (onlyPassive && !s.IsPassive) return false;
-                if (onlySelf && s.TargetType != "Self") return false;
-
                 return true;
             });
 
@@ -246,26 +263,27 @@ namespace LightestDungeonCreator
                 MessageBox.Show("Name required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (ThumbPathInput.Text == "sin selección...")
+            if (string.IsNullOrWhiteSpace(ThumbPathInput.Text))
             {
                 MessageBox.Show("Thumb Image required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (FullPathInput.Text == "sin selección...")
+            if (string.IsNullOrWhiteSpace(FullPathInput.Text))
             {
                 MessageBox.Show("Full Image required", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(!int.TryParse(LevelInput.Text, out _))
+            if (!int.TryParse(LevelInput.Text, out _))
             {
                 MessageBox.Show("Level has to be number", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(_assignedSkills.Count == 0)
+            if (_assignedSkills.Count == 0)
             {
                 MessageBox.Show("It is required to have 1 skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
-            } else if (_assignedSkills.Count == 1 && _assignedSkills.First().IsPassive)
+            }
+            else if (_assignedSkills.Count == 1 && _assignedSkills.First().IsPassive)
             {
                 MessageBox.Show("It is required to have 1 normal skill", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -273,7 +291,7 @@ namespace LightestDungeonCreator
 
             int.TryParse(LevelInput.Text, out int level);
 
-            if(level < 1 || level > 100)
+            if (level < 1 || level > 100)
             {
                 MessageBox.Show("Level has to be a number between 1 and 100");
                 return;
@@ -294,18 +312,43 @@ namespace LightestDungeonCreator
                     Attack = (int)AttackSlider.Value,
                     Defense = (int)DefenseSlider.Value,
                     Speed = (int)SpeedSlider.Value,
-                    CritChance = (int)CritChanceSlider.Value,
-                    CritDamage = (int)CritDamageSlider.Value,
+                    CritChance = (float)CritChanceSlider.Value / 100,
+                    CritDamage = (float)CritDamageSlider.Value / 100,
                     AccuracyMultiplier = 1,
                     Skills = _assignedSkills
                 },
             };
-            
+
             db.Entities.Add(enemy.Entity);
             db.SaveChanges();
             db.Enemies.Add(enemy);
             db.SaveChanges();
-            MessageBox.Show($"Enemy «{enemy.Entity.Name}» successfully created!",
+
+            // La loottable es crea automàticament pel trigger trg_enemy_create_loot_table,
+            // per tant ja existeix a la BD. Ara hi afegim les loot entries.
+            if (_lootEntries.Count > 0)
+            {
+                var lootTable = db.Loottables
+                                  .FirstOrDefault(lt => lt.EnemyId == enemy.EntityId);
+                if (lootTable != null)
+                {
+                    foreach (var entry in _lootEntries)
+                    {
+                        db.Lootentries.Add(new Lootentry
+                        {
+                            LootTableId = lootTable.Id,
+                            ItemId = entry.ItemId,
+                            DropChance = entry.DropChance,
+                            MinQuality = entry.MinQuality,
+                            MaxQuality = entry.MaxQuality,
+                        });
+                    }
+                    db.SaveChanges();
+                }
+            }
+
+            MessageBox.Show($"Enemy «{enemy.Entity.Name}» successfully created!" +
+                            (_lootEntries.Count > 0 ? $"\n{_lootEntries.Count} loot entry/ies added." : ""),
                             "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             new SplashScreen().Show();
             Close();
@@ -316,9 +359,90 @@ namespace LightestDungeonCreator
             => NoSkillsPlaceholder.Visibility =
                _assignedSkills.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 
+        private void UpdateLootPlaceholder()
+            => NoLootPlaceholder.Visibility =
+               _lootEntries.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
         private void LoadAvailableSkills()
         {
             _allSkills = db.Skills.ToList();
+        }
+
+        private void LoadItemsForLoot()
+        {
+            try
+            {
+                var items = db.Items.OrderBy(i => i.Name).ToList();
+                LootItemCombo.ItemsSource = items;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading items:\n{ex.Message}",
+                                "DB Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // ── Loot table ────────────────────────────────────────────────
+
+        // Quan canvia la qualitat mínima, ajusta la màxima perquè no sigui inferior
+        private void LootQualityCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LootMinQualityCombo?.SelectedIndex == null || LootMaxQualityCombo == null) return;
+            if (LootMaxQualityCombo.SelectedIndex < LootMinQualityCombo.SelectedIndex)
+                LootMaxQualityCombo.SelectedIndex = LootMinQualityCombo.SelectedIndex;
+        }
+
+        private void AddLootEntry_Click(object sender, RoutedEventArgs e)
+        {
+            // Validació
+            if (LootItemCombo.SelectedItem is not Item selectedItem)
+            {
+                MessageBox.Show("Select an item.", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!float.TryParse(LootDropChanceInput.Text, out float chance)
+                || chance <= 0 || chance > 100)
+            {
+                MessageBox.Show("Drop chance has to be a number between 0.1 and 100.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string minQ = (LootMinQualityCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "COMMON";
+            string maxQ = (LootMaxQualityCombo.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "LEGENDARY";
+
+            // Comprovar que max >= min (índex del combo)
+            if (LootMaxQualityCombo.SelectedIndex < LootMinQualityCombo.SelectedIndex)
+            {
+                MessageBox.Show("Max quality cannot be lower than min quality.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Comprovar que no hi hagi ja una entrada per aquest item
+            if (_lootEntries.Any(l => l.ItemId == selectedItem.Id))
+            {
+                MessageBox.Show($"Item «{selectedItem.Name}» is already in the loot table.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _lootEntries.Add(new LootEntryVM
+            {
+                ItemId = selectedItem.Id,
+                ItemName = selectedItem.Name,
+                MinQuality = minQ,
+                MaxQuality = maxQ,
+                DropChance = chance / 100f,
+            });
+        }
+
+        private void RemoveLootEntry_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is LootEntryVM vm)
+                _lootEntries.Remove(vm);
         }
     }
 }

@@ -4,22 +4,429 @@
              xmlns:local="clr-namespace:LightestDungeonCreator"
              StartupUri="SplashScreen.xaml">
     <Application.Resources>
-        <!-- Colors -->
-        <SolidColorBrush x:Key="BackgroundBrush" Color="#0a0605"/>
-        <SolidColorBrush x:Key="ForegroundBrush" Color="#d4c4a8"/>
-        <SolidColorBrush x:Key="CardBrush" Color="#1a1310"/>
-        <SolidColorBrush x:Key="PrimaryBrush" Color="#8b1a1a"/>
-        <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="#f5e6d3"/>
-        <SolidColorBrush x:Key="SecondaryBrush" Color="#2a1f1a"/>
-        <SolidColorBrush x:Key="MutedBrush" Color="#8b7e6a"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="#4a3825"/>
-        <SolidColorBrush x:Key="GoldBrush" Color="#d4a574"/>
-        <SolidColorBrush x:Key="GoldDimBrush" Color="#8A6015"/>
-        <SolidColorBrush x:Key="PanelBrush" Color="#1A1209"/>
-        <SolidColorBrush x:Key="CrimsonBrush" Color="#8B1A1A"/>
-        <SolidColorBrush x:Key="TextBrush" Color="#D4C5A9"/>
 
-        <!-- Card border style -->
+        <!-- ═══════════════════════════════════════════════
+             BRUSHES / COLORS
+        ═══════════════════════════════════════════════ -->
+        <SolidColorBrush x:Key="BackgroundBrush"         Color="#0a0605"/>
+        <SolidColorBrush x:Key="ForegroundBrush"         Color="#d4c4a8"/>
+        <SolidColorBrush x:Key="CardBrush"               Color="#1a1310"/>
+        <SolidColorBrush x:Key="PrimaryBrush"            Color="#8b1a1a"/>
+        <SolidColorBrush x:Key="PrimaryForegroundBrush"  Color="#f5e6d3"/>
+        <SolidColorBrush x:Key="SecondaryBrush"          Color="#2a1f1a"/>
+        <SolidColorBrush x:Key="MutedBrush"              Color="#8b7e6a"/>
+        <SolidColorBrush x:Key="BorderBrush"             Color="#4a3825"/>
+        <SolidColorBrush x:Key="GoldBrush"               Color="#d4a574"/>
+        <SolidColorBrush x:Key="GoldDimBrush"            Color="#8A6015"/>
+        <SolidColorBrush x:Key="PanelBrush"              Color="#1A1209"/>
+        <SolidColorBrush x:Key="CrimsonBrush"            Color="#8B1A1A"/>
+        <SolidColorBrush x:Key="TextBrush"               Color="#D4C5A9"/>
+
+        <!-- ═══════════════════════════════════════════════
+             TEXT / LABEL STYLES
+        ═══════════════════════════════════════════════ -->
+
+        <!-- Generic muted small text (used everywhere for sublabels) -->
+        <Style x:Key="SmallMuted" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#5C3A1E"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+        </Style>
+
+        <!-- Field label above inputs -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,0,0,4"/>
+        </Style>
+
+        <!-- Section header inside panels -->
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#C8922A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="12"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+        </Style>
+
+        <!-- Filter panel label -->
+        <Style x:Key="FilterLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#8A6015"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,8,0,4"/>
+        </Style>
+
+        <!-- Detail panel section label -->
+        <Style x:Key="DetailLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,8,0,4"/>
+        </Style>
+
+        <!-- Detail panel value -->
+        <Style x:Key="DetailValue" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#D4C5A9"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="12"/>
+        </Style>
+
+        <!-- Stat label (EnemyCreator left column) -->
+        <Style x:Key="StatLabel" TargetType="TextBlock">
+            <Setter Property="Foreground"      Value="#D4C5A9"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="Width"           Value="110"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Stat value readout (EnemyCreator right of slider) -->
+        <Style x:Key="StatValue" TargetType="TextBlock">
+            <Setter Property="Foreground"      Value="#8B1A1A"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="FontWeight"      Value="Bold"/>
+            <Setter Property="Width"           Value="40"/>
+            <Setter Property="TextAlignment"   Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Stat readonly display (CharacterSkillAssign) -->
+        <Style x:Key="StatReadOnly" TargetType="TextBlock">
+            <Setter Property="Foreground"      Value="#C8922A"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="FontWeight"      Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Stat name chip label (CharacterSkillAssign) -->
+        <Style x:Key="StatName" TargetType="TextBlock">
+            <Setter Property="Foreground"      Value="#7A6A5A"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin"          Value="0,0,6,0"/>
+        </Style>
+
+        <!-- Table header cell (SkillCreator / ItemCreator effects tables) -->
+        <Style x:Key="TH" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#8A6015"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Padding"     Value="6,4"/>
+        </Style>
+
+        <!-- Table data cell -->
+        <Style x:Key="TD" TargetType="TextBlock">
+            <Setter Property="Foreground"      Value="#D4C5A9"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="11"/>
+            <Setter Property="Padding"         Value="6,5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextTrimming"    Value="CharacterEllipsis"/>
+        </Style>
+
+        <!-- Legacy label style (DarkTheme) -->
+        <Style x:Key="DarkLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="FontWeight"  Value="SemiBold"/>
+            <Setter Property="FontSize"    Value="14"/>
+            <Setter Property="Margin"      Value="0,0,0,6"/>
+        </Style>
+
+        <!-- Section header label (CreadorPersonatge style) -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="{StaticResource GoldDimBrush}"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="11"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,0,0,8"/>
+        </Style>
+
+        <!-- Field label (CreadorPersonatge style) -->
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="{StaticResource MutedBrush}"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="10"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Margin"      Value="0,0,0,5"/>
+        </Style>
+
+        <!-- ═══════════════════════════════════════════════
+             INPUT STYLES
+        ═══════════════════════════════════════════════ -->
+
+        <!-- Dark TextBox (used in creator windows) -->
+        <Style x:Key="DarkInput" TargetType="TextBox">
+            <Setter Property="Background"       Value="#120C06"/>
+            <Setter Property="Foreground"       Value="#D4C5A9"/>
+            <Setter Property="BorderBrush"      Value="#5C3A1E"/>
+            <Setter Property="BorderThickness"  Value="1"/>
+            <Setter Property="Padding"          Value="6,5"/>
+            <Setter Property="FontFamily"       Value="Georgia"/>
+            <Setter Property="FontSize"         Value="12"/>
+            <Setter Property="CaretBrush"       Value="#C8922A"/>
+            <Setter Property="SelectionBrush"   Value="#5C3A1E"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Numeric centered input (EnemyCreator stat inputs) -->
+        <Style x:Key="NumInput" TargetType="TextBox" BasedOn="{StaticResource DarkInput}">
+            <Setter Property="Width"         Value="68"/>
+            <Setter Property="Height"        Value="30"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Dark TextBox (CreadorPersonatge style variant) -->
+        <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background"       Value="#120C06"/>
+            <Setter Property="Foreground"       Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush"      Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness"  Value="1"/>
+            <Setter Property="Padding"          Value="8,6"/>
+            <Setter Property="FontFamily"       Value="Georgia"/>
+            <Setter Property="FontSize"         Value="13"/>
+            <Setter Property="CaretBrush"       Value="{StaticResource GoldBrush}"/>
+            <Setter Property="SelectionBrush"   Value="{StaticResource GoldDimBrush}"/>
+        </Style>
+
+        <!-- Dark RadioButton -->
+        <Style x:Key="DarkRadio" TargetType="RadioButton">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="11"/>
+            <Setter Property="Margin"      Value="0,0,20,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#C8922A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Dark CheckBox (creator windows) -->
+        <Style x:Key="DarkCheck" TargetType="CheckBox">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="11"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#C8922A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Filter CheckBox (list/assign windows) -->
+        <Style x:Key="FilterCheck" TargetType="CheckBox">
+            <Setter Property="Foreground"  Value="#7A6A5A"/>
+            <Setter Property="FontFamily"  Value="Georgia"/>
+            <Setter Property="FontSize"    Value="11"/>
+            <Setter Property="Margin"      Value="0,3,10,3"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#C8922A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Dark ComboBox with full ControlTemplate (avoids system white background) -->
+        <Style x:Key="DarkCombo" TargetType="ComboBox">
+            <Setter Property="Background"               Value="#120C06"/>
+            <Setter Property="Foreground"               Value="#D4C5A9"/>
+            <Setter Property="BorderBrush"              Value="#5C3A1E"/>
+            <Setter Property="BorderThickness"          Value="1"/>
+            <Setter Property="FontFamily"               Value="Georgia"/>
+            <Setter Property="FontSize"                 Value="11"/>
+            <Setter Property="Padding"                  Value="6,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor"                   Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="24"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="MainBorder"
+                                    Grid.ColumnSpan="2"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="2"/>
+                            <ContentPresenter x:Name="ContentSite"
+                                              Grid.Column="0"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="8,0,0,0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              IsHitTestVisible="False"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="▾" Foreground="#5C3A1E" FontSize="10"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       IsHitTestVisible="False"/>
+                            <ToggleButton Grid.ColumnSpan="2"
+                                          Focusable="False"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay,
+                                                      RelativeSource={RelativeSource TemplatedParent}}"
+                                          Background="Transparent" BorderThickness="0"/>
+                            <Popup x:Name="Popup"
+                                   Grid.ColumnSpan="2"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Border x:Name="DropBorder"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        Background="#120C06"
+                                        BorderBrush="#5C3A1E"
+                                        BorderThickness="1"
+                                        CornerRadius="0,0,2,2">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#000000" BlurRadius="12"
+                                                          ShadowDepth="4" Opacity="0.6"/>
+                                    </Border.Effect>
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="#C8922A"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="MainBorder" Property="BorderBrush" Value="#C8922A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background"  Value="#120C06"/>
+                        <Setter Property="Foreground"  Value="#D4C5A9"/>
+                        <Setter Property="FontFamily"  Value="Georgia"/>
+                        <Setter Property="FontSize"    Value="11"/>
+                        <Setter Property="Padding"     Value="8,5"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border x:Name="Bd"
+                                            Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#2A1A08"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#1F1208"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Dark ComboBox legacy style (no ControlTemplate — kept for backward compat) -->
+        <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Background"      Value="#120C06"/>
+            <Setter Property="Foreground"      Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="8,6"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="13"/>
+        </Style>
+
+        <!-- Dark Slider (legacy) -->
+        <Style x:Key="DarkSliderStyle" TargetType="Slider">
+            <Setter Property="Foreground" Value="{StaticResource GoldDimBrush}"/>
+            <Setter Property="Height"     Value="28"/>
+        </Style>
+
+        <!-- ═══════════════════════════════════════════════
+             SLIDER STYLES
+        ═══════════════════════════════════════════════ -->
+
+        <!-- Gold/Red slider (used in EnemyCreator stats + filter sliders) -->
+        <Style x:Key="GoldSlider" TargetType="Slider">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                            </Grid.RowDefinitions>
+                            <Track x:Name="PART_Track" Grid.Row="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Background="#8B1A1A" Height="4" CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Background="#2A1A08" Height="4" CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Width="14" Height="20" CornerRadius="2"
+                                                        Background="#8B1A1A" BorderBrush="#5C1010" BorderThickness="1">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#8B1A1A" BlurRadius="6" ShadowDepth="0" Opacity="0.5"/>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Red slider alias (EnemyListWindow filters) — identical template -->
+        <Style x:Key="RedSlider" TargetType="Slider" BasedOn="{StaticResource GoldSlider}"/>
+
+        <!-- ═══════════════════════════════════════════════
+             BORDER / PANEL STYLES
+        ═══════════════════════════════════════════════ -->
+
+        <!-- Card border (SplashScreen + CreadorPersonatge) -->
         <Style x:Key="CardBorderStyle" TargetType="Border">
             <Setter Property="Background"       Value="#1A1209"/>
             <Setter Property="BorderBrush"      Value="{StaticResource BorderBrush}"/>
@@ -32,7 +439,106 @@
             </Setter>
         </Style>
 
-        <!-- Main action button base -->
+        <!-- Character card (legacy DarkTheme) -->
+        <Style x:Key="CharacterCardStyle" TargetType="Border">
+            <Setter Property="Background"      Value="{StaticResource CardBrush}"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius"    Value="2"/>
+            <Setter Property="Padding"         Value="16"/>
+            <Setter Property="Margin"          Value="8"/>
+        </Style>
+
+        <!-- Section panel (dark card inside scroll content) -->
+        <Style x:Key="SectionPanel" TargetType="Border">
+            <Setter Property="Background"      Value="#110D07"/>
+            <Setter Property="BorderBrush"     Value="#5C3A1E"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="4"/>
+            <Setter Property="Padding"         Value="14,12"/>
+            <Setter Property="Margin"          Value="0,10,0,0"/>
+        </Style>
+
+        <!-- Stat chip (gold — SkillList / ItemList detail panel) -->
+        <Style x:Key="StatChip" TargetType="Border">
+            <Setter Property="Background"      Value="#1A1208"/>
+            <Setter Property="BorderBrush"     Value="#5C3A1E"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="2"/>
+            <Setter Property="Padding"         Value="8,3"/>
+            <Setter Property="Margin"          Value="0,0,6,6"/>
+        </Style>
+
+        <!-- Stat chip red variant (EnemyList detail panel) -->
+        <Style x:Key="StatChipRed" TargetType="Border">
+            <Setter Property="Background"      Value="#140808"/>
+            <Setter Property="BorderBrush"     Value="#3D1010"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="2"/>
+            <Setter Property="Padding"         Value="8,3"/>
+            <Setter Property="Margin"          Value="0,0,6,6"/>
+        </Style>
+
+        <!-- Stat bar background (EnemyList detail panel) -->
+        <Style x:Key="StatBarBg" TargetType="Border">
+            <Setter Property="Background"      Value="#1A0808"/>
+            <Setter Property="BorderBrush"     Value="#3D1010"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="2"/>
+            <Setter Property="Height"          Value="6"/>
+            <Setter Property="Margin"          Value="0,3,0,8"/>
+        </Style>
+
+        <!-- Skill list item row (SkillListWindow) -->
+        <Style x:Key="SkillItemBorder" TargetType="Border">
+            <Setter Property="Background"      Value="#0E0904"/>
+            <Setter Property="BorderBrush"     Value="#2A1A08"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding"         Value="12,10"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1A1009"/>
+                    <Setter Property="BorderBrush" Value="#5C3A1E"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Item list item row (ItemListWindow) -->
+        <Style x:Key="ItemRowBorder" TargetType="Border">
+            <Setter Property="Background"      Value="#0E0904"/>
+            <Setter Property="BorderBrush"     Value="#2A1A08"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding"         Value="12,9"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1A1009"/>
+                    <Setter Property="BorderBrush" Value="#5C3A1E"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Enemy list item row (EnemyListWindow) -->
+        <Style x:Key="EnemyItemBorder" TargetType="Border">
+            <Setter Property="Background"      Value="#0E0604"/>
+            <Setter Property="BorderBrush"     Value="#1E0808"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding"         Value="12,10"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1A0808"/>
+                    <Setter Property="BorderBrush" Value="#5C1010"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ═══════════════════════════════════════════════
+             BUTTON STYLES
+        ═══════════════════════════════════════════════ -->
+
+        <!-- Main gold action button -->
         <Style x:Key="ActionButtonStyle" TargetType="Button">
             <Setter Property="Background"      Value="#1F1208"/>
             <Setter Property="BorderBrush"     Value="{StaticResource GoldDimBrush}"/>
@@ -44,14 +550,12 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="Root"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="3"
-                        Padding="0">
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3" Padding="0">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Root" Property="Background" Value="#3A2210"/>
@@ -61,13 +565,12 @@
                                 <Setter TargetName="Root" Property="Background" Value="#0F0904"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Exit button -->
+        <!-- Title-bar exit / back button -->
         <Style x:Key="ExitButtonStyle" TargetType="Button">
             <Setter Property="Background"      Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -78,9 +581,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <TextBlock x:Name="Txt"
-                           Text="{TemplateBinding Content}"
-                           Foreground="{TemplateBinding Foreground}"
-                           FontSize="{TemplateBinding FontSize}"/>
+                                   Text="{TemplateBinding Content}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="{TemplateBinding FontSize}"/>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Txt" Property="Foreground" Value="#CC3333"/>
@@ -91,33 +594,29 @@
             </Setter>
         </Style>
 
-        <!-- Dark theme resources -->
-        <!-- Dark Button Style -->
-        <Style x:Key="DarkButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource PrimaryForegroundBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource GoldBrush}"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Padding" Value="16,8"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <!-- Add skill / add entry button (list windows) -->
+        <Style x:Key="AddSkillBtnStyle" TargetType="Button">
+            <Setter Property="Background"      Value="#1F1208"/>
+            <Setter Property="BorderBrush"     Value="#8A6015"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground"      Value="#C8922A"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Height"          Value="28"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="11"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                         BorderBrush="{TemplateBinding BorderBrush}"
-                         BorderThickness="{TemplateBinding BorderThickness}"
-                         CornerRadius="2">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                     VerticalAlignment="Center"
-                                     Margin="{TemplateBinding Padding}"/>
+                        <Border x:Name="R"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1" CornerRadius="3" Padding="10,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#a52020"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#6b1515"/>
+                                <Setter TargetName="R" Property="Background" Value="#3A2210"/>
+                                <Setter TargetName="R" Property="BorderBrush" Value="#C8922A"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -125,49 +624,99 @@
             </Setter>
         </Style>
 
-        <!-- Secondary Button Style -->
-        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource DarkButtonStyle}">
-            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <!-- Add ⊕ button (creator effect tables, square) -->
+        <Style x:Key="AddBtnStyle" TargetType="Button">
+            <Setter Property="Background"      Value="#1F1208"/>
+            <Setter Property="BorderBrush"     Value="#8A6015"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground"      Value="#C8922A"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="FontSize"        Value="16"/>
+            <Setter Property="Width"           Value="30"/>
+            <Setter Property="Height"          Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="R"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1" CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="R" Property="Background" Value="#3A2210"/>
+                                <Setter TargetName="R" Property="BorderBrush" Value="#C8922A"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="R" Property="Background" Value="#0F0904"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <!-- Label Style -->
-        <Style x:Key="DarkLabelStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="0,0,0,6"/>
+        <!-- ✕ Remove button (inline in lists) -->
+        <Style x:Key="RemoveBtnStyle" TargetType="Button">
+            <Setter Property="Background"      Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground"      Value="#5C3A1E"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Width"           Value="22"/>
+            <Setter Property="Height"          Value="22"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock x:Name="T" Text="✕"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="11"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="T" Property="Foreground" Value="#CC3333"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <!-- Card Style -->
-        <Style x:Key="CharacterCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="CornerRadius" Value="2"/>
-            <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="8"/>
+        <!-- Delete button (list detail panels) -->
+        <Style x:Key="DeleteBtnStyle" TargetType="Button">
+            <Setter Property="Background"      Value="#1A0808"/>
+            <Setter Property="BorderBrush"     Value="#5C1010"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground"      Value="#8B1A1A"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="FontFamily"      Value="Georgia"/>
+            <Setter Property="FontSize"        Value="11"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="R"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" Margin="10,5"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="R" Property="Background" Value="#2A0808"/>
+                                <Setter TargetName="R" Property="BorderBrush" Value="#8B1A1A"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="R" Property="Background" Value="#0F0404"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <!-- Section header label -->
-        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
-            <Setter Property="Foreground"   Value="{StaticResource GoldDimBrush}"/>
-            <Setter Property="FontFamily"   Value="Georgia"/>
-            <Setter Property="FontSize"     Value="11"/>
-            <Setter Property="FontWeight"   Value="Bold"/>
-            <Setter Property="Margin"       Value="0,0,0,8"/>
-        </Style>
-
-        <!-- Field label (above each input) -->
-        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
-            <Setter Property="Foreground"  Value="{StaticResource MutedBrush}"/>
-            <Setter Property="FontFamily"  Value="Georgia"/>
-            <Setter Property="FontSize"    Value="10"/>
-            <Setter Property="FontWeight"  Value="Bold"/>
-            <Setter Property="Margin"      Value="0,0,0,5"/>
-        </Style>
-
-        <!-- Secondary action button (Cancel, etc.) -->
+        <!-- Secondary action button (Cancel etc.) -->
         <Style x:Key="SecondaryActionButtonStyle" TargetType="Button">
             <Setter Property="Background"      Value="#1A1209"/>
             <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
@@ -180,10 +729,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="Root"
-                         Background="{TemplateBinding Background}"
-                         BorderBrush="{TemplateBinding BorderBrush}"
-                         BorderThickness="{TemplateBinding BorderThickness}"
-                         CornerRadius="3">
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -199,39 +748,48 @@
 
         <!-- Small "..." browse button -->
         <Style x:Key="SecondarySmallButtonStyle" TargetType="Button"
-        BasedOn="{StaticResource SecondaryActionButtonStyle}">
-            <Setter Property="FontSize"    Value="14"/>
-            <Setter Property="Foreground"  Value="{StaticResource GoldDimBrush}"/>
-        </Style>
-
-        <!-- Dark TextBox -->
-        <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Background"       Value="#120C06"/>
-            <Setter Property="Foreground"       Value="{StaticResource TextBrush}"/>
-            <Setter Property="BorderBrush"      Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness"  Value="1"/>
-            <Setter Property="Padding"          Value="8,6"/>
-            <Setter Property="FontFamily"       Value="Georgia"/>
-            <Setter Property="FontSize"         Value="13"/>
-            <Setter Property="CaretBrush"       Value="{StaticResource GoldBrush}"/>
-            <Setter Property="SelectionBrush"   Value="{StaticResource GoldDimBrush}"/>
-        </Style>
-
-        <!-- Dark ComboBox -->
-        <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="Background"      Value="#120C06"/>
-            <Setter Property="Foreground"      Value="{StaticResource TextBrush}"/>
-            <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding"         Value="8,6"/>
-            <Setter Property="FontFamily"      Value="Georgia"/>
-            <Setter Property="FontSize"        Value="13"/>
-        </Style>
-
-        <!-- Dark Slider (override/extend if needed) -->
-        <Style x:Key="DarkSliderStyle" TargetType="Slider">
+               BasedOn="{StaticResource SecondaryActionButtonStyle}">
+            <Setter Property="FontSize"   Value="14"/>
             <Setter Property="Foreground" Value="{StaticResource GoldDimBrush}"/>
-            <Setter Property="Height"     Value="28"/>
+        </Style>
+
+        <!-- Legacy dark button (DarkTheme) -->
+        <Style x:Key="DarkButtonStyle" TargetType="Button">
+            <Setter Property="Background"      Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground"      Value="{StaticResource PrimaryForegroundBrush}"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource GoldBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding"         Value="16,8"/>
+            <Setter Property="FontWeight"      Value="SemiBold"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#a52020"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#6b1515"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Legacy secondary button (DarkTheme) -->
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource DarkButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
         </Style>
 
     </Application.Resources>
