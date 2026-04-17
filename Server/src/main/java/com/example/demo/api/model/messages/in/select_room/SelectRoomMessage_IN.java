@@ -1,4 +1,4 @@
-package com.example.demo.api.model.messages.in.selectroom;
+package com.example.demo.api.model.messages.in.select_room;
 
 import com.example.demo.api.model.messages.MessageBody;
 

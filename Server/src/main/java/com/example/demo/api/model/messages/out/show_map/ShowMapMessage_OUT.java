@@ -1,5 +1,8 @@
 package com.example.demo.api.model.messages.out.show_map;
 
+import java.util.List;
+
+import com.example.demo.api.model.Room;
 import com.example.demo.api.model.messages.MessageBody;
 
 public class ShowMapMessage_OUT extends MessageBody{
@@ -12,5 +15,5 @@ public class ShowMapMessage_OUT extends MessageBody{
         return TYPE;
     }
 
-    public String map="Aquí o en d'altres variables, haurieu de posar info del mapa i que es pot triar.";
+    public List<Room> rooms;
 }

@@ -1,4 +1,4 @@
-package com.example.demo.api.model.messages.in.characteraction;
+package com.example.demo.api.model.messages.in.character_action;
 
 import com.example.demo.api.model.messages.MessageBody;
 
